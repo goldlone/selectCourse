@@ -3,14 +3,18 @@ package cn.goldlone.service;
 import cn.goldlone.mapper.CourseMapper;
 import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.LoginInfo;
+import cn.goldlone.po.DBCourse;
+import cn.goldlone.po.DBCoursePlus;
+import cn.goldlone.po.DBCoursePower;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 //import cn.goldlone.utils.MybatisUtils;
 
 /**
  * Created by CN on 2017/12/14.
  */
 public class Main {
-
-
     public static void main(String[] args) {
 
 

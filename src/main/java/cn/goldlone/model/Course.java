@@ -1,39 +1,30 @@
 package cn.goldlone.model;
 
-import cn.goldlone.po.DBCourse;
-import cn.goldlone.po.DBCoursePlus;
-
 import java.sql.Timestamp;
 
 /**
  * Created by CN on 2017/12/19.
  */
 public class Course {
+    // 课程号
     private int no;
+    // 课程名
     private String name;
-    private String classroom;
-    private String teacher;
-    private int time;
+    // 期号
     private int stage;
-    private Timestamp startSelectDate;
-    private Timestamp endSelectDate;
+    // 教室
+    private String classroom;
+    // 教师
+    private String teacher;
+    // 课程开始时间
+    private Timestamp startDateTime;
+    // 课程结束时间
+    private Timestamp endDateTime;
+    // 学时
+    private int time;
+
 
     public Course() {}
-
-    public Course(DBCourse course) {
-        this.no = course.getNo();
-        this.name = course.getName();
-        this.classroom = course.getClassroom();
-        this.teacher = course.getTeacher();
-        this.time = course.getTime();
-    }
-
-    public Course(DBCoursePlus course) {
-        this.no = course.getCourseNo();
-        this.stage = course.getStage();
-        this.startSelectDate = course.getStartSelectDate();
-        this.endSelectDate = course.getEndSelectDate();
-    }
 
     public int getNo() {
         return no;
@@ -49,6 +40,14 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStage() {
+        return stage;
+    }
+
+    public void setStage(int stage) {
+        this.stage = stage;
     }
 
     public String getClassroom() {
@@ -67,6 +66,22 @@ public class Course {
         this.teacher = teacher;
     }
 
+    public Timestamp getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(Timestamp startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public Timestamp getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Timestamp endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
     public int getTime() {
         return time;
     }
@@ -75,41 +90,17 @@ public class Course {
         this.time = time;
     }
 
-    public int getStage() {
-        return stage;
-    }
-
-    public void setStage(int stage) {
-        this.stage = stage;
-    }
-
-    public Timestamp getStartSelectDate() {
-        return startSelectDate;
-    }
-
-    public void setStartSelectDate(Timestamp startSelectDate) {
-        this.startSelectDate = startSelectDate;
-    }
-
-    public Timestamp getEndSelectDate() {
-        return endSelectDate;
-    }
-
-    public void setEndSelectDate(Timestamp endSelectDate) {
-        this.endSelectDate = endSelectDate;
-    }
-
     @Override
     public String toString() {
         return "Course{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
+                ", stage=" + stage +
                 ", classroom='" + classroom + '\'' +
                 ", teacher='" + teacher + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
                 ", time=" + time +
-                ", stage=" + stage +
-                ", startSelectDate=" + startSelectDate +
-                ", endSelectDate=" + endSelectDate +
                 '}';
     }
 }

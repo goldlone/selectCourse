@@ -14,8 +14,6 @@ public class DBStudent {
     private int grade;
     // 学院
     private int schoolNo;
-    // 专业
-    private String major;
     // 年龄
     private int age;
     // 性别
@@ -30,15 +28,14 @@ public class DBStudent {
     }
 
     public DBStudent(Student stu) {
-        this.no = stu.getNo();
-        this.name = stu.getName();
-        this.grade = stu.getGrade();
+//        this.no = stu.getNo();
+//        this.name = stu.getName();
+//        this.grade = stu.getGrade();
 //        this.schoolNo = stu.getSchool();
-        this.major = stu.getMajor();
-        this.age = stu.getAge();
-        this.gender = stu.getGender();
-        this.power = stu.getPower();
-        this.password = this.getPassword();
+//        this.age = stu.getAge();
+//        this.gender = stu.getGender();
+//        this.power = stu.getPower();
+//        this.password = this.getPassword();
     }
 
     public String getNo() {
@@ -71,14 +68,6 @@ public class DBStudent {
 
     public void setSchoolNo(int schoolNo) {
         this.schoolNo = schoolNo;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
     }
 
     public int getAge() {
@@ -120,7 +109,6 @@ public class DBStudent {
                 ", name='" + name + '\'' +
                 ", grade=" + grade +
                 ", schoolNo='" + schoolNo + '\'' +
-                ", major='" + major + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", power=" + power +

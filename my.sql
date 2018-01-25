@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS Powers;
 CREATE TABLE Powers(
   no TINYINT,
-  identity VARCHAR(10) NOT NULL UNIQUE,
+  identity VARCHAR(20) NOT NULL UNIQUE,
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
 INSERT INTO Powers(no, identity) VALUES(0, '超级管理管理员');
@@ -12,8 +12,6 @@ INSERT INTO Powers(no, identity) VALUES(3, '党员');
 INSERT INTO Powers(no, identity) VALUES(4, '预备党员');
 INSERT INTO Powers(no, identity) VALUES(5, '入党积极分子');
 INSERT INTO Powers(no, identity) VALUES(6, '发展对象');
--- INSERT INTO Powers(no, identity) VALUES(7, '团员');
--- INSERT INTO Powers(no, identity) VALUES(8, '群众');
 
 # 学院信息表
 DROP TABLE IF EXISTS Schools;
@@ -22,42 +20,49 @@ CREATE TABLE Schools (
   name VARCHAR(30) NOT NULL,
   PRIMARY KEY (no)
 ) DEFAULT CHARSET=utf8;
-INSERT INTO Schools(name) VALUES ('文学院');
-INSERT INTO Schools(name) VALUES ('历史文化学院');
-INSERT INTO Schools(name) VALUES ('哲学社会学学院');
-INSERT INTO Schools(name) VALUES ('外国语学院');
-INSERT INTO Schools(name) VALUES ('音乐学院');
-INSERT INTO Schools(name) VALUES ('美术学院');
-INSERT INTO Schools(name) VALUES ('政治与公共管理学院');
-INSERT INTO Schools(name) VALUES ('教育科学学院');
-INSERT INTO Schools(name) VALUES ('经济与管理学院');
-INSERT INTO Schools(name) VALUES ('法学院');
-INSERT INTO Schools(name) VALUES ('体育学院');
-INSERT INTO Schools(name) VALUES ('数学科学学院');
-INSERT INTO Schools(name) VALUES ('物理电子工程学院');
-INSERT INTO Schools(name) VALUES ('化学化工学院');
-INSERT INTO Schools(name) VALUES ('生命科学学院');
-INSERT INTO Schools(name) VALUES ('环境与资源学院');
-INSERT INTO Schools(name) VALUES ('计算机与信息技术学院');
-INSERT INTO Schools(name) VALUES ('软件学院');
-INSERT INTO Schools(name) VALUES ('电力工程系');
-INSERT INTO Schools(name) VALUES ('动力工程系');
-INSERT INTO Schools(name) VALUES ('自动化系');
-INSERT INTO Schools(name) VALUES ('土木工程系');
-INSERT INTO Schools(name) VALUES ('电子信息工程系');
-INSERT INTO Schools(name) VALUES ('环境工程系');
-INSERT INTO Schools(name) VALUES ('工程管理系');
-INSERT INTO Schools(name) VALUES ('初民学院');
-INSERT INTO Schools(name) VALUES ('国际教育交流学院');
-INSERT INTO Schools(name) VALUES ('继续教育学院');
-INSERT INTO Schools(name) VALUES ('商务学院');
+INSERT INTO Schools(name) VALUES ('文学院党委');
+INSERT INTO Schools(name) VALUES ('历史文化学院党委');
+INSERT INTO Schools(name) VALUES ('哲学社会学学院党委');
+INSERT INTO Schools(name) VALUES ('政治与公共管理学院党委');
+INSERT INTO Schools(name) VALUES ('外国语学院党委');
+INSERT INTO Schools(name) VALUES ('教育科学学院党委');
+INSERT INTO Schools(name) VALUES ('经济与管理学院党委');
+INSERT INTO Schools(name) VALUES ('法学院党委');
+INSERT INTO Schools(name) VALUES ('马克思主义学院党委');
+INSERT INTO Schools(name) VALUES ('新闻学院党委');
+INSERT INTO Schools(name) VALUES ('数学科学学院党委');
+INSERT INTO Schools(name) VALUES ('计算机与信息技术学院党委（大数据学院党委）');
+INSERT INTO Schools(name) VALUES ('物理电子工程学院党委');
+INSERT INTO Schools(name) VALUES ('化学化工学院党委');
+INSERT INTO Schools(name) VALUES ('生命科学学院党委');
+INSERT INTO Schools(name) VALUES ('环境与资源学院党委');
+INSERT INTO Schools(name) VALUES ('体育学院党委');
+INSERT INTO Schools(name) VALUES ('音乐学院党委');
+INSERT INTO Schools(name) VALUES ('美术学院党委');
+INSERT INTO Schools(name) VALUES ('继续教育学院党委');
+INSERT INTO Schools(name) VALUES ('研究生院党委');
+INSERT INTO Schools(name) VALUES ('国际教育交流学院党委');
+INSERT INTO Schools(name) VALUES ('现代教育技术学院党委');
+INSERT INTO Schools(name) VALUES ('机关党委');
+INSERT INTO Schools(name) VALUES ('教辅单位党委');
+INSERT INTO Schools(name) VALUES ('离退休党委');
+INSERT INTO Schools(name) VALUES ('附中党委');
+INSERT INTO Schools(name) VALUES ('大东关校区党委');
+INSERT INTO Schools(name) VALUES ('软件学院党委');
+INSERT INTO Schools(name) VALUES ('电力工程系党总支');
+INSERT INTO Schools(name) VALUES ('动力工程系党总支');
+INSERT INTO Schools(name) VALUES ('自动化系党总支');
+INSERT INTO Schools(name) VALUES ('土木工程系党总支');
+INSERT INTO Schools(name) VALUES ('电子信息工程系党总支');
+INSERT INTO Schools(name) VALUES ('环境工程系党总支');
+INSERT INTO Schools(name) VALUES ('工程管理系党总支');
 
 # 管理员信息表
 DROP TABLE IF EXISTS Admin;
 CREATE TABLE Admin (
   no VARCHAR(24) NOT NULL,
   name VARCHAR(30) NOT NULL,
-  schoolNo INT NOT NULL,
+  schoolNo INT,
   password VARCHAR(64) NOT NULL,
   power TINYINT NOT NULL,
   PRIMARY KEY (no),
@@ -72,7 +77,6 @@ CREATE TABLE Student(
   name VARCHAR(30) NOT NULL,
   grade INT DEFAULT 0,
   schoolNo INT DEFAULT NULL,
-  major VARCHAR(30) DEFAULT '',
   age TINYINT DEFAULT 18,
   gender VARCHAR(1) DEFAULT '',
   power TINYINT NOT NULL,
@@ -84,27 +88,28 @@ CREATE TABLE Student(
 ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
-
-INSERT INTO Student VALUES ('201502401086', '程宁', 2015, 17, '计算机科学与技术', 21, '男', 0, '201502401086');
+ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>2);
+INSERT INTO Student VALUES ('201502401086', '程宁', 2015, 12, 21, '男', 0, '201502401086');
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;
 CREATE TABLE Course(
   no INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
-  classroom VARCHAR(50) NOT NULL,
-  teacher VARCHAR(30) NOT NULL,
   time TINYINT NOT NULL,
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
 # ALTER TABLE Course ADD CONSTRAINT uq_name UNIQUE(name);
 
 # 课程期数表
+DROP TABLE IF EXISTS CoursePlus;
 CREATE TABLE CoursePlus (
   courseNo INT NOT NULL,
   stage TINYINT NOT NULL,
-  startSelectDate DATETIME NOT NULL,
-  endSelectDate DATETIME NOT NULL,
+  classroom VARCHAR(50) NOT NULL,
+  teacher VARCHAR(30) NOT NULL,
+  startDateTime DATETIME NOT NULL,
+  endDateTime DATETIME NOT NULL,
   PRIMARY KEY (courseNo, stage),
   FOREIGN KEY (courseNo) REFERENCES Course(no)
 )DEFAULT CHARSET=utf8;
@@ -131,7 +136,7 @@ CREATE TABLE SelectCourse(
   FOREIGN KEY (stuNo) REFERENCES Student(no),
   FOREIGN KEY (courseNo) REFERENCES Course(no)
 )DEFAULT CHARSET=utf8;
-ALTER TABLE SelectCourse ADD CONSTRAINT uq_selcetSeat UNIQUE(courseNo, seatNo, stage);
+ALTER TABLE SelectCourse ADD CONSTRAINT uq_select_seat UNIQUE(courseNo, seatNo, stage);
 
 
 
@@ -152,29 +157,118 @@ SELECT no, password, power FROM Student WHERE no = '201502401086';
 
 UPDATE Student SET password=#{password} WHERE no=#{stuNo};
 INSERT
-INTO student (no, name, grade, schoolNo, major,age, gender, power, password)
-VALUES (#{no}, #{name}, #{grade}, #{schoolNo}, #{major},#{age}, #{gender}, #{power}, #{password});
+INTO student (no, name, grade, schoolNo, age, gender, power, password)
+VALUES (#{no}, #{name}, #{grade}, #{schoolNo}, #{age}, #{gender}, #{power}, #{password});
 
-SELECT Student.no,Student.name,grade,Schools.name school,major,age,gender,power,identity
+SELECT Student.no,Student.name,grade,Schools.name school,age,gender,power,identity
 FROM Powers,Student,Schools
 WHERE Student.power=Powers.no AND Student.schoolNo=Schools.no;
 
 
-SELECT Student.no,Student.name,grade,Schools.name school,major,age,gender,power,identity
+SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
 FROM Powers,Student,Schools
-WHERE Schools.name='计算机与信息技术学院' AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
+WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
 
-SELECT Student.no, Student.name, grade, Schools.name school, major, age, gender, power, identity
+
+SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
 FROM Powers,Student,Schools
 WHERE Student.schoolNo=17 AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
 
-SELECT Student.no, Student.name, grade, Schools.name school, major, age, gender, power, identity
+SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
 FROM Powers,Student,Schools
 WHERE Student.no='201502401086' AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
 
 UPDATE Student
-SET name=#{name},grade=#{grade},schoolNo=#{schoolNo},major=#{major},age=#{age},gender=#{gender},power=#{power}
-WHERE no = #{no}
+SET name=#{name},grade=#{grade},schoolNo=#{schoolNo},age=#{age},gender=#{gender},power=#{power}
+WHERE no = #{no};
+
+INSERT
+INTO Course(no, name, time)
+VALUES(#{no}, #{name}, #{time});
+
+INSERT
+INTO CoursePower(courseNo, power)
+VALUES(#{courseNo}, #{power});
+
+INSERT
+INTO CoursePlus(courseNo, stage, classroom, teacher, startDateTime, endDateTime)
+VALUES(#{courseNo}, #{stage}, #{classroom}, #{teacher}, #{startDateTime}, #{endDateTime});
+
+SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time,c2.stage,c2.startDateTime,c2.endDateTime
+FROM Course c1, CoursePlus c2
+WHERE c1.no=c1.no AND
+      c1.no=c2.courseNo;
+
+
+SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time,c2.stage,c2.startDateTime,c2.endDateTime
+FROM Course c1, CoursePlus c2
+WHERE c1.no=1 AND c1.no=c1.no AND c1.no=c2.courseNo;
+
+SELECT power
+FROM CoursePower
+WHERE courseNo=#{courseNo};
+
+SELECT power
+FROM CoursePower
+WHERE courseNo=#{courseNo};
+
+UPDATE course
+SET name=#{name},
+  time=#{time}
+WHERE no=#{no};
+
+DELETE FROM CoursePower WHERE courseNo=#{courseNo};
+
+UPDATE CoursePlus
+SET classroom = #{classroom},teacher=#{teacher},startDateTime=#{startDateTime},endDateTime=#{endDateTime}
+WHERE courseNo=#{courseNo} AND stage=#{stage};
+
+
+SELECT c1.no, c1.name, c2.classroom, c2.teacher, c1.time, c2.stage, c2.startDateTime, c2.endDateTime
+FROM Course c1, CoursePlus c2, CoursePower c3
+WHERE c3.power=#{power} AND
+      c3.courseNo=c1.no AND
+      c3.courseNo=c2.courseNo AND
+      now()<c2.startDateTime;
+
+INSERT
+INTO SelectCourse(stuNo, courseNo, stage, seatNo)
+VALUES(#{stuNo}, #{courseNo}, #{stage}, #{seatNo});
+
+DELETE
+FROM SelectCourse
+WHERE courseNo=#{courseNo} AND stuNo=#{stuNo};
+
+SELECT seatNo
+FROM SelectCourse
+WHERE courseNo=#{courseNo} AND stage=#{stage};
+
+SELECT c2.stuNo,s.name stuName,s.grade,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE c2.courseNo = #{courseNo} AND
+      c2.stage = #{stage} AND
+      c2.stuNo=s.no AND
+      s.schoolNo=ss.no AND
+      c2.courseNo=c1.no AND
+      c2.courseNo=c3.courseNo AND
+      c2.stage=c3.stage;
+
+SELECT c2.stuNo,s.name stuName,s.grade,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE c2.stuNo=#{stuNo} AND
+  c2.stuNo=s.no AND
+  s.schoolNo=ss.no AND
+  c2.courseNo=c1.no AND
+  c2.courseNo=c3.courseNo AND
+  c2.stage=c3.stage;
+
+SELECT SUM(acquireTime)
+FROM SelectCourse
+WHERE stuNo=#{stuNo};
+
+UPDATE SelectCourse
+SET acquireTime = (SELECT time FROM Course WHERE no=#{courseNo})
+WHERE stuNo = #{stuNo};
 
 # SELECT Student.no,name,grade,school,major,age,gender,power,identity
 # FROM Powers,Student

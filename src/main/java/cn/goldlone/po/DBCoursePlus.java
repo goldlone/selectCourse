@@ -8,19 +8,20 @@ import java.sql.Timestamp;
  * Created by CN on 2017/12/17.
  */
 public class DBCoursePlus {
+    // 课程号
     private int courseNo;
+    // 期号
     private int stage;
-    private Timestamp startSelectDate;
-    private Timestamp endSelectDate;
+    // 教室
+    private String classroom;
+    // 教师
+    private String teacher;
+    // 课程开始时间
+    private Timestamp startDateTime;
+    // 课程结束时间
+    private Timestamp endDateTime;
 
     public DBCoursePlus(){}
-
-    public DBCoursePlus(Course course){
-        this.courseNo = course.getNo();
-        this.stage = course.getStage();
-        this.startSelectDate = course.getStartSelectDate();
-        this.endSelectDate = course.getEndSelectDate();
-    }
 
     public int getCourseNo() {
         return courseNo;
@@ -38,20 +39,36 @@ public class DBCoursePlus {
         this.stage = stage;
     }
 
-    public Timestamp getStartSelectDate() {
-        return startSelectDate;
+    public String getClassroom() {
+        return classroom;
     }
 
-    public void setStartSelectDate(Timestamp startSelectDate) {
-        this.startSelectDate = startSelectDate;
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 
-    public Timestamp getEndSelectDate() {
-        return endSelectDate;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setEndSelectDate(Timestamp endSelectDate) {
-        this.endSelectDate = endSelectDate;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public Timestamp getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(Timestamp startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public Timestamp getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Timestamp endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
     @Override
@@ -59,8 +76,10 @@ public class DBCoursePlus {
         return "DBCoursePlus{" +
                 "courseNo=" + courseNo +
                 ", stage=" + stage +
-                ", startSelectDate=" + startSelectDate +
-                ", endSelectDate=" + endSelectDate +
+                ", classroom='" + classroom + '\'' +
+                ", teacher='" + teacher + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
                 '}';
     }
 }
