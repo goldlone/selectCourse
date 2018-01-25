@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.goldlone.mapper.StudentMapper">
+
+    <!-- 获取登录信息结果集 -->
+    <resultMap id="loginInfo" type="cn.goldlone.model.LoginInfo">
+        <id property="stuNo" column="no" />
+        <result property="password" column="password" />
+        <result property="power" column="power" />
+    </resultMap>
+    <!-- 获取用户密码和权限 -->
+    <select id="getPassword" parameterType="string" resultMap="loginInfo">
+        SELECT no,
+            password,
+            power
+        FROM Student
+        WHERE no = #{stuNo};
+    </select>
+    <!-- 修改登录密码 -->
+    <update id="updatePassword" parameterType="cn.goldlone.model.LoginInfo">
+        UPDATE Student
+        SET password=#{password}
+        WHERE no=#{stuNo};
+    </update>
+    <!-- 录入用户基本信息 -->
+    <insert id="addStudent" parameterType="student" keyProperty="no">
+        INSERT
+        INTO student (no, name, grade, school, major,
+                      age, gender, power, password)
+        VALUES (#{no}, #{name}, #{grade}, #{school}, #{major},
+                #{age}, #{gender}, #{power}, #{password});
+    </insert>
+    <!-- 获取用户权限 -->
+    <select id="getStuPower" parameterType="String" resultType="int">
+        SELECT power
+        FROM student
+        WHERE no = #{stuNo};
+    </select>
+    <!-- 获取全部学生信息 -->
+    <select id="getAllStuInfo" resultType="cn.goldlone.model.Student">
+        SELECT Student.no,name,grade,school,major,age,gender,power,identity
+        FROM Powers,Student
+        WHERE Student.power=Powers.no;
+    </select>
+    <!-- 根据学号查询某个学生的详细信息 -->
+    <select id="getStuInfo" parameterType="String" resultType="cn.goldlone.model.Student">
+        SELECT Student.no,name,grade,school,major,age,gender,power,identity
+        FROM Powers,Student
+        WHERE Student.power=Powers.no AND student.no=#{stuNo};
+    </select>
+    <!-- 管理员修改某个学生的基本信息 -->
+    <update id="updateStuInfo" parameterType="student">
+        UPDATE Student
+        SET name=#{name},
+            grade=#{grade},
+            school=#{school},
+            major=#{major},
+            age=#{age},
+            gender=#{gender},
+            power=#{power}
+        WHERE no = #{no}
+    </update>
+    <!-- 自己修改用户信息 -->
+    <update id="updateStuInfoSelf" parameterType="student">
+        UPDATE Student
+        SET name=#{name},
+        grade=#{grade},
+        school=#{school},
+        major=#{major},
+        age=#{age},
+        gender=#{gender}
+        WHERE no = #{no}
+    </update>
+
+</mapper>
