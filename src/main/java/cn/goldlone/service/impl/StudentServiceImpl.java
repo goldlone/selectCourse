@@ -1,4 +1,26 @@
-//package cn.goldlone.service.impl;
+package cn.goldlone.service.impl;
+
+import cn.goldlone.model.Result;
+import cn.goldlone.service.StudentService;
+
+public class StudentServiceImpl implements StudentService {
+
+    public Result login(String stuNo, String password) {
+
+
+        return null;
+    }
+
+
+
+}
+
+
+
+
+
+
+//
 //
 //import cn.goldlone.mapper.StudentMapper;
 //import cn.goldlone.model.LoginInfo;
