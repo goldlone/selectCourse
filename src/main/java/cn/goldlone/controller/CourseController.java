@@ -41,6 +41,7 @@ public class CourseController extends BaseController {
      * @param power
      * @return
      */
+    @PostMapping("/course/list")
     public Result getCourseList(int power) {
         return cs.getCourseList(power);
     }
@@ -51,18 +52,20 @@ public class CourseController extends BaseController {
      * @param stage
      * @return
      */
+    @PostMapping("/course/seatStatus")
     public Result getSeatStatus(int courseNo, int stage) {
         return cs.getSeatStatus(courseNo, stage);
     }
 
     /**
-     * 学生选课选座
+     * 学员选课选座
      * @param stuNo
      * @param courseNo
      * @param stage
      * @param seatNo
      * @return
      */
+    @PostMapping("/course/select")
     public Result selectCourse(String stuNo, int courseNo, int stage, int seatNo) {
         return cs.selectCourse(stuNo, courseNo, stage, seatNo);
     }
@@ -73,6 +76,7 @@ public class CourseController extends BaseController {
      * @param stuNo
      * @return
      */
+    @PostMapping("/course/cancel")
     public Result cancelSelectCourse(int courseNo, String stuNo) {
         return cs.cancelSelectCourse(courseNo, stuNo);
     }
@@ -83,6 +87,7 @@ public class CourseController extends BaseController {
      * @param stage
      * @return
      */
+    @PostMapping("/course/selectStatus")
     public Result getSelectCourseInfoByMaster(int courseNo, int stage) {
         return cs.getSelectCourseInfoByMaster(courseNo, stage);
     }
@@ -92,18 +97,20 @@ public class CourseController extends BaseController {
      * @param stuNo
      * @return
      */
+    @PostMapping("/course/stuSelectStatus")
     public Result getSelectCourse(String stuNo) {
         return cs.getSelectCourse(stuNo);
     }
 
     /**
      * 反馈某期课程到课人员信息（单个人的信息）
-     * @param list
+     * @param stu
      * @param courseNo
      * @return
      */
-    public Result updateSomeoneCome(List<String> list, int courseNo) {
-        return cs.updateSomeoneCome(list, courseNo);
+    @PostMapping("/course/feedback")
+    public Result updateSomeoneCome(List<String> stu, int courseNo) {
+        return cs.updateSomeoneCome(stu, courseNo);
     }
 
     /**
@@ -111,6 +118,7 @@ public class CourseController extends BaseController {
      * @param stuNo
      * @return
      */
+    @PostMapping("/course/stuAllTime")
     public Result getAcquireTime(String stuNo) {
         return cs.getAcquireTime(stuNo);
     }

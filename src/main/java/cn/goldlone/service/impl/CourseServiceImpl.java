@@ -227,7 +227,7 @@ public class CourseServiceImpl implements CourseService {
         Result result = null;
         Integer score = cm.getAcquireTime(stuNo);
         if(score != null)
-            result = ResultUtils.success("获取总分", score);
+            result = ResultUtils.success("获取总分成功", score);
         else
             result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "该学员不存在");
         return result;

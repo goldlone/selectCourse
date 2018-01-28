@@ -185,7 +185,7 @@ public interface CourseMapper {
      * @param stage
      * @return
      */
-    @Select("SELECT c2.stuNo,s.name stuName,s.grade,ss.name school," +
+    @Select("SELECT c2.stuNo,s.name stuName,ss.name school," +
             "   c1.no courseNo,c1.name courseName,c3.stage,startDateTime," +
             "   endDateTime,classroom,teacher,time,seatNo,acquireTime " +
             "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s, Schools ss " +
@@ -205,7 +205,7 @@ public interface CourseMapper {
      * @param stuNo
      * @return
      */
-    @Select("SELECT c2.stuNo,s.name stuName,s.grade,ss.name school," +
+    @Select("SELECT c2.stuNo,s.name stuName,ss.name school," +
             "c1.no courseNo,c1.name courseName,c3.stage,startDateTime," +
             "endDateTime,classroom,teacher,time,seatNo,acquireTime " +
             "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
