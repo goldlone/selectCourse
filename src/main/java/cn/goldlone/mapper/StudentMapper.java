@@ -2,8 +2,10 @@ package cn.goldlone.mapper;
 
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBSchool;
 import cn.goldlone.po.DBStudent;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
  * Created by CN on 2017/12/17.
  */
 @Mapper
+@Component(value = "sm")
 public interface StudentMapper {
     /**
      * 获取用户密码
@@ -36,11 +39,20 @@ public interface StudentMapper {
      * @return
      */
     @Update("UPDATE Student " +
-            "SET password=#{password} " +
-            "WHERE no=#{stuNo};")
+            "SET password=#{newPassword} " +
+            "WHERE no=#{stuNo} AND " +
+            "   password=#{password};")
     public Integer updatePassword(@Param("stuNo")String stuNo,
-                                  @Param("password")String password);
+                                  @Param("password")String password,
+                                  @Param("newPassword")String newPassword);
 
+
+    /**
+     * 获取所有基层党组织信息
+     * @return
+     */
+    @Select("SELECT * FROM Schools;")
+    public List<DBSchool> getSchools();
 
     /**
      * 录入用户基本信息
@@ -80,7 +92,6 @@ public interface StudentMapper {
 
     /**
      * 根据学院名获取学生信息
-     *
      * @return
      */
     @Select("SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity FROM Powers,Student,Schools WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' AND Student.schoolNo=Schools.no AND Student.power=Powers.no; ")

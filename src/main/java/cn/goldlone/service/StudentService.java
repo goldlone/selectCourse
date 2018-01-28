@@ -1,30 +1,23 @@
 package cn.goldlone.service;
 
+import cn.goldlone.model.Result;
+import cn.goldlone.po.DBStudent;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
  * Created by CN on 2017/12/18.
  */
 public interface StudentService {
-//    // 用户登录
-//    public String login();
-//
-//    // 注销登录
-//    public String logout();
-//
-//    // 修改密码
-//    public String updatePassword();
-//
-//    // 获取单个学生基本信息
-//    public String getStudentInfo();
-//
-//    // 获取全部学生信息
-//    public String getAllStudentInfo();
-//
-//    // 修改学生基本信息
-//    public String updateStudentInfo();
-//
-//    // 管理员修改学员信息（管理员）
-//    public String updateStudentInfoByMaster();
 
+    public Result login(HttpServletRequest request, String stuNo, String password);
+    public Result updatePassword(String stuNo, String password, String newPassword);
+    public Result getSchools();
+    public Result addStudent(DBStudent stu);
+    public Result getStuPower(String stuNo);
+    public Result getAllStuInfo();
+    public Result getStuInfoByNo(String stuNo);
+    public Result updateStuInfoAdmin(DBStudent stu);
+    public Result updateStuInfoSelf(DBStudent stu);
 }

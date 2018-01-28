@@ -155,7 +155,8 @@ SELECT * FROM Student WHERE 1;
 
 SELECT no, password, power FROM Student WHERE no = '201502401086';
 
-UPDATE Student SET password=#{password} WHERE no=#{stuNo};
+UPDATE Student SET password=#{newPassword} WHERE no=#{stuNo} AND password=#{password};
+
 INSERT
 INTO student (no, name, grade, schoolNo, age, gender, power, password)
 VALUES (#{no}, #{name}, #{grade}, #{schoolNo}, #{age}, #{gender}, #{power}, #{password});
@@ -269,6 +270,8 @@ WHERE stuNo=#{stuNo};
 UPDATE SelectCourse
 SET acquireTime = (SELECT time FROM Course WHERE no=#{courseNo})
 WHERE stuNo = #{stuNo};
+
+SELECT * FROM Schools;
 
 # SELECT Student.no,name,grade,school,major,age,gender,power,identity
 # FROM Powers,Student

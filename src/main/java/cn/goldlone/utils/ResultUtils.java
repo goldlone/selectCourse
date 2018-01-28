@@ -8,6 +8,9 @@ import cn.goldlone.model.Result;
  */
 public class ResultUtils {
 
+    /****  异常代码  ****/
+    public static final Integer CODE_EXCEPTION = 5001;
+
     /**
      * 成功返回
      * @param msg

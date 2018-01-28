@@ -12,7 +12,7 @@ public class DBStudent {
     private String name;
     // 年级
     private int grade;
-    // 学院
+    // 基层党组织编号
     private int schoolNo;
     // 年龄
     private int age;
