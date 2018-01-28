@@ -6,6 +6,7 @@ import cn.goldlone.model.Course;
 import cn.goldlone.po.DBCourse;
 import cn.goldlone.po.DBCoursePlus;
 import cn.goldlone.po.DBCoursePower;
+import cn.goldlone.po.DBStudent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,8 @@ public class ScApplicationTests {
 //        System.out.println(cm.getAllCourseInfo());
 //        System.out.println(cm.getCourseInfo(1));
 
-        for(Course c: cm.getCourseList(0))
-            System.out.println(c);
+//        for(Course c: cm.getCourseList(0))
+//            System.out.println(c);
     }
 
     @Test
@@ -87,4 +88,18 @@ public class ScApplicationTests {
         cm.addCoursePower(dbcpo3);
     }
 
+
+    @Test
+    public void addStu() {
+        DBStudent stu = new DBStudent();
+        stu.setNo("201512345");
+        stu.setName("李四");
+        stu.setGender("男");
+        stu.setAge(35);
+        stu.setSchoolNo(14);
+        stu.setPassword("123123");
+        stu.setPower(3);
+
+        sm.addStudent(stu);
+    }
 }

@@ -14,7 +14,6 @@ import java.util.List;
  * Created by CN on 2017/12/17.
  */
 @Mapper
-@Component(value = "sm")
 public interface StudentMapper {
     /**
      * 获取用户密码
@@ -60,9 +59,9 @@ public interface StudentMapper {
      * @return
      */
     @Insert("INSERT " +
-            "INTO student (no, name, grade, schoolNo," +
+            "INTO student (no, name, schoolNo," +
             "   age, gender, power, password) " +
-            "VALUES (#{no}, #{name}, #{grade}, #{schoolNo}" +
+            "VALUES (#{no}, #{name}, #{schoolNo}, " +
             "   #{age}, #{gender}, #{power}, #{password}); ")
     public Integer addStudent(DBStudent stu);
 
@@ -82,7 +81,7 @@ public interface StudentMapper {
      *  获取全部学生信息
      * @return
      */
-    @Select("SELECT Student.no, Student.name, grade," +
+    @Select("SELECT Student.no, Student.name," +
             "   Schools.name school, age," +
             "   gender, power, identity " +
             "FROM Powers,Student,Schools " +
@@ -94,7 +93,13 @@ public interface StudentMapper {
      * 根据学院名获取学生信息
      * @return
      */
-    @Select("SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity FROM Powers,Student,Schools WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' AND Student.schoolNo=Schools.no AND Student.power=Powers.no; ")
+    @Select("SELECT Student.no, Student.name, " +
+            "   Schools.name school, age, " +
+            "   gender, power, identity " +
+            "FROM Powers,Student,Schools " +
+            "WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' " +
+            "AND Student.schoolNo=Schools.no AND " +
+            "Student.power=Powers.no; ")
     public List<Student> getStudentInfoBySchool();
 
 
@@ -103,7 +108,7 @@ public interface StudentMapper {
      * @param schoolNo
      * @return
      */
-    @Select("SELECT Student.no, Student.name, grade," +
+    @Select("SELECT Student.no, Student.name, " +
             "   Schools.name school, age," +
             "   gender, power, identity " +
             "FROM Powers,Student,Schools " +
@@ -118,7 +123,7 @@ public interface StudentMapper {
      * @param stuNo
      * @return
      */
-    @Select("SELECT Student.no, Student.name, grade," +
+    @Select("SELECT Student.no, Student.name, " +
             "   Schools.name school, age," +
             "   gender, power, identity " +
             "FROM Powers,Student,Schools " +
@@ -135,7 +140,6 @@ public interface StudentMapper {
      */
     @Update("UPDATE Student " +
             "SET name=#{name}," +
-            "   grade=#{grade}," +
             "   schoolNo=#{schoolNo}," +
             "   age=#{age}," +
             "   gender=#{gender}," +
@@ -151,10 +155,8 @@ public interface StudentMapper {
      */
     @Update("UPDATE Student " +
             "SET name=#{name}," +
-            "   grade=#{grade}," +
-            "   schoolNo=#{schoolNo}," +
             "   age=#{age}," +
-            "   gender=#{gender}," +
+            "   gender=#{gender}" +
             "WHERE no = #{no}")
     public Integer updateStuInfoSelf(DBStudent stu);
 }

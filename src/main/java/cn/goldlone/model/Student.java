@@ -8,12 +8,8 @@ public class Student {
     private String no;
     // 姓名
     private String name;
-    // 年级
-    private int grade;
     // 学院
     private String school;
-    // 专业
-    private String major;
     // 年龄
     private int age;
     // 性别
@@ -41,28 +37,12 @@ public class Student {
         this.name = name;
     }
 
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
     public String getSchool() {
         return school;
     }
 
     public void setSchool(String school) {
         this.school = school;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
     }
 
     public int getAge() {
@@ -110,9 +90,7 @@ public class Student {
         return "Student{" +
                 "no='" + no + '\'' +
                 ", name='" + name + '\'' +
-                ", grade=" + grade +
                 ", school='" + school + '\'' +
-                ", major='" + major + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", power=" + power +

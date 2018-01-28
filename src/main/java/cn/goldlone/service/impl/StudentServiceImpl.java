@@ -88,6 +88,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result addStudent(DBStudent stu) {
         Result result = null;
+        System.out.println(stu.toString());
         stu.setPassword(DigestUtils.sha256Hex(stu.getPassword()));
         if(sm.addStudent(stu)>0) {
             result = ResultUtils.success("添加学员成功");
@@ -124,6 +125,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 获取某基层组织的全部学员
+     * @param schoolNo
+     * @return
+     */
+    @Override
+    public Result getStudentInfoBySchoolNo(int schoolNo) {
+        List<Student> list = sm.getStudentInfoBySchoolNo(schoolNo);
+        return ResultUtils.success("获取学员信息成功", list);
+    }
+
+    /**
      * 获取学员信息
      * @param stuNo
      * @return
@@ -157,7 +169,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result updateStuInfoSelf(DBStudent stu) {
         Result result = null;
-        if(sm.updateStuInfoAdmin(stu)>0)
+        if(sm.updateStuInfoSelf(stu)>0)
             result = ResultUtils.success("修改成功");
         else
             result = ResultUtils.error(1, "学生信息不存在");

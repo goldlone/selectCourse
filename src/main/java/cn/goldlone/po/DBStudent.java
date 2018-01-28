@@ -10,8 +10,6 @@ public class DBStudent {
     private String no;
     // 姓名
     private String name;
-    // 年级
-    private int grade;
     // 基层党组织编号
     private int schoolNo;
     // 年龄
@@ -52,14 +50,6 @@ public class DBStudent {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
     }
 
     public int getSchoolNo() {
@@ -107,7 +97,6 @@ public class DBStudent {
         return "DBStudent{" +
                 "no='" + no + '\'' +
                 ", name='" + name + '\'' +
-                ", grade=" + grade +
                 ", schoolNo='" + schoolNo + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +

@@ -75,21 +75,20 @@ DROP TABLE IF EXISTS Student;
 CREATE TABLE Student(
   no VARCHAR(24) NOT NULL,
   name VARCHAR(30) NOT NULL,
-  grade INT DEFAULT 0,
   schoolNo INT DEFAULT NULL,
-  age TINYINT DEFAULT 18,
-  gender VARCHAR(1) DEFAULT '',
+  age INT,
+  gender VARCHAR(2),
   power TINYINT NOT NULL,
   password VARCHAR(64) NOT NULL,
   PRIMARY KEY (no),
   FOREIGN KEY (power) REFERENCES Powers(no),
   FOREIGN KEY (schoolNo) REFERENCES Schools(no)
 )DEFAULT CHARSET=utf8;
-ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
+# ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
 ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>2);
-INSERT INTO Student VALUES ('201502401086', '程宁', 2015, 12, 21, '男', 0, '201502401086');
+INSERT INTO Student VALUES ('201502401086', '程宁', 12, 21, '男', 3, '201502401086');
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;

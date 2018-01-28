@@ -17,6 +17,7 @@ public interface StudentService {
     public Result addStudent(DBStudent stu);
     public Result getStuPower(String stuNo);
     public Result getAllStuInfo();
+    public Result getStudentInfoBySchoolNo(int schoolNo);
     public Result getStuInfoByNo(String stuNo);
     public Result updateStuInfoAdmin(DBStudent stu);
     public Result updateStuInfoSelf(DBStudent stu);

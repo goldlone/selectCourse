@@ -63,12 +63,17 @@ public class StudentController extends BaseController {
         return ss.getStuPower(stuNo);
     }
 
-    @PostMapping("/stu/getAllInfo")
+    @PostMapping("/stu/allInfo")
     public Result getAllStuInfo() {
         return ss.getAllStuInfo();
     }
 
-    @PostMapping("/stu/getInfoByNo")
+    @PostMapping("/stu/schoolInfo")
+    public Result getStudentInfoBySchoolNo(int schoolNo) {
+        return ss.getStudentInfoBySchoolNo(schoolNo);
+    }
+
+    @PostMapping("/stu/infoByNo")
     public Result getStuInfoByNo(String stuNo) {
         return ss.getStuInfoByNo(stuNo);
     }
@@ -78,7 +83,7 @@ public class StudentController extends BaseController {
         return ss.updateStuInfoAdmin(stu);
     }
 
-    @PostMapping("/stu/updateInfoBySelf")
+        @PostMapping("/stu/updateInfoBySelf")
     public Result updateStuInfoSelf(DBStudent stu) {
         return ss.updateStuInfoSelf(stu);
     }
