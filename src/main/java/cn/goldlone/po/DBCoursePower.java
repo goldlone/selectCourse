@@ -11,6 +11,11 @@ public class DBCoursePower {
 
     public DBCoursePower(){}
 
+    public DBCoursePower(int courseNo, int power) {
+        this.courseNo = courseNo;
+        this.power = power;
+    }
+
     public int getCourseNo() {
         return courseNo;
     }

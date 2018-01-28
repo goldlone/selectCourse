@@ -8,8 +8,18 @@ import cn.goldlone.model.Result;
  */
 public class ResultUtils {
 
+    /****  请求成功  ****/
+    public static final Integer CODE_SUCCESS = 1001;
+    /****  请求结果不存在  ****/
+    public static final Integer CODE_RESULT_NOT_EXIST = 2001;
+    /****  操作失败  ****/
+    public static final Integer CODE_OPERATE_FAIL = 2002;
+    /****  权限不够  ****/
+    public static final Integer CODE_NO_POWER = 2003;
+
+
     /****  异常代码  ****/
-    public static final Integer CODE_EXCEPTION = 5001;
+    public static final Integer CODE_EXCEPTION = 3001;
 
     /**
      * 成功返回
@@ -19,7 +29,7 @@ public class ResultUtils {
      */
     public static Result success(String msg, Object data) {
         Result res = new Result();
-        res.setCode(0);
+        res.setCode(ResultUtils.CODE_SUCCESS);
         res.setMsg(msg);
         res.setData(data);
         return res;
@@ -32,7 +42,7 @@ public class ResultUtils {
      */
     public static Result success(String msg) {
         Result res = new Result();
-        res.setCode(0);
+        res.setCode(ResultUtils.CODE_SUCCESS);
         res.setMsg(msg);
         res.setData(null);
         return res;

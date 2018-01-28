@@ -33,7 +33,7 @@ public class StudentController extends BaseController {
     }
 
     /**
-     *
+     * 用户修改密码
      * @param stuNo
      * @param password
      * @param newPassword
@@ -83,7 +83,7 @@ public class StudentController extends BaseController {
         return ss.updateStuInfoAdmin(stu);
     }
 
-        @PostMapping("/stu/updateInfoBySelf")
+    @PostMapping("/stu/updateInfoBySelf")
     public Result updateStuInfoSelf(DBStudent stu) {
         return ss.updateStuInfoSelf(stu);
     }

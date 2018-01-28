@@ -37,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
         LoginInfo info = sm.getPassword(stuNo);
         Result result = null;
         if(info==null) {
-            result =  ResultUtils.error(1, "会员信息不存在");
+            result =  ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "会员信息不存在");
         } else {
             if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
                 result = ResultUtils.success(null, "登录成功");
@@ -46,7 +46,7 @@ public class StudentServiceImpl implements StudentService {
                 request.getSession(true).setMaxInactiveInterval(30);
             }
             else
-                result = ResultUtils.error(2, "登录密码错误");
+                result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "登录密码错误");
         }
         return result;
     }
@@ -66,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
         if(sm.updatePassword(stuNo, password, newPassword)>0)
             result = ResultUtils.success("修改密码成功");
         else
-            result = ResultUtils.error(1, "原始密码错误");
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "原始密码错误");
         return result;
     }
 

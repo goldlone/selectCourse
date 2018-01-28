@@ -25,7 +25,7 @@ public interface CourseMapper {
             "INTO Course(name, time) " +
             "VALUES(#{name}, #{time});")
     @Options(useGeneratedKeys=true, keyProperty="no", keyColumn="no")
-    public int addCourse(DBCourse course);
+    public Integer addCourse(DBCourse course);
     /**
      * 添加课程权限
      * @param coursePower
@@ -34,7 +34,7 @@ public interface CourseMapper {
     @Insert("INSERT " +
             "INTO CoursePower(courseNo, power) " +
             "VALUES(#{courseNo}, #{power});")
-    public int addCoursePower(DBCoursePower coursePower);
+    public Integer addCoursePower(DBCoursePower coursePower);
     /**
      * 添加课程其余期的信息
      * @param coursePlus
@@ -45,7 +45,7 @@ public interface CourseMapper {
             "   teacher, startDateTime, endDateTime) " +
             "VALUES(#{courseNo}, #{stage}, #{classroom}, " +
             "   #{teacher}, #{startDateTime}, #{endDateTime});")
-    public int addCoursePlus(DBCoursePlus coursePlus);
+    public Integer addCoursePlus(DBCoursePlus coursePlus);
 
 
     /**
@@ -136,6 +136,20 @@ public interface CourseMapper {
             "   now()<c2.startDateTime;")
     public List<Course> getCourseList(int power);
 
+
+
+    /**
+     * 查询某期课程座位选择状况
+     * @param courseNo
+     * @param stage
+     * @return
+     */
+    @Select("SELECT seatNo " +
+            "FROM SelectCourse " +
+            "WHERE courseNo=#{courseNo} AND stage=#{stage};")
+    public List<Integer> getSeatStatus(@Param("courseNo") int courseNo,
+                                       @Param("stage") int stage);
+
     /**
      * 学生选课选座
      * @param stuNo
@@ -152,7 +166,6 @@ public interface CourseMapper {
                                 @Param("stage") int stage,
                                 @Param("seatNo") int seatNo);
 
-
     /**
      * 取消选课
      * @param courseNo
@@ -161,23 +174,10 @@ public interface CourseMapper {
      */
     @Delete("DELETE " +
             "FROM SelectCourse " +
-            "WHERE courseNo=#{courseNo} AND stuNo=#{stuNo};")
+            "WHERE courseNo=#{courseNo} AND " +
+            "   stuNo=#{stuNo};")
     public Integer cancelSelectCourse(@Param("courseNo") int courseNo,
                                       @Param("stuNo") String stuNo);
-
-
-    /**
-     * 查询某期课程座位选择状况
-     * @param courseNo
-     * @param stage
-     * @return
-     */
-    @Select("SELECT seatNo " +
-            "FROM SelectCourse " +
-            "WHERE courseNo=#{courseNo} AND stage=#{stage};")
-    public List<Integer> getSeatStatus(@Param("courseNo") int courseNo,
-                                       @Param("stage") int stage);
-
 
     /**
      * 管理员查询某节某期课程的选座状况
