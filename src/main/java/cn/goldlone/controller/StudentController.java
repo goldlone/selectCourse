@@ -45,7 +45,7 @@ public class StudentController extends BaseController {
     }
 
     /**
-     *
+     * 获取基层党组织名称
      * @return
      */
     @PostMapping("/getSchools")
@@ -53,36 +53,70 @@ public class StudentController extends BaseController {
         return ss.getSchools();
     }
 
+    /**
+     * 添加学生
+     * @param stu
+     * @return
+     */
     @PostMapping("/stu/add")
     public Result addStudent(DBStudent stu) {
         return ss.addStudent(stu);
     }
 
+    /**
+     * 查询学员权限
+     * @param stuNo
+     * @return
+     */
     @PostMapping("/stu/power")
     public Result getStuPower(String stuNo) {
         return ss.getStuPower(stuNo);
     }
 
+    /**
+     * 获取全部学员信息
+     * @return
+     */
     @PostMapping("/stu/allInfo")
     public Result getAllStuInfo() {
         return ss.getAllStuInfo();
     }
 
+    /**
+     *  获取某基层党组织的全部学员信息
+     * @param schoolNo
+     * @return
+     */
     @PostMapping("/stu/schoolInfo")
     public Result getStudentInfoBySchoolNo(int schoolNo) {
         return ss.getStudentInfoBySchoolNo(schoolNo);
     }
 
+    /**
+     * 查询某学员的信息
+     * @param stuNo
+     * @return
+     */
     @PostMapping("/stu/infoByNo")
     public Result getStuInfoByNo(String stuNo) {
         return ss.getStuInfoByNo(stuNo);
     }
 
+    /**
+     * 管理员修改学员信息
+     * @param stu
+     * @return
+     */
     @PostMapping("/stu/updateInfoByAdmin")
     public Result updateStuInfoAdmin(DBStudent stu) {
         return ss.updateStuInfoAdmin(stu);
     }
 
+    /**
+     * 学员自己修改信息
+     * @param stu
+     * @return
+     */
     @PostMapping("/stu/updateInfoBySelf")
     public Result updateStuInfoSelf(DBStudent stu) {
         return ss.updateStuInfoSelf(stu);

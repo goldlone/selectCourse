@@ -3,7 +3,7 @@ server:
 
 spring:
     datasource:
-        url: jdbc:mysql://127.0.0.1:3306/selectCourse?useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/selectCourse?useSSL=false&characterEncoding=utf-8
         username: root
         password: cheng521
         type: com.alibaba.druid.pool.DruidDataSource
