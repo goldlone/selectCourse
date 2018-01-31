@@ -4,6 +4,7 @@ import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBPowers;
 import cn.goldlone.po.DBSchool;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
@@ -78,6 +79,16 @@ public class StudentServiceImpl implements StudentService {
     public Result getSchools() {
         List<DBSchool> schools = sm.getSchools();
         return ResultUtils.success("获取所有基层党组织信息成功", schools);
+    }
+
+    /**
+     * 获取全部身份信息
+     * @return
+     */
+    @Override
+    public Result getPowers() {
+        List<DBPowers> list = sm.getPowers();
+        return ResultUtils.success("获取身份信息成功", list);
     }
 
     /**

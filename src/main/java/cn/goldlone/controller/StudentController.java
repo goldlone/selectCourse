@@ -45,13 +45,13 @@ public class StudentController extends BaseController {
 
     /**
      * 用户修改密码
-     * @param stuNo
      * @param password
      * @param newPassword
      * @return
      */
     @PostMapping("/updatePassword")
-    public Result updatePassword(String stuNo, String password, String newPassword) {
+    public Result updatePassword(HttpServletRequest request, String password, String newPassword) {
+        String stuNo = (String) request.getSession().getAttribute("stuNo");
         return ss.updatePassword(stuNo, password, newPassword);
     }
 
@@ -62,6 +62,15 @@ public class StudentController extends BaseController {
     @PostMapping("/getSchools")
     public Result getSchools() {
         return ss.getSchools();
+    }
+
+    /**
+     * 获取全部身份信息
+     * @return
+     */
+    @PostMapping("/getPowers")
+    public Result getPowers() {
+        return ss.getPowers();
     }
 
     /**
@@ -81,7 +90,6 @@ public class StudentController extends BaseController {
         try {
             os = response.getOutputStream();
             File file = new File("./stuModel.xls");
-//            File file = excelUtils.exportStuModel();
             bis = new BufferedInputStream(new FileInputStream(file));
             int i = bis.read(buff);
             while (i != -1) {
@@ -184,11 +192,13 @@ public class StudentController extends BaseController {
 
     /**
      * 学员自己修改信息
+     * @param request
      * @param stu
      * @return
      */
     @PostMapping("/stu/updateInfoBySelf")
-    public Result updateStuInfoSelf(DBStudent stu) {
+    public Result updateStuInfoSelf(HttpServletRequest request, DBStudent stu) {
+        stu.setNo((String) request.getSession().getAttribute("stuNo"));
         return ss.updateStuInfoSelf(stu);
     }
 

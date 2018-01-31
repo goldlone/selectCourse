@@ -2,6 +2,7 @@ package cn.goldlone.mapper;
 
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBPowers;
 import cn.goldlone.po.DBSchool;
 import cn.goldlone.po.DBStudent;
 import org.apache.ibatis.annotations.*;
@@ -45,6 +46,12 @@ public interface StudentMapper {
                                   @Param("password")String password,
                                   @Param("newPassword")String newPassword);
 
+    /**
+     * 获取全部身份权限
+     * @return
+     */
+    @Select("SELECT * FROM Powers;")
+    public List<DBPowers> getPowers();
 
     /**
      * 获取所有基层党组织信息

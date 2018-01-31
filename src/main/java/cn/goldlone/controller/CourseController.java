@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -59,25 +60,26 @@ public class CourseController extends BaseController {
 
     /**
      * 学员选课选座
-     * @param stuNo
      * @param courseNo
      * @param stage
      * @param seatNo
      * @return
      */
     @PostMapping("/course/select")
-    public Result selectCourse(String stuNo, int courseNo, int stage, int seatNo) {
+    public Result selectCourse(HttpServletRequest request, int courseNo, int stage, int seatNo) {
+        String stuNo = (String) request.getSession().getAttribute("stuNo");
         return cs.selectCourse(stuNo, courseNo, stage, seatNo);
     }
 
     /**
      * 取消选课
+     * @param request
      * @param courseNo
-     * @param stuNo
      * @return
      */
     @PostMapping("/course/cancel")
-    public Result cancelSelectCourse(int courseNo, String stuNo) {
+    public Result cancelSelectCourse(HttpServletRequest request, int courseNo) {
+        String stuNo = (String) request.getSession().getAttribute("stuNo");
         return cs.cancelSelectCourse(courseNo, stuNo);
     }
 
@@ -103,7 +105,7 @@ public class CourseController extends BaseController {
     }
 
     /**
-     * 反馈某期课程到课人员信息（单个人的信息）
+     * 反馈某期课程到课人员信息
      * @param stu
      * @param courseNo
      * @return

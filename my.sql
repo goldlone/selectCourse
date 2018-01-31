@@ -278,6 +278,8 @@ INSERT
 INTO Student(no, name, schoolNo, age, gender, power, password)
 VALUES(#{no}, #{name}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{age}, #{gender}, (SELECT no FROM Powers WHERE identity=#{identity}), '123');
 
+SELECT * FROM Powers;
+
 # SELECT Student.no,name,grade,school,major,age,gender,power,identity
 # FROM Powers,Student
 # WHERE Student.power=Powers.no;
