@@ -54,6 +54,15 @@ public interface StudentMapper {
     public List<DBSchool> getSchools();
 
     /**
+     * 根据基层党委名查询编号
+     * @param name
+     * @return
+     */
+    @Select("SELECT no FROM Schools WHERE name=#{name};")
+    public Integer getSchoolNoByName(String name);
+
+
+    /**
      * 录入用户基本信息
      * @param stu
      * @return
@@ -65,6 +74,20 @@ public interface StudentMapper {
             "   #{age}, #{gender}, #{power}, #{password}); ")
     public Integer addStudent(DBStudent stu);
 
+    /**
+     * 录入学员信息
+     * @param stu
+     * @return
+     */
+    @Insert("INSERT " +
+            "INTO Student(no, name, schoolNo, age, " +
+            "   gender, power, password) " +
+            "VALUES(#{no}, #{name}, " +
+            "   (SELECT no FROM Schools WHERE Schools.name=#{school}), " +
+            "   #{age}, #{gender}, " +
+            "   (SELECT no FROM Powers WHERE identity=#{identity}), " +
+            "   #{password}); ")
+    public Integer addStudentModel(Student stu);
 
     /**
      * 获取用户权限

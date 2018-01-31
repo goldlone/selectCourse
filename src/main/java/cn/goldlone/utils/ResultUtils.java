@@ -16,6 +16,8 @@ public class ResultUtils {
     public static final Integer CODE_OPERATE_FAIL = 2002;
     /****  权限不够  ****/
     public static final Integer CODE_NO_POWER = 2003;
+    /****  登录失效  ****/
+    public static final Integer CODE_OUT_LOGIN = 2004;
 
 
     /****  异常代码  ****/

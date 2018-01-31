@@ -98,6 +98,12 @@ public class StudentServiceImpl implements StudentService {
         return result;
     }
 
+    @Override
+    public Result addStudent(Student stu) {
+        sm.addStudentModel(stu);
+        return null;
+    }
+
     /**
      * 获取用户权限
      * @param stuNo
@@ -106,6 +112,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result getStuPower(String stuNo) {
         Result result = null;
+        Integer power = sm.getStuPower(stuNo);
+        if(power != null)
+            result = ResultUtils.success("获取权限成功", power);
+        else
+            result = ResultUtils.error(1, "该用户不存在");
+        return result;
+    }
+
+    public Result getStuPower(HttpServletRequest request) {
+        Result result = null;
+        String stuNo = (String) request.getSession().getAttribute("stuNo");
         Integer power = sm.getStuPower(stuNo);
         if(power != null)
             result = ResultUtils.success("获取权限成功", power);

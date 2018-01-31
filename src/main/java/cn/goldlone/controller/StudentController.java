@@ -1,15 +1,26 @@
 package cn.goldlone.controller;
 
 import cn.goldlone.model.Result;
+import cn.goldlone.model.Student;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.service.impl.StudentServiceImpl;
+import cn.goldlone.utils.ExcelUtils;
+import cn.goldlone.utils.ResultUtils;
+import jxl.read.biff.BiffException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CN on 2018/1/26.
@@ -54,13 +65,72 @@ public class StudentController extends BaseController {
     }
 
     /**
+     * 导出会员录入模板表
+     * @param response
+     * @return
+     */
+    @GetMapping("/stu/exportModel")
+    public Result exportStuInfoModel(HttpServletResponse response) {
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + "importTemplate.xls");
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        Result result = null;
+        try {
+            os = response.getOutputStream();
+            File file = new File("./stuModel.xls");
+//            File file = excelUtils.exportStuModel();
+            bis = new BufferedInputStream(new FileInputStream(file));
+            int i = bis.read(buff);
+            while (i != -1) {
+                os.write(buff, 0, buff.length);
+                os.flush();
+                i = bis.read(buff);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return new Result();
+    }
+
+    /**
      * 添加学生
-     * @param stu
+     * @param file
      * @return
      */
     @PostMapping("/stu/add")
-    public Result addStudent(DBStudent stu) {
-        return ss.addStudent(stu);
+    public Result addStudent(@RequestParam("file") MultipartFile file) {
+        Result result = null;
+        try {
+            List<Student> list = ExcelUtils.importStuInfo(file);
+            List<String> errorList = new ArrayList<>();
+            for(Student stu: list) {
+                try {
+                    ss.addStudent(stu);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    errorList.add("【失败】："+stu.getNo()+"-"+stu.getName()+"-数据格式有问题");
+                }
+            }
+            result = ResultUtils.success("如果data为空数组，则插入全部正确，反之，data存储错误信息", errorList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "文件格式有误");
+        } catch (BiffException e) {
+            e.printStackTrace();
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "文件格式有误");
+        }
+        return result;
     }
 
     /**
