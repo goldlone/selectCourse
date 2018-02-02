@@ -101,7 +101,7 @@ public class StudentServiceImpl implements StudentService {
         Result result = null;
         System.out.println(stu.toString());
         stu.setPassword(DigestUtils.sha256Hex(stu.getPassword()));
-        if(sm.addStudent(stu)>0) {
+        if(sm.addDBStudent(stu)>0) {
             result = ResultUtils.success("添加学员成功");
         } else {
             result = ResultUtils.error(1, "添加用户失败");
@@ -111,7 +111,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Result addStudent(Student stu) {
-        sm.addStudentModel(stu);
+        sm.addStudent(stu);
         return null;
     }
 

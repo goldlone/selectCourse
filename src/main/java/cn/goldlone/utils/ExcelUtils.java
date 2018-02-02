@@ -71,7 +71,6 @@ public class ExcelUtils {
             stu.setNo(no);
             stu.setName(name);
             stu.setSchool(schoolName);
-            stu.setAge(age);
             stu.setGender(gender);
             stu.setIdentity(identity);
             stu.setPassword(DigestUtils.sha256Hex(no));

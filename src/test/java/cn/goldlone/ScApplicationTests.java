@@ -3,18 +3,17 @@ package cn.goldlone;
 import cn.goldlone.mapper.CourseMapper;
 import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.Course;
-import cn.goldlone.model.LoginInfo;
+import cn.goldlone.model.Student;
 import cn.goldlone.po.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,20 +36,59 @@ public class ScApplicationTests {
 //        // 获取基层党组织管理员密码
 //        LoginInfo info1 = sm.getAdminPassword("123");
 //        System.out.println(info1);
-        // 修改学员登录密码
-        sm.updateStuPassword("123", "123", "456");
-        // 修改管理员登录密码
-        sm.updateAdminPassword("123", "123", "456");
-        // 获取全部身份权限
-        for(DBPowers p: sm.getPowers())
-            System.out.println(p);
-        // 获取所有基层党组织信息
-        for(DBSchool s: sm.getSchools())
+//        // 修改学员登录密码
+//        sm.updateStuPassword("123", "123", "456");
+//        // 修改管理员登录密码
+//        sm.updateAdminPassword("123", "123", "456");
+//        // 获取全部身份权限
+//        for(DBPowers p: sm.getPowers())
+//            System.out.println(p);
+//        // 获取所有基层党组织信息
+//        for(DBSchool s: sm.getSchools())
+//            System.out.println(s);
+//        // 根据基层党委名查询编号
+//        System.out.println(sm.getSchoolNoByName("计算机与信息技术学院党委（大数据学院党委）"));
+        // 录入学员基本信息
+//        DBStudent stu = new DBStudent();
+//        stu.setNo("456");
+//        stu.setName("学员2");
+//        stu.setSchoolNo(1);
+//        stu.setGender("女");
+//        stu.setNation("汉");
+//        stu.setBirth(Date.valueOf("1997-06-02"));
+//        stu.setType("研究生");
+//        stu.setGrade(2017);
+//        stu.setPosition("党支部");
+//        stu.setApplyDate(Date.valueOf("2015-01-01"));
+//        stu.setBeActivistDate(Date.valueOf("2015-01-02"));
+//        stu.setBeDevelopDate(Date.valueOf("2015-01-03"));
+//        stu.setPower(2);
+//        stu.setPassword(DigestUtils.sha256Hex("456"));
+//        sm.addDBStudent(stu);
+//        // 录入学员信息
+//        Student stu1 = new Student();
+//        stu1.setNo("123");
+//        stu1.setName("学员1");
+//        stu1.setSchool("文学院党委");
+//        stu1.setGender("男");
+//        stu1.setNation("汉");
+//        stu1.setBirth(Date.valueOf("1997-06-02"));
+//        stu1.setType("本科生");
+//        stu1.setGrade(2016);
+//        stu1.setPosition("无");
+//        stu1.setApplyDate(Date.valueOf("2015-01-01"));
+//        stu1.setBeActivistDate(Date.valueOf("2015-01-02"));
+//        stu1.setBeDevelopDate(Date.valueOf("2015-01-03"));
+//        stu1.setIdentity("入党积极分子");
+//        stu1.setPassword(DigestUtils.sha256Hex("123"));
+//        sm.addStudent(stu1);
+        for(Student s: sm.getAllStuInfo())
             System.out.println(s);
-        // 根据基层党委名查询编号
-        System.out.println(sm.getSchoolNoByName("计算机与信息技术学院党委（大数据学院党委）"));
-
-
+        System.out.println("----");
+        for(Student s: sm.getStudentInfoBySchoolNo(1))
+            System.out.println(s);
+        System.out.println("----");
+        System.out.println(sm.getStuInfo("123"));
     }
 
 
@@ -178,6 +216,6 @@ public class ScApplicationTests {
         stu.setPassword("123123");
         stu.setPower(3);
 
-        sm.addStudent(stu);
+        sm.addDBStudent(stu);
     }
 }

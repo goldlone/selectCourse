@@ -162,32 +162,41 @@ UPDATE Student SET password=#{newPassword} WHERE no=#{stuNo} AND password=#{pass
 # 修改管理员登录密码
 UPDATE Admin SET password=#{newPassword} WHERE no=#{no} AND password=#{password};
 
-#
+# 录入学员基本信息
 INSERT
-INTO student (no, name, grade, schoolNo, age, gender, power, password)
-VALUES (#{no}, #{name}, #{grade}, #{schoolNo}, #{age}, #{gender}, #{power}, #{password});
+INTO student (name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
+VALUES (#{name}, #{no}, #{schoolNo},  #{gender}, #{nation}, #{birth}, #{type}, #{grade}, #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, #{power}, #{password});
 
-SELECT Student.no,Student.name,grade,Schools.name school,age,gender,power,identity
-FROM Powers,Student,Schools
-WHERE Student.power=Powers.no AND Student.schoolNo=Schools.no;
+# 录入学员信息
+INSERT
+INTO Student(name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
+VALUES(#{name}, #{no}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{gender}, #{nation}, #{birth}, #{type}, #{grade}, #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, (SELECT no FROM Powers WHERE identity=#{identity}), #{password});
 
+# 获取学员权限
+SELECT power FROM student WHERE no = #{stuNo};
 
-SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
-FROM Powers,Student,Schools
-WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
+# 获取全部学生信息
+SELECT s1.no, s1.name, s2.name school, s1.gender, s1.nation, s1.birth, s1.type, s1.grade, s1.position, s1.applyDate, s1.beActivistDate, s1.beDevelopDate, s1.power, p.identity
+FROM Student s1, Powers p, Schools s2
+WHERE s1.power=p.no AND s1.schoolNo=s2.no;
 
+# 根据学院编号获取学生信息
+SELECT s1.no, s1.name, s2.name school, s1.gender, s1.nation, s1.birth, s1.type, s1.grade, s1.position, s1.applyDate, s1.beActivistDate, s1.beDevelopDate, s1.power, p.identity
+FROM Student s1, Powers p, Schools s2
+WHERE s2.no=#{schoolNo} AND s1.power=p.no AND s1.schoolNo=s2.no;
 
-SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
-FROM Powers,Student,Schools
-WHERE Student.schoolNo=17 AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
+# 根据学号查询学生信息
+SELECT s1.no, s1.name, s2.name school, s1.gender, s1.nation, s1.birth, s1.type, s1.grade, s1.position, s1.applyDate, s1.beActivistDate, s1.beDevelopDate, s1.power, p.identity
+FROM Student s1, Powers p, Schools s2
+WHERE s1.no=#{stuNo} AND s1.power=p.no AND s1.schoolNo=s2.no;
 
-SELECT Student.no, Student.name, grade, Schools.name school, age, gender, power, identity
-FROM Powers,Student,Schools
-WHERE Student.no='201502401086' AND Student.schoolNo=Schools.no AND Student.power=Powers.no;
-
+# 管理员修改某个学生的基本信息
 UPDATE Student
-SET name=#{name},grade=#{grade},schoolNo=#{schoolNo},age=#{age},gender=#{gender},power=#{power}
+SET name=#{name}, schoolNo=#{schoolNo}, gender=#{gender}, nation=#{nation}, birth=#{birth}, type=#{type}, grade=#{grade}, position=#{position}, applyDate=#{applyDate}, beActivistDate=#{beActivistDate}, beDevelopDate=#{beDevelopDate}, power=#{power}
 WHERE no = #{no};
+
+# 自己修改用户信息
+
 
 INSERT
 INTO Course(no, name, time)

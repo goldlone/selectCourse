@@ -89,16 +89,20 @@ public interface StudentMapper {
 
 
     /**
-     * 录入用户基本信息
+     * 录入学员基本信息
      * @param stu
      * @return
      */
     @Insert("INSERT " +
-            "INTO student (no, name, schoolNo," +
-            "   age, gender, power, password) " +
-            "VALUES (#{no}, #{name}, #{schoolNo}, " +
-            "   #{age}, #{gender}, #{power}, #{password}); ")
-    public Integer addStudent(DBStudent stu);
+            "INTO student(name, no, schoolNo, gender, " +
+            "   nation, birth, type, grade, position, " +
+            "   applyDate, beActivistDate, " +
+            "   beDevelopDate, power, password) " +
+            "VALUES (#{name}, #{no}, #{schoolNo},  #{gender}, " +
+            "   #{nation}, #{birth}, #{type}, #{grade}, #{position}, " +
+            "   #{applyDate}, #{beActivistDate}, " +
+            "   #{beDevelopDate}, #{power}, #{password});")
+    public Integer addDBStudent(DBStudent stu);
 
     /**
      * 录入学员信息
@@ -106,17 +110,18 @@ public interface StudentMapper {
      * @return
      */
     @Insert("INSERT " +
-            "INTO Student(no, name, schoolNo, age, " +
-            "   gender, power, password) " +
-            "VALUES(#{no}, #{name}, " +
-            "   (SELECT no FROM Schools WHERE Schools.name=#{school}), " +
-            "   #{age}, #{gender}, " +
-            "   (SELECT no FROM Powers WHERE identity=#{identity}), " +
-            "   #{password}); ")
-    public Integer addStudentModel(Student stu);
+            "INTO Student(name, no, schoolNo, gender, " +
+            "   nation, birth, type, grade, position, " +
+            "   applyDate, beActivistDate, " +
+            "   beDevelopDate, power, password) " +
+            "VALUES(#{name}, #{no}, (SELECT no FROM Schools WHERE Schools.name=#{school}), " +
+            "   #{gender}, #{nation}, #{birth}, #{type}, #{grade}, " +
+            "   #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, " +
+            "   (SELECT no FROM Powers WHERE identity=#{identity}), #{password});")
+    public Integer addStudent(Student stu);
 
     /**
-     * 获取用户权限
+     * 获取学员权限
      * @param stuNo
      * @return
      */
@@ -127,43 +132,33 @@ public interface StudentMapper {
 
 
     /**
-     *  获取全部学生信息
+     * 获取全部学生信息
      * @return
      */
-    @Select("SELECT Student.no, Student.name," +
-            "   Schools.name school, age," +
-            "   gender, power, identity " +
-            "FROM Powers,Student,Schools " +
-            "WHERE Student.power=Powers.no AND Student.schoolNo=Schools.no;")
+    @Select("SELECT s1.no, s1.name, s2.name school, " +
+            "   s1.gender, s1.nation, s1.birth, s1.type, " +
+            "   s1.grade, s1.position, s1.applyDate, " +
+            "   s1.beActivistDate, s1.beDevelopDate, " +
+            "   s1.power, p.identity " +
+            "FROM Student s1, Powers p, Schools s2 " +
+            "WHERE s1.power=p.no AND " +
+            "   s1.schoolNo=s2.no;")
     public List<Student> getAllStuInfo();
-
-
-    /**
-     * 根据学院名获取学生信息
-     * @return
-     */
-    @Select("SELECT Student.no, Student.name, " +
-            "   Schools.name school, age, " +
-            "   gender, power, identity " +
-            "FROM Powers,Student,Schools " +
-            "WHERE Schools.name='计算机与信息技术学院党委（大数据学院党委）' " +
-            "AND Student.schoolNo=Schools.no AND " +
-            "Student.power=Powers.no; ")
-    public List<Student> getStudentInfoBySchool();
-
 
     /**
      * 根据学院编号获取学生信息
      * @param schoolNo
      * @return
      */
-    @Select("SELECT Student.no, Student.name, " +
-            "   Schools.name school, age," +
-            "   gender, power, identity " +
-            "FROM Powers,Student,Schools " +
-            "WHERE Student.schoolNo=#{schoolNo} AND " +
-            "   Student.schoolNo=Schools.no AND " +
-            "   Student.power=Powers.no;")
+    @Select("SELECT s1.no, s1.name, s2.name school, " +
+            "   s1.gender, s1.nation, s1.birth, s1.type, " +
+            "   s1.grade, s1.position, s1.applyDate, " +
+            "   s1.beActivistDate, s1.beDevelopDate, " +
+            "   s1.power, p.identity " +
+            "FROM Student s1, Powers p, Schools s2 " +
+            "WHERE s2.no=#{schoolNo} AND " +
+            "   s1.power=p.no AND " +
+            "   s1.schoolNo=s2.no;")
     public List<Student> getStudentInfoBySchoolNo(int schoolNo);
 
 
@@ -172,13 +167,15 @@ public interface StudentMapper {
      * @param stuNo
      * @return
      */
-    @Select("SELECT Student.no, Student.name, " +
-            "   Schools.name school, age," +
-            "   gender, power, identity " +
-            "FROM Powers,Student,Schools " +
-            "WHERE Student.no=#{stuNo} AND " +
-            "   Student.schoolNo=Schools.no AND " +
-            "   Student.power=Powers.no;")
+    @Select("SELECT s1.no, s1.name, s2.name school, " +
+            "   s1.gender, s1.nation, s1.birth, s1.type, " +
+            "   s1.grade, s1.position, s1.applyDate, " +
+            "   s1.beActivistDate, s1.beDevelopDate, " +
+            "   s1.power, p.identity " +
+            "FROM Student s1, Powers p, Schools s2 " +
+            "WHERE s1.no=#{stuNo} AND " +
+            "   s1.power=p.no AND " +
+            "   s1.schoolNo=s2.no;")
     public Student getStuInfo(String stuNo);
 
 
@@ -188,12 +185,19 @@ public interface StudentMapper {
      * @return
      */
     @Update("UPDATE Student " +
-            "SET name=#{name}," +
-            "   schoolNo=#{schoolNo}," +
-            "   age=#{age}," +
-            "   gender=#{gender}," +
-            "   power=#{power} " +
-            "WHERE no = #{no}")
+            "SET name=#{name}, " +
+            "   schoolNo=#{schoolNo}, " +
+            "   gender=#{gender}, " +
+            "   nation=#{nation}, " +
+            "   birth=#{birth}, " +
+            "   type=#{type}, " +
+            "   grade=#{grade}, " +
+            "   position=#{position}, " +
+            "   applyDate=#{applyDate}, " +
+            "   beActivistDate=#{beActivistDate}, " +
+            "   beDevelopDate=#{beDevelopDate}, " +
+            "   power=#{power}" +
+            "WHERE no = #{no};")
     public Integer updateStuInfoAdmin(DBStudent stu);
 
 
@@ -203,9 +207,18 @@ public interface StudentMapper {
      * @return
      */
     @Update("UPDATE Student " +
-            "SET name=#{name}," +
-            "   age=#{age}," +
-            "   gender=#{gender}" +
-            "WHERE no = #{no}")
+            "SET name=#{name}, " +
+//            "   schoolNo=#{schoolNo}, " +
+            "   gender=#{gender}, " +
+            "   nation=#{nation}, " +
+            "   birth=#{birth}, " +
+            "   type=#{type}, " +
+            "   grade=#{grade}, " +
+            "   position=#{position}, " +
+//            "   applyDate=#{applyDate}, " +
+//            "   beActivistDate=#{beActivistDate}, " +
+//            "   beDevelopDate=#{beDevelopDate}, " +
+//            "   power=#{power}" +
+            "WHERE no = #{no};")
     public Integer updateStuInfoSelf(DBStudent stu);
 }
