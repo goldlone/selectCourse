@@ -65,13 +65,15 @@ public interface CourseMapper {
      * @param courseNo
      * @return
      */
-    @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time," +
+    @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time, " +
             "   c2.stage,c2.startDateTime,c2.endDateTime " +
             "FROM Course c1, CoursePlus c2 " +
             "WHERE c1.no=#{courseNo} AND " +
-            "   c1.no=c1.no AND " +
+            "   c2.stage=#{stage} AND " +
+            "   c1.no=c2.courseNo AND " +
             "   c1.no=c2.courseNo;")
-    public Course getCourseInfo(int courseNo);
+    public Course getCourseInfo(@Param("courseNo") int courseNo,
+                                @Param("stage") int stage);
 
 
     /**
@@ -175,9 +177,24 @@ public interface CourseMapper {
     @Delete("DELETE " +
             "FROM SelectCourse " +
             "WHERE courseNo=#{courseNo} AND " +
-            "   stuNo=#{stuNo};")
+            "   stuNo=#{stuNo} ;")
     public Integer cancelSelectCourse(@Param("courseNo") int courseNo,
                                       @Param("stuNo") String stuNo);
+
+    /**
+     * 学员获取自己的选课状况
+     * @param stuNo
+     * @return
+     */
+    @Select("SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime " +
+            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
+            "WHERE s.no = #{stuNo} AND " +
+            "      c2.stuNo=s.no AND " +
+            "      s.schoolNo=ss.no AND " +
+            "      c2.courseNo=c1.no AND " +
+            "      c2.courseNo=c3.courseNo AND " +
+            "      c2.stage=c3.stage;")
+    public List<CourseSeat> getMyCourseSeat(String stuNo);
 
     /**
      * 管理员查询某节某期课程的选座状况

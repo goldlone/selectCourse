@@ -12,6 +12,7 @@ import cn.goldlone.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -60,21 +61,21 @@ public class CourseServiceImpl implements CourseService {
         return ResultUtils.success("获取课程信息成功", list);
     }
 
-    /**
-     * 获取某门课程的基本信息
-     * @param courseNo
-     * @return
-     */
-    @Override
-    public Result getCourseInfo(int courseNo) {
-        Result result = null;
-        Course course = cm.getCourseInfo(courseNo);
-        if(course != null)
-            result = ResultUtils.success("获取课程信息成功", course);
-        else
-            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "课程信息不存在");
-        return result;
-    }
+//    /**
+//     * 获取某门课程的基本信息
+//     * @param courseNo
+//     * @return
+//     */
+//    @Override
+//    public Result getCourseInfo(int courseNo) {
+//        Result result = null;
+//        Course course = cm.getCourseInfo(courseNo);
+//        if(course != null)
+//            result = ResultUtils.success("获取课程信息成功", course);
+//        else
+//            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "课程信息不存在");
+//        return result;
+//    }
 
     /**
      * 获取某门课程的基本信息
@@ -168,17 +169,38 @@ public class CourseServiceImpl implements CourseService {
     /**
      * 取消选课
      * @param courseNo
+     * @param stage
      * @param stuNo
      * @return
      */
     @Override
-    public Result cancelSelectCourse(int courseNo, String stuNo) {
+    public Result cancelSelectCourse(int courseNo, int stage, String stuNo) {
         Result result = null;
-        if(cm.cancelSelectCourse(courseNo, stuNo)>0)
-            result = ResultUtils.success("取消成功");
-        else
-            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "删除失败，您可能没选该课程");
+        Course course = cm.getCourseInfo(courseNo, stage);
+        if(course==null) {
+            result = ResultUtils.error(ResultUtils.CODE_EXCEPTION,"没有查到课程");
+        } else {
+            if(course.getStartDateTime().after(new Timestamp(System.currentTimeMillis()))) {
+                if (cm.cancelSelectCourse(courseNo, stuNo) > 0)
+                    result = ResultUtils.success("取消成功");
+                else
+                    result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "删除失败，您可能没选该课程");
+            } else {
+                result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "该课程已结束，无法取消选课");
+            }
+        }
         return result;
+    }
+
+    /**
+     * 学员获取自己的选课状况
+     * @param stuNo
+     * @return
+     */
+    @Override
+    public Result getMyCourseSeat(String stuNo) {
+        List<CourseSeat> list = cm.getMyCourseSeat(stuNo);
+        return ResultUtils.success("获取自己课程信息成功", list);
     }
 
     /**

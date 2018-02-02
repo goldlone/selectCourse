@@ -46,13 +46,6 @@ public interface CourseService {
     public Result getAllCourseInfo();
 
     /**
-     * 获取某门课程的基本信息
-     * @param courseNo
-     * @return
-     */
-    public Result getCourseInfo(int courseNo);
-
-    /**
      * 修改课程基本信息(课程名，学分)
      * @param course
      * @return
@@ -105,7 +98,14 @@ public interface CourseService {
      * @param stuNo
      * @return
      */
-    public Result cancelSelectCourse(int courseNo, String stuNo);
+    public Result cancelSelectCourse(int courseNo, int stage, String stuNo);
+
+    /**
+     * 学员获取自己的选课状况
+     * @param stuNo
+     * @return
+     */
+    public Result getMyCourseSeat(String stuNo);
 
     /**
      * 管理员查询某节某期课程的选座状况

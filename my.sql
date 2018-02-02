@@ -106,7 +106,7 @@ CREATE TABLE CoursePlus (
   courseNo INT NOT NULL,
   stage TINYINT NOT NULL,
   classroom VARCHAR(50) NOT NULL,
-  teacher VARCHAR(30) NOT NULL,
+  teacher VARCHAR(30),
   startDateTime DATETIME NOT NULL,
   endDateTime DATETIME NOT NULL,
   PRIMARY KEY (courseNo, stage),
@@ -236,14 +236,26 @@ INTO SelectCourse(stuNo, courseNo, stage, seatNo)
 VALUES(#{stuNo}, #{courseNo}, #{stage}, #{seatNo});
 
 DELETE
-FROM SelectCourse
-WHERE courseNo=#{courseNo} AND stuNo=#{stuNo};
+FROM SelectCourse s
+WHERE s.courseNo=#{courseNo} AND
+      s.stuNo=#{stuNo} AND (SELECT 1);
+      (SELECT now()<c.startDateTime
+       FROM CoursePlus c
+       WHERE c.courseNo=s.courseNo AND
+             c.stage=#{stage});
+
+SELECT now()<startDateTime
+FROM CoursePlus
+WHERE courseNo=#{courseNo} AND
+      stage=#{stage};
+
+SELECT 1;
 
 SELECT seatNo
 FROM SelectCourse
 WHERE courseNo=#{courseNo} AND stage=#{stage};
 
-SELECT c2.stuNo,s.name stuName,s.grade,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
 FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
 WHERE c2.courseNo = #{courseNo} AND
       c2.stage = #{stage} AND
@@ -279,6 +291,22 @@ INTO Student(no, name, schoolNo, age, gender, power, password)
 VALUES(#{no}, #{name}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{age}, #{gender}, (SELECT no FROM Powers WHERE identity=#{identity}), '123');
 
 SELECT * FROM Powers;
+
+
+SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE s.no = #{stuNo} AND
+      c2.stuNo=s.no AND
+      s.schoolNo=ss.no AND
+      c2.courseNo=c1.no AND
+      c2.courseNo=c3.courseNo AND
+      c2.stage=c3.stage;
+
+SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time,
+   c2.stage,c2.startDateTime,c2.endDateTime
+FROM Course c1, CoursePlus c2
+WHERE c1.no=#{courseNo} AND c2.stage=#{stage} AND c1.no=c2.courseNo AND c1.no=c2.courseNo;
+
 
 # SELECT Student.no,name,grade,school,major,age,gender,power,identity
 # FROM Powers,Student

@@ -67,8 +67,20 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/select")
     public Result selectCourse(HttpServletRequest request, int courseNo, int stage, int seatNo) {
-        String stuNo = (String) request.getSession().getAttribute("stuNo");
+//        String stuNo = (String) request.getSession().getAttribute("stuNo");
+        String stuNo = "123";
         return cs.selectCourse(stuNo, courseNo, stage, seatNo);
+    }
+
+    /**
+     * 学员获取自己的选课状况
+     * @param request
+     * @return
+     */
+    @PostMapping("/course/myCourse")
+    public Result getMyCourseSeat(HttpServletRequest request) {
+        String stuNo = "123";
+        return cs.getMyCourseSeat(stuNo);
     }
 
     /**
@@ -78,9 +90,11 @@ public class CourseController extends BaseController {
      * @return
      */
     @PostMapping("/course/cancel")
-    public Result cancelSelectCourse(HttpServletRequest request, int courseNo) {
-        String stuNo = (String) request.getSession().getAttribute("stuNo");
-        return cs.cancelSelectCourse(courseNo, stuNo);
+    public Result cancelSelectCourse(HttpServletRequest request, int courseNo, int stage) {
+        System.out.println("Q:"+courseNo+"---"+stage);
+//        String stuNo = (String) request.getSession().getAttribute("stuNo");
+        String stuNo = "123";
+        return cs.cancelSelectCourse(courseNo, stage, stuNo);
     }
 
     /**
