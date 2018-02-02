@@ -1,6 +1,7 @@
 package cn.goldlone.po;
 
 /**
+ * Powers
  * Created by CN on 2017/12/18.
  */
 public class DBPowers {

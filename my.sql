@@ -6,12 +6,11 @@ CREATE TABLE Powers(
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
 INSERT INTO Powers(no, identity) VALUES(0, '超级管理管理员');
-INSERT INTO Powers(no, identity) VALUES(1, '学生信息管理员');
-INSERT INTO Powers(no, identity) VALUES(2, '课程管理员');
-INSERT INTO Powers(no, identity) VALUES(3, '党员');
-INSERT INTO Powers(no, identity) VALUES(4, '预备党员');
-INSERT INTO Powers(no, identity) VALUES(5, '入党积极分子');
-INSERT INTO Powers(no, identity) VALUES(6, '发展对象');
+INSERT INTO Powers(no, identity) VALUES(1, '基层党委组织管理员');
+INSERT INTO Powers(no, identity) VALUES(2, '党员');
+INSERT INTO Powers(no, identity) VALUES(3, '预备党员');
+INSERT INTO Powers(no, identity) VALUES(4, '入党积极分子');
+INSERT INTO Powers(no, identity) VALUES(5, '发展对象');
 
 # 学院信息表
 DROP TABLE IF EXISTS Schools;
@@ -73,22 +72,28 @@ CREATE TABLE Admin (
 # 学生信息表
 DROP TABLE IF EXISTS Student;
 CREATE TABLE Student(
-  no VARCHAR(24) NOT NULL,
   name VARCHAR(30) NOT NULL,
+  no VARCHAR(24) NOT NULL,
   schoolNo INT DEFAULT NULL,
-  age INT,
   gender VARCHAR(2),
+  nation VARCHAR(20),
+  birth DATE,
+  type VARCHAR(10),
+  grade INT,
+  position VARCHAR(20),
+  applyDate DATE,
+  beActivistDate DATE,
+  beDevelopDate DATE,
   power TINYINT NOT NULL,
   password VARCHAR(64) NOT NULL,
   PRIMARY KEY (no),
   FOREIGN KEY (power) REFERENCES Powers(no),
   FOREIGN KEY (schoolNo) REFERENCES Schools(no)
 )DEFAULT CHARSET=utf8;
-# ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
+ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
-ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>2);
-INSERT INTO Student VALUES ('201502401086', '程宁', 12, 21, '男', 3, '201502401086');
+ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;

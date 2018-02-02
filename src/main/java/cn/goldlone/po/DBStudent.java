@@ -1,39 +1,43 @@
 package cn.goldlone.po;
 
-import cn.goldlone.model.Student;
+import java.util.Date;
+
 
 /**
+ * Student
  * Created by CN on 2017/12/17.
  */
 public class DBStudent {
-    // 学号
+    // 学号/工号
     private String no;
     // 姓名
     private String name;
     // 基层党组织编号
     private int schoolNo;
-    // 年龄
-    private int age;
     // 性别
     private String gender;
+    // 民族
+    private String nation;
+    // 出生日期
+    private Date birth;
+    // 类别
+    private String type;
+    // 年级
+    private int grade;
+    // 职务
+    private String position;
+    // 申请入党时间
+    private Date applyDate;
+    // 定为积极分子时间
+    private Date beActivistDate;
+    // 定为发展对象初步人选时间
+    private Date beDevelopDate;
     // 权限
     private int power;
     // 密码
     private String password;
 
-    public DBStudent(){
-        this.power = -1;
-    }
-
-    public DBStudent(Student stu) {
-//        this.no = stu.getNo();
-//        this.name = stu.getName();
-//        this.grade = stu.getGrade();
-//        this.schoolNo = stu.getSchool();
-//        this.age = stu.getAge();
-//        this.gender = stu.getGender();
-//        this.power = stu.getPower();
-//        this.password = this.getPassword();
+    public DBStudent() {
     }
 
     public String getNo() {
@@ -60,20 +64,76 @@ public class DBStudent {
         this.schoolNo = schoolNo;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public Date getBeActivistDate() {
+        return beActivistDate;
+    }
+
+    public void setBeActivistDate(Date beActivistDate) {
+        this.beActivistDate = beActivistDate;
+    }
+
+    public Date getBeDevelopDate() {
+        return beDevelopDate;
+    }
+
+    public void setBeDevelopDate(Date beDevelopDate) {
+        this.beDevelopDate = beDevelopDate;
     }
 
     public int getPower() {
@@ -97,9 +157,16 @@ public class DBStudent {
         return "DBStudent{" +
                 "no='" + no + '\'' +
                 ", name='" + name + '\'' +
-                ", schoolNo='" + schoolNo + '\'' +
-                ", age=" + age +
+                ", schoolNo=" + schoolNo +
                 ", gender='" + gender + '\'' +
+                ", nation='" + nation + '\'' +
+                ", birth=" + birth +
+                ", type='" + type + '\'' +
+                ", grade=" + grade +
+                ", position='" + position + '\'' +
+                ", applyDate=" + applyDate +
+                ", beActivistDate=" + beActivistDate +
+                ", beDevelopDate=" + beDevelopDate +
                 ", power=" + power +
                 ", password='" + password + '\'' +
                 '}';
