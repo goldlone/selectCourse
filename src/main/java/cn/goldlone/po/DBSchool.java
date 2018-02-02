@@ -28,4 +28,12 @@ public class DBSchool {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "DBSchool{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -1,26 +1,29 @@
 package cn.goldlone.model;
 
 /**
+ * 登录信息
  * Created by CN on 2017/12/18.
  */
 public class LoginInfo {
     // 学号
-    private String stuNo;
+    private String no;
     // 密码
     private String password;
     // 权限
     private int power;
+    // 基层党组织编号
+    private int schoolNo;
 
     public LoginInfo() {
         this.power = -1;
     }
 
-    public String getStuNo() {
-        return stuNo;
+    public String getNo() {
+        return no;
     }
 
-    public void setStuNo(String stuNo) {
-        this.stuNo = stuNo;
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public String getPassword() {
@@ -39,12 +42,21 @@ public class LoginInfo {
         this.power = power;
     }
 
+    public int getSchoolNo() {
+        return schoolNo;
+    }
+
+    public void setSchoolNo(int schoolNo) {
+        this.schoolNo = schoolNo;
+    }
+
     @Override
     public String toString() {
         return "LoginInfo{" +
-                "stuNo='" + stuNo + '\'' +
+                "no='" + no + '\'' +
                 ", password='" + password + '\'' +
                 ", power=" + power +
+                ", schoolNo=" + schoolNo +
                 '}';
     }
 }

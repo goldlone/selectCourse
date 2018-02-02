@@ -17,23 +17,27 @@ import java.util.List;
 @Mapper
 public interface StudentMapper {
     /**
-     * 获取用户密码
-     * @param stuNo
+     * 获取学员密码
+     * @param no
      * @return
      */
-    @Results({
-            @Result(property = "stuNo", column = "no"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "power", column = "power"),
-    })
-    @Select("SELECT no, password, power " +
+    @Select("SELECT no, password, schoolNo, power " +
             "FROM Student " +
-            "WHERE no = #{stuNo};")
-    public LoginInfo getPassword(String stuNo);
-
+            "WHERE no = #{no};")
+    public LoginInfo getStuPassword(String no);
 
     /**
-     * 修改登录密码
+     * 获取基层党组织管理员密码
+     * @param no
+     * @return
+     */
+    @Select("SELECT no, name, schoolNo, power " +
+            "FROM Admin " +
+            "WHERE no=#{no};")
+    public LoginInfo getAdminPassword(String no);
+
+    /**
+     * 修改学员登录密码
      * @param stuNo
      * @param password
      * @return
@@ -42,9 +46,24 @@ public interface StudentMapper {
             "SET password=#{newPassword} " +
             "WHERE no=#{stuNo} AND " +
             "   password=#{password};")
-    public Integer updatePassword(@Param("stuNo")String stuNo,
-                                  @Param("password")String password,
-                                  @Param("newPassword")String newPassword);
+    public Integer updateStuPassword(@Param("stuNo")String stuNo,
+                                     @Param("password")String password,
+                                     @Param("newPassword")String newPassword);
+
+    /**
+     * 修改管理员登录密码
+     * @param no
+     * @param password
+     * @param newPassword
+     * @return
+     */
+    @Update("UPDATE Admin " +
+            "SET password=#{newPassword} " +
+            "WHERE no=#{no} AND " +
+            "   password=#{password};")
+    public Integer updateAdminPassword(@Param("no")String no,
+                                       @Param("password")String password,
+                                       @Param("newPassword")String newPassword);
 
     /**
      * 获取全部身份权限

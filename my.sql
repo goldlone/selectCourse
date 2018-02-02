@@ -150,17 +150,19 @@ ALTER TABLE SelectCourse ADD CONSTRAINT uq_select_seat UNIQUE(courseNo, seatNo, 
 
 
 
+# 获取学员密码
+SELECT no, password, schoolNo, power FROM Student WHERE no = '201502401086';
 
+# 获取基层党组织管理员密码
+SELECT no, name, schoolNo, power FROM Admin WHERE no=#{no};
 
-
-
-
-SELECT * FROM Student WHERE 1;
-
-SELECT no, password, power FROM Student WHERE no = '201502401086';
-
+# 修改学员登录密码
 UPDATE Student SET password=#{newPassword} WHERE no=#{stuNo} AND password=#{password};
 
+# 修改管理员登录密码
+UPDATE Admin SET password=#{newPassword} WHERE no=#{no} AND password=#{password};
+
+#
 INSERT
 INTO student (no, name, grade, schoolNo, age, gender, power, password)
 VALUES (#{no}, #{name}, #{grade}, #{schoolNo}, #{age}, #{gender}, #{power}, #{password});

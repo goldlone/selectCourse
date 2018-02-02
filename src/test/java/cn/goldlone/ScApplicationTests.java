@@ -3,10 +3,8 @@ package cn.goldlone;
 import cn.goldlone.mapper.CourseMapper;
 import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.Course;
-import cn.goldlone.po.DBCourse;
-import cn.goldlone.po.DBCoursePlus;
-import cn.goldlone.po.DBCoursePower;
-import cn.goldlone.po.DBStudent;
+import cn.goldlone.model.LoginInfo;
+import cn.goldlone.po.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,34 @@ public class ScApplicationTests {
     private CourseMapper cm;
 
 	@Test
+	public void testStu() {
+//	    // 获取学员密码
+//        LoginInfo info = sm.getStuPassword("123");
+//        System.out.println(info);
+//        // 获取基层党组织管理员密码
+//        LoginInfo info1 = sm.getAdminPassword("123");
+//        System.out.println(info1);
+        // 修改学员登录密码
+        sm.updateStuPassword("123", "123", "456");
+        // 修改管理员登录密码
+        sm.updateAdminPassword("123", "123", "456");
+        // 获取全部身份权限
+        for(DBPowers p: sm.getPowers())
+            System.out.println(p);
+        // 获取所有基层党组织信息
+        for(DBSchool s: sm.getSchools())
+            System.out.println(s);
+        // 根据基层党委名查询编号
+        System.out.println(sm.getSchoolNoByName("计算机与信息技术学院党委（大数据学院党委）"));
+
+
+    }
+
+
+	@Test
 	public void test() {
-//		System.out.println(sm.getPassword("201502401086"));
-//        System.out.println(sm.updatePassword("201502401086", "123456"));
+//		System.out.println(sm.getStuPassword("201502401086"));
+//        System.out.println(sm.updateStuPassword("201502401086", "123456"));
 //        System.out.println(sm.getAllStuInfo());
 //        System.out.println(sm.getStudentInfoBySchoolNo(12));
 //        System.out.println(sm.getStudentInfoBySchool());
@@ -143,13 +166,14 @@ public class ScApplicationTests {
     }
 
 
+
+
     @Test
     public void addStu() {
         DBStudent stu = new DBStudent();
         stu.setNo("201512345");
         stu.setName("李四");
         stu.setGender("男");
-        stu.setAge(35);
         stu.setSchoolNo(14);
         stu.setPassword("123123");
         stu.setPower(3);

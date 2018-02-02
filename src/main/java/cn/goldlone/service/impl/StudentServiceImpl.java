@@ -35,14 +35,14 @@ public class StudentServiceImpl implements StudentService {
 //            System.out.println("未创建");
 //            return new Result();
 //        }
-        LoginInfo info = sm.getPassword(stuNo);
+        LoginInfo info = sm.getStuPassword(stuNo);
         Result result = null;
         if(info==null) {
             result =  ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "会员信息不存在");
         } else {
             if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
                 result = ResultUtils.success(null, "登录成功");
-                request.getSession(true).setAttribute("stuNo", info.getStuNo());
+                request.getSession(true).setAttribute("stuNo", info.getNo());
                 request.getSession(true).setAttribute("power", info.getPower());
                 request.getSession(true).setMaxInactiveInterval(30);
             }
@@ -64,7 +64,7 @@ public class StudentServiceImpl implements StudentService {
         Result result = null;
         password = DigestUtils.sha256Hex(password);
         newPassword = DigestUtils.sha256Hex(newPassword);
-        if(sm.updatePassword(stuNo, password, newPassword)>0)
+        if(sm.updateStuPassword(stuNo, password, newPassword)>0)
             result = ResultUtils.success("修改密码成功");
         else
             result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "原始密码错误");
