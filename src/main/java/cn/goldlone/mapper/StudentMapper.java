@@ -1,7 +1,9 @@
 package cn.goldlone.mapper;
 
+import cn.goldlone.model.Admin;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBPowers;
 import cn.goldlone.po.DBSchool;
 import cn.goldlone.po.DBStudent;
@@ -31,7 +33,7 @@ public interface StudentMapper {
      * @param no
      * @return
      */
-    @Select("SELECT no, name, schoolNo, power " +
+    @Select("SELECT no, password, schoolNo, power " +
             "FROM Admin " +
             "WHERE no=#{no};")
     public LoginInfo getAdminPassword(String no);
@@ -121,6 +123,37 @@ public interface StudentMapper {
     public Integer addStudent(Student stu);
 
     /**
+     * 录入管理员信息
+     * @param admin
+     * @return
+     */
+    @Insert("INSERT " +
+            "INTO Admin(no, name, schoolNo, password, power) " +
+            "VALUES(#{no}, #{name}, " +
+            "   (SELECT no FROM Schools WHERE Schools.name=#{school}), " +
+            "   #{password}, #{power});")
+    public Integer addAdmin(Admin admin);
+
+    /**
+     * 录入管理员信息
+     * @param admin
+     * @return
+     */
+    @Insert("INSERT " +
+            "INTO Admin(no, name, schoolNo, password, power) " +
+            "VALUES(#{no}, #{name}, #{schoolNo}, #{password}, #{power});")
+    public Integer addDBAdmin(DBAdmin admin);
+
+    /**
+     * 获取全部管理员信息
+     * @return
+     */
+    @Select("SELECT Admin.no, Admin.name, Schools.name school, power " +
+            "FROM Admin, Schools " +
+            "WHERE schoolNo=Schools.no;")
+    public List<Admin> getAllAdminInfo();
+
+    /**
      * 获取学员权限
      * @param stuNo
      * @return
@@ -129,7 +162,6 @@ public interface StudentMapper {
             "FROM student " +
             "WHERE no = #{stuNo};")
     public Integer getStuPower(String stuNo);
-
 
     /**
      * 获取全部学生信息

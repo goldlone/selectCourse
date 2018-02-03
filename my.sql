@@ -55,6 +55,7 @@ INSERT INTO Schools(name) VALUES ('土木工程系党总支');
 INSERT INTO Schools(name) VALUES ('电子信息工程系党总支');
 INSERT INTO Schools(name) VALUES ('环境工程系党总支');
 INSERT INTO Schools(name) VALUES ('工程管理系党总支');
+INSERT INTO Schools(name) VALUES ('山西大学党委');
 
 # 管理员信息表
 DROP TABLE IF EXISTS Admin;
@@ -171,6 +172,19 @@ VALUES (#{name}, #{no}, #{schoolNo},  #{gender}, #{nation}, #{birth}, #{type}, #
 INSERT
 INTO Student(name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
 VALUES(#{name}, #{no}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{gender}, #{nation}, #{birth}, #{type}, #{grade}, #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, (SELECT no FROM Powers WHERE identity=#{identity}), #{password});
+
+# 录入管理员信息
+INSERT
+INTO Admin(no, name, schoolNo, password, power)
+VALUES(#{no}, #{name}, #{schoolNo}, #{password}, #{power});
+
+# 录入管理员信息
+INSERT
+INTO Admin(no, name, schoolNo, password, power)
+VALUES(#{no}, #{name}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{password}, #{power});
+
+# 获取全部管理员信息
+SELECT Admin.no, Admin.name, Schools.name school, power FROM Admin, Schools WHERE schoolNo=Schools.no;
 
 # 获取学员权限
 SELECT power FROM student WHERE no = #{stuNo};

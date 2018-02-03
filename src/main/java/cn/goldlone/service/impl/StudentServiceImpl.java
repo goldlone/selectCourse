@@ -1,9 +1,12 @@
 package cn.goldlone.service.impl;
 
+import cn.goldlone.Properties;
 import cn.goldlone.mapper.StudentMapper;
+import cn.goldlone.model.Admin;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBPowers;
 import cn.goldlone.po.DBSchool;
 import cn.goldlone.po.DBStudent;
@@ -30,11 +33,6 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Result login(HttpServletRequest request, String stuNo, String password) {
-//        System.out.println(stuNo+"/"+password);
-//        if(sm==null) {
-//            System.out.println("未创建");
-//            return new Result();
-//        }
         LoginInfo info = sm.getStuPassword(stuNo);
         Result result = null;
         if(info==null) {
@@ -42,9 +40,10 @@ public class StudentServiceImpl implements StudentService {
         } else {
             if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
                 result = ResultUtils.success(null, "登录成功");
-                request.getSession(true).setAttribute("stuNo", info.getNo());
-                request.getSession(true).setAttribute("power", info.getPower());
-                request.getSession(true).setMaxInactiveInterval(30);
+                request.getSession(true).setAttribute(Properties.LOGIN_NO, info.getNo());
+                request.getSession(true).setAttribute(Properties.LOGIN_POWER, info.getPower());
+                request.getSession(true).setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
+                request.getSession(true).setMaxInactiveInterval(120);
             }
             else
                 result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "登录密码错误");
@@ -69,6 +68,53 @@ public class StudentServiceImpl implements StudentService {
         else
             result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "原始密码错误");
         return result;
+    }
+
+    /**
+     * 获取基层党组织管理员密码
+     * @param request
+     * @param no
+     * @param password
+     * @return
+     */
+    @Override
+    public Result loginAdmin(HttpServletRequest request, String no, String password) {
+        LoginInfo info = sm.getAdminPassword(no);
+        Result result = null;
+        if(info==null) {
+            result =  ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "会员信息不存在");
+        } else {
+            if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
+                result = ResultUtils.success(null, "登录成功");
+                request.getSession(true).setAttribute(Properties.LOGIN_NO, info.getNo());
+                request.getSession(true).setAttribute(Properties.LOGIN_POWER, info.getPower());
+                request.getSession(true).setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
+                request.getSession(true).setMaxInactiveInterval(120);
+            }
+            else
+                result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "登录密码错误");
+        }
+        return result;
+    }
+
+    @Override
+    public Result updateAdminPassword(String no, String password, String newPassword) {
+        return null;
+    }
+
+    @Override
+    public Result addAdmin(DBAdmin admin) {
+        return null;
+    }
+
+    @Override
+    public Result addAdmin(Admin admin) {
+        return null;
+    }
+
+    @Override
+    public Result getAllAdminInfo() {
+        return null;
     }
 
     /**

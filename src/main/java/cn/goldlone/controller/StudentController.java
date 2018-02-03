@@ -32,30 +32,6 @@ public class StudentController extends BaseController {
     private StudentService ss;
 
     /**
-     * 登录
-     * @param request
-     * @param stuNo
-     * @param password
-     * @return
-     */
-    @PostMapping("/login")
-    public Result login(HttpServletRequest request, String stuNo, String password) {
-        return ss.login(request, stuNo, password);
-    }
-
-    /**
-     * 用户修改密码
-     * @param password
-     * @param newPassword
-     * @return
-     */
-    @PostMapping("/updatePassword")
-    public Result updatePassword(HttpServletRequest request, String password, String newPassword) {
-        String stuNo = (String) request.getSession().getAttribute("stuNo");
-        return ss.updatePassword(stuNo, password, newPassword);
-    }
-
-    /**
      * 获取基层党组织名称
      * @return
      */

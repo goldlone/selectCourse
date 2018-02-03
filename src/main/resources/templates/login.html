@@ -1,0 +1,51 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/imgs/favicon.ico">
+
+    <title>山西大学党委选课系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/floating-labels.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <form class="form-signin" action="/loginVerify" method="post">
+      <div class="text-center mb-4">
+        <img class="mb-4" src="/imgs/logo.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">山西大学党委选课系统</h1>
+      </div>
+
+      <div class="form-label-group">
+        <input type="text" id="no" name="no" class="form-control" placeholder="学号/工号" required autofocus>
+        <label for="no">学号/工号</label>
+      </div>
+
+      <div class="form-label-group">
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
+        <label for="inputPassword">密码</label>
+      </div>
+
+      <div class="form-label-group" align="center">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="radio1" value="1" checked>
+          <label class="form-check-label" for="radio1" style="font-size: 16px">学员</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="radio2" value="2">
+          <label class="form-check-label" for="radio2" style="font-size: 16px">管理员</label>
+        </div>
+      </div>
+      <!--/*@thymesVar id="tips" type="java.lang.String"*/-->
+      <div class="alert alert-danger" role="alert" th:if="${tips!=null}" th:text="${tips}"></div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+  </body>
+</html>

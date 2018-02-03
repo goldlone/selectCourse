@@ -2,6 +2,7 @@ package cn.goldlone;
 
 import cn.goldlone.mapper.CourseMapper;
 import cn.goldlone.mapper.StudentMapper;
+import cn.goldlone.model.Admin;
 import cn.goldlone.model.Course;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.*;
@@ -82,6 +83,13 @@ public class ScApplicationTests {
 //        stu1.setIdentity("入党积极分子");
 //        stu1.setPassword(DigestUtils.sha256Hex("123"));
 //        sm.addStudent(stu1);
+//        Admin admin1 = new Admin("456", "管理员2", "文学院党委", DigestUtils.sha256Hex("456"), 1);
+//        sm.addAdmin(admin1);
+//        DBAdmin admin2 = new DBAdmin("789", "超级管理员1", 37, DigestUtils.sha256Hex("789"), 0);
+//        sm.addDBAdmin(admin2);
+        for(Admin a: sm.getAllAdminInfo())
+            System.out.println(a);
+        System.out.println("----");
         for(Student s: sm.getAllStuInfo())
             System.out.println(s);
         System.out.println("----");
