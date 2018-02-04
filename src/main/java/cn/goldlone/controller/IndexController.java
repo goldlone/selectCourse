@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.utils.CheckUtils;
@@ -23,7 +24,6 @@ public class IndexController extends BaseController {
 
     @Autowired
     private StudentService ss;
-
 
     /**
      * 登录
@@ -82,14 +82,28 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 用户修改密码
+     * 学员修改密码
      * @param password
      * @param newPassword
      * @return
      */
     @PostMapping("/updatePassword")
     public Result updatePassword(HttpServletRequest request, String password, String newPassword) {
-        String stuNo = (String) request.getSession().getAttribute("stuNo");
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         return ss.updatePassword(stuNo, password, newPassword);
     }
+
+    /**
+     * 管理员修改密码
+     * @param password
+     * @param newPassword
+     * @return
+     */
+    @PostMapping("/updateAdminPassword")
+    public Result updateAdminPassword(HttpServletRequest request, String password, String newPassword) {
+        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        return ss.updateAdminPassword(no, password, newPassword);
+    }
+
+
 }

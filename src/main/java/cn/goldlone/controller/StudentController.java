@@ -1,7 +1,9 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.model.Admin;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
+import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.service.impl.StudentServiceImpl;
@@ -30,6 +32,25 @@ public class StudentController extends BaseController {
 
     @Autowired
     private StudentService ss;
+
+    /**
+     * 单个录入管理员信息
+     * @param admin
+     * @return
+     */
+    @PostMapping("/admin/add")
+    public Result addAdmin(DBAdmin admin) {
+        return ss.addAdmin(admin);
+    }
+
+    /**
+     * 获取全部管理员信息
+     * @return
+     */
+    @PostMapping("/admin/list")
+    public Result getAllAdminInfo() {
+        return ss.getAllAdminInfo();
+    }
 
     /**
      * 获取基层党组织名称

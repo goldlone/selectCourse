@@ -97,24 +97,71 @@ public class StudentServiceImpl implements StudentService {
         return result;
     }
 
+    /**
+     * 修改管理员登录密码
+     * @param no
+     * @param password
+     * @param newPassword
+     * @return
+     */
     @Override
     public Result updateAdminPassword(String no, String password, String newPassword) {
-        return null;
+        Result result = null;
+        password = DigestUtils.sha256Hex(password);
+        newPassword = DigestUtils.sha256Hex(newPassword);
+        if(sm.updateAdminPassword(no, password, newPassword)>0)
+            result = ResultUtils.success("修改密码成功");
+        else
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "原始密码错误");
+        return result;
     }
 
+    /**
+     * 录入管理员信息
+     * @param admin
+     * @return
+     */
     @Override
     public Result addAdmin(DBAdmin admin) {
-        return null;
+        Result result = null;
+        System.out.println(admin.toString());
+        admin.setPassword(DigestUtils.sha256Hex(admin.getPassword()));
+        admin.setPower(1);
+        if(sm.addDBAdmin(admin)>0) {
+            result = ResultUtils.success("添加管理员成功");
+        } else {
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "添加用户失败");
+        }
+        return result;
     }
 
+    /**
+     * 录入管理员信息
+     * @param admin
+     * @return
+     */
     @Override
     public Result addAdmin(Admin admin) {
-        return null;
+        Result result = null;
+        System.out.println(admin.toString());
+        admin.setPassword(DigestUtils.sha256Hex(admin.getPassword()));
+        admin.setPower(1);
+        if(sm.addAdmin(admin)>0) {
+            result = ResultUtils.success("添加管理员成功");
+        } else {
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "添加用户失败");
+        }
+        return result;
     }
 
+    /**
+     * 获取全部管理员信息
+     * @return
+     */
     @Override
     public Result getAllAdminInfo() {
-        return null;
+        List<Admin> list = sm.getAllAdminInfo();
+        return ResultUtils.success("获取全部管理员信息成功", list);
     }
 
     /**
@@ -150,15 +197,27 @@ public class StudentServiceImpl implements StudentService {
         if(sm.addDBStudent(stu)>0) {
             result = ResultUtils.success("添加学员成功");
         } else {
-            result = ResultUtils.error(1, "添加用户失败");
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "添加用户失败");
         }
         return result;
     }
 
+    /**
+     * 录入学员基本信息
+     * @param stu
+     * @return
+     */
     @Override
     public Result addStudent(Student stu) {
-        sm.addStudent(stu);
-        return null;
+        Result result = null;
+        System.out.println(stu.toString());
+        stu.setPassword(DigestUtils.sha256Hex(stu.getPassword()));
+        if(sm.addStudent(stu)>0) {
+            result = ResultUtils.success("添加学员成功");
+        } else {
+            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "添加用户失败");
+        }
+        return result;
     }
 
     /**
