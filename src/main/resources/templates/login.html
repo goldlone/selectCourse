@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/imgs/favicon.ico">
+    <link rel="icon" th:href="@{/imgs/favicon.ico}">
 
     <title>山西大学党委选课系统</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/css/floating-labels.css" rel="stylesheet">
+    <link th:href="@{/css/floating-labels.css}" rel="stylesheet">
   </head>
 
   <body>
-    <form class="form-signin" action="/loginVerify" method="post">
+    <form class="form-signin" th:action="@{/loginVerify}" method="post">
       <div class="text-center mb-4">
-        <img class="mb-4" src="/imgs/logo.png" alt="" width="72" height="72">
+        <img class="mb-4" th:src="@{/imgs/logo.png}" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">山西大学党委选课系统</h1>
       </div>
 

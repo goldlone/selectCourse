@@ -49,7 +49,7 @@ public class IndexController extends BaseController {
                 if(result.getCode().equals(ResultUtils.CODE_SUCCESS)) {
                     // 登录成功
                     model.addAttribute("tips", "学员，你好");
-                    response.sendRedirect("/");
+                    response.sendRedirect("/sc/");
                     return "/index";
                 } else if(result.getCode().equals(ResultUtils.CODE_RESULT_NOT_EXIST)) {
                     model.addAttribute("tips", "用户不存在");
@@ -63,7 +63,7 @@ public class IndexController extends BaseController {
                 if(result.getCode().equals(ResultUtils.CODE_SUCCESS)) {
                     // 登录成功
                     model.addAttribute("tips", "管理员，你好");
-                    response.sendRedirect("/");
+                    response.sendRedirect("/sc/");
                     return "/index";
                 } else if(result.getCode().equals(ResultUtils.CODE_RESULT_NOT_EXIST)) {
                     model.addAttribute("tips", "用户不存在");

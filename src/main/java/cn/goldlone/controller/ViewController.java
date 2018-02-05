@@ -18,13 +18,17 @@ public class ViewController implements ErrorController {
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         System.out.println(request.getSession().getAttribute(Properties.LOGIN_POWER));
-        if((Integer)request.getSession().getAttribute(Properties.LOGIN_POWER) > 1) {
-            model.addAttribute("tips", "学员，你好");
-            return "/index";
-        } else {
-            model.addAttribute("tips", "管理员，你好");
-            return "/index";
+        Integer power = (Integer)request.getSession().getAttribute(Properties.LOGIN_POWER);
+        if(power!=null) {
+            if (power > 1) {
+                model.addAttribute("tips", "学员，你好");
+                return "/index";
+            } else {
+                model.addAttribute("tips", "管理员，你好");
+                return "/index";
+            }
         }
+        return "/index";
     }
 
     @GetMapping("/login")
