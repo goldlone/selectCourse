@@ -120,7 +120,7 @@ public class StudentController extends BaseController {
      * @return
      */
     @PostMapping("/stu/add")
-    public Result addStudent(@RequestParam("file") MultipartFile file) {
+        public Result addStudent(@RequestParam("file") MultipartFile file) {
         Result result = null;
         try {
             List<Student> list = ExcelUtils.importStuInfo(file);

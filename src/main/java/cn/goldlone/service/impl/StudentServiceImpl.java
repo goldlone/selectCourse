@@ -232,7 +232,7 @@ public class StudentServiceImpl implements StudentService {
         if(power != null)
             result = ResultUtils.success("获取权限成功", power);
         else
-            result = ResultUtils.error(1, "该用户不存在");
+            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "该用户不存在");
         return result;
     }
 
@@ -301,7 +301,7 @@ public class StudentServiceImpl implements StudentService {
         if(sm.updateStuInfoAdmin(stu)>0)
             result = ResultUtils.success("修改学生信息成功");
         else
-            result = ResultUtils.error(1, "该学员不存在");
+            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "该学员不存在");
         return result;
     }
 
@@ -316,7 +316,7 @@ public class StudentServiceImpl implements StudentService {
         if(sm.updateStuInfoSelf(stu)>0)
             result = ResultUtils.success("修改成功");
         else
-            result = ResultUtils.error(1, "学生信息不存在");
+            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "学生信息不存在");
         return result;
     }
 

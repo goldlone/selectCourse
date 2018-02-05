@@ -150,15 +150,14 @@ ALTER TABLE SelectCourse ADD CONSTRAINT uq_select_seat UNIQUE(courseNo, seatNo, 
 
 
 
-
 # 获取学员密码
 SELECT no, password, schoolNo, power FROM Student WHERE no = '201502401086';
 
 # 获取基层党组织管理员密码
-SELECT no, name, schoolNo, power FROM Admin WHERE no=#{no};
+SELECT no, name, schoolNo, power FROM Admin WHERE no=?;
 
 # 修改学员登录密码
-UPDATE Student SET password=#{newPassword} WHERE no=#{stuNo} AND password=#{password};
+UPDATE Student SET password= #{newPassword} WHERE no=#{stuNo} AND password=#{password};
 
 # 修改管理员登录密码
 UPDATE Admin SET password=#{newPassword} WHERE no=#{no} AND password=#{password};
@@ -173,7 +172,8 @@ INSERT
 INTO Student(name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
 VALUES(#{name}, #{no}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{gender}, #{nation}, #{birth}, #{type}, #{grade}, #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, (SELECT no FROM Powers WHERE identity=#{identity}), #{password});
 
-# 录入管理员信息
+# 录入管理员信息idea
+
 INSERT
 INTO Admin(no, name, schoolNo, password, power)
 VALUES(#{no}, #{name}, #{schoolNo}, #{password}, #{power});
@@ -213,6 +213,8 @@ SET name=#{name}, schoolNo=#{schoolNo}, gender=#{gender}, nation=#{nation}, birt
 WHERE no = #{no};
 
 # 自己修改用户信息
+
+
 
 
 INSERT
