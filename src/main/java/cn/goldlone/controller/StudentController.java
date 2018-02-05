@@ -7,6 +7,7 @@ import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.service.impl.StudentServiceImpl;
+import cn.goldlone.utils.CheckUtils;
 import cn.goldlone.utils.ExcelUtils;
 import cn.goldlone.utils.ResultUtils;
 import jxl.read.biff.BiffException;
@@ -40,6 +41,10 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/admin/add")
     public Result addAdmin(DBAdmin admin) {
+        System.out.println(admin);
+        if(CheckUtils.IsEffectiveStr(new String[]{admin.getNo(), admin.getName()})) {
+            return ResultUtils.error(ResultUtils.CODE_PARAMS_LOSE, "缺少必要的参数");
+        }
         return ss.addAdmin(admin);
     }
 

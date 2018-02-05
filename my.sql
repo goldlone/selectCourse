@@ -19,6 +19,7 @@ CREATE TABLE Schools (
   name VARCHAR(30) NOT NULL,
   PRIMARY KEY (no)
 ) DEFAULT CHARSET=utf8;
+INSERT INTO Schools(name) VALUES ('山西大学党委');
 INSERT INTO Schools(name) VALUES ('文学院党委');
 INSERT INTO Schools(name) VALUES ('历史文化学院党委');
 INSERT INTO Schools(name) VALUES ('哲学社会学学院党委');
@@ -55,7 +56,6 @@ INSERT INTO Schools(name) VALUES ('土木工程系党总支');
 INSERT INTO Schools(name) VALUES ('电子信息工程系党总支');
 INSERT INTO Schools(name) VALUES ('环境工程系党总支');
 INSERT INTO Schools(name) VALUES ('工程管理系党总支');
-INSERT INTO Schools(name) VALUES ('山西大学党委');
 
 # 管理员信息表
 DROP TABLE IF EXISTS Admin;

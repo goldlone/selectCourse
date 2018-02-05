@@ -96,7 +96,7 @@ public interface StudentMapper {
      * @return
      */
     @Insert("INSERT " +
-            "INTO student(name, no, schoolNo, gender, " +
+            "INTO Student(name, no, schoolNo, gender, " +
             "   nation, birth, type, grade, position, " +
             "   applyDate, beActivistDate, " +
             "   beDevelopDate, power, password) " +
@@ -159,7 +159,7 @@ public interface StudentMapper {
      * @return
      */
     @Select("SELECT power " +
-            "FROM student " +
+            "FROM Student " +
             "WHERE no = #{stuNo};")
     public Integer getStuPower(String stuNo);
 

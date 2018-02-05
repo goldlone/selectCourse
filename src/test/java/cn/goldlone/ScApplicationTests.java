@@ -4,6 +4,7 @@ import cn.goldlone.mapper.CourseMapper;
 import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.Admin;
 import cn.goldlone.model.Course;
+import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -49,7 +50,7 @@ public class ScApplicationTests {
 //            System.out.println(s);
 //        // 根据基层党委名查询编号
 //        System.out.println(sm.getSchoolNoByName("计算机与信息技术学院党委（大数据学院党委）"));
-        // 录入学员基本信息
+//        // 录入学员基本信息
 //        DBStudent stu = new DBStudent();
 //        stu.setNo("456");
 //        stu.setName("学员2");
@@ -87,16 +88,16 @@ public class ScApplicationTests {
 //        sm.addAdmin(admin1);
 //        DBAdmin admin2 = new DBAdmin("789", "超级管理员1", 37, DigestUtils.sha256Hex("789"), 0);
 //        sm.addDBAdmin(admin2);
-        for(Admin a: sm.getAllAdminInfo())
-            System.out.println(a);
-        System.out.println("----");
-        for(Student s: sm.getAllStuInfo())
-            System.out.println(s);
-        System.out.println("----");
-        for(Student s: sm.getStudentInfoBySchoolNo(1))
-            System.out.println(s);
-        System.out.println("----");
-        System.out.println(sm.getStuInfo("123"));
+//        for(Admin a: sm.getAllAdminInfo())
+//            System.out.println(a);
+//        System.out.println("----");
+//        for(Student s: sm.getAllStuInfo())
+//            System.out.println(s);
+//        System.out.println("----");
+//        for(Student s: sm.getStudentInfoBySchoolNo(1))
+//            System.out.println(s);
+//        System.out.println("----");
+//        System.out.println(sm.getStuInfo("123"));
     }
 
 

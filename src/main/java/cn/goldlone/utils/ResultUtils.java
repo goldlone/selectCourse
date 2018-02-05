@@ -18,6 +18,8 @@ public class ResultUtils {
     public static final Integer CODE_NO_POWER = 2003;
     /****  登录失效  ****/
     public static final Integer CODE_OUT_LOGIN = 2004;
+    /****  请求参数缺失 ****/
+    public static final Integer CODE_PARAMS_LOSE = 2005;
 
 
     /****  异常代码  ****/

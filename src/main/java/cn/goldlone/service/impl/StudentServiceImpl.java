@@ -143,8 +143,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result addAdmin(Admin admin) {
         Result result = null;
-        System.out.println(admin.toString());
-        admin.setPassword(DigestUtils.sha256Hex(admin.getPassword()));
+        admin.setPassword(DigestUtils.sha256Hex(admin.getNo()));
         admin.setPower(1);
         if(sm.addAdmin(admin)>0) {
             result = ResultUtils.success("添加管理员成功");
