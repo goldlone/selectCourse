@@ -183,7 +183,7 @@ public class StudentController extends BaseController {
 //        Integer power = (Integer) request.getSession().getAttribute(Properties.LOGIN_POWER);
 //        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         String no = "456";
-        Integer power = 1;
+        Integer power = 2;
         if(power>1)
             return ss.getStuInfoByNo(no);
         else
