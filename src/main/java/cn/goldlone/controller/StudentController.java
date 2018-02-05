@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.Properties;
 import cn.goldlone.model.Admin;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
@@ -170,6 +171,23 @@ public class StudentController extends BaseController {
     @PostMapping("/stu/schoolInfo")
     public Result getStudentInfoBySchoolNo(int schoolNo) {
         return ss.getStudentInfoBySchoolNo(schoolNo);
+    }
+
+    /**
+     * 用户获取自身的信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/stu/info")
+    public Result getMyselfInfo(HttpServletRequest request) {
+//        Integer power = (Integer) request.getSession().getAttribute(Properties.LOGIN_POWER);
+//        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        String no = "456";
+        Integer power = 1;
+        if(power>1)
+            return ss.getStuInfoByNo(no);
+        else
+            return ss.getAdminInfoByNo(no);
     }
 
     /**

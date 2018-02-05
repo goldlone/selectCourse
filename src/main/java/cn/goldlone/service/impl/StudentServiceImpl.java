@@ -170,6 +170,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result getSchools() {
         List<DBSchool> schools = sm.getSchools();
+        schools.remove(0);
         return ResultUtils.success("获取所有基层党组织信息成功", schools);
     }
 
@@ -276,6 +277,17 @@ public class StudentServiceImpl implements StudentService {
     public Result getStuInfoByNo(String stuNo) {
         Student stu = sm.getStuInfo(stuNo);
         return ResultUtils.success("获取学员信息成功", stu);
+    }
+
+    /**
+     * 获取管理员信息
+     * @param no
+     * @return
+     */
+    @Override
+    public Result getAdminInfoByNo(String no) {
+        Admin admin = sm.getAdminInfo(no);
+        return ResultUtils.success("获取管理员信息成功", admin);
     }
 
     /**

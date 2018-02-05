@@ -186,6 +186,9 @@ VALUES(#{no}, #{name}, (SELECT no FROM Schools WHERE Schools.name=#{school}), #{
 # 获取全部管理员信息
 SELECT Admin.no, Admin.name, Schools.name school, power FROM Admin, Schools WHERE schoolNo=Schools.no;
 
+# 获取某个管理员信息
+SELECT Admin.no, Admin.name, Schools.name school, power FROM Admin, Schools WHERE Admin.no=#{no} AND schoolNo=Schools.no;
+
 # 获取学员权限
 SELECT power FROM student WHERE no = #{stuNo};
 

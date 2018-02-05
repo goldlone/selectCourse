@@ -154,6 +154,16 @@ public interface StudentMapper {
     public List<Admin> getAllAdminInfo();
 
     /**
+     * 获取某个管理员的信息
+     * @param no
+     * @return
+     */
+    @Select("SELECT Admin.no, Admin.name, Schools.name school, power " +
+            "FROM Admin, Schools " +
+            "WHERE Admin.no=#{no} AND schoolNo=Schools.no;")
+    public Admin getAdminInfo(String no);
+
+    /**
      * 获取学员权限
      * @param stuNo
      * @return

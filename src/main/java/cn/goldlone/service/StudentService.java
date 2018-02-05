@@ -31,6 +31,8 @@ public interface StudentService {
     public Result getAllStuInfo();
     public Result getStudentInfoBySchoolNo(int schoolNo);
     public Result getStuInfoByNo(String stuNo);
+    public Result getAdminInfoByNo(String no);
     public Result updateStuInfoAdmin(DBStudent stu);
     public Result updateStuInfoSelf(DBStudent stu);
+
 }
