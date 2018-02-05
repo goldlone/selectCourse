@@ -51,34 +51,9 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
-    /**
-     * 获取全部的课程信息
-     * @return
-     */
-    @Override
-    public Result getAllCourseInfo() {
-        List<Course> list = cm.getAllCourseInfo();
-        return ResultUtils.success("获取课程信息成功", list);
-    }
-
-//    /**
-//     * 获取某门课程的基本信息
-//     * @param courseNo
-//     * @return
-//     */
-//    @Override
-//    public Result getCourseInfo(int courseNo) {
-//        Result result = null;
-//        Course course = cm.getCourseInfo(courseNo);
-//        if(course != null)
-//            result = ResultUtils.success("获取课程信息成功", course);
-//        else
-//            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "课程信息不存在");
-//        return result;
-//    }
 
     /**
-     * 获取某门课程的基本信息
+     * 修改某门课程的基本信息
      * @param course
      * @return
      */
@@ -121,6 +96,34 @@ public class CourseServiceImpl implements CourseService {
             result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "该课程不存在");
         return result;
     }
+
+
+    /**
+     * 获取全部的课程信息
+     * @return
+     */
+    @Override
+    public Result getAllCourseInfo() {
+        List<Course> list = cm.getAllCourseInfo();
+        return ResultUtils.success("获取课程信息成功", list);
+    }
+
+//    /**
+//     * 获取某门课程的基本信息
+//     * @param courseNo
+//     * @return
+//     */
+//    @Override
+//    public Result getCourseInfo(int courseNo) {
+//        Result result = null;
+//        Course course = cm.getCourseInfo(courseNo);
+//        if(course != null)
+//            result = ResultUtils.success("获取课程信息成功", course);
+//        else
+//            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "课程信息不存在");
+//        return result;
+//    }
+
 
     /**
      * 根据权限获取可选课程列表
@@ -178,17 +181,39 @@ public class CourseServiceImpl implements CourseService {
         Result result = null;
         Course course = cm.getCourseInfo(courseNo, stage);
         if(course==null) {
-            result = ResultUtils.error(ResultUtils.CODE_EXCEPTION,"没有查到课程");
+            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST,"没有查到课程");
         } else {
             if(course.getStartDateTime().after(new Timestamp(System.currentTimeMillis()))) {
                 if (cm.cancelSelectCourse(courseNo, stuNo) > 0)
                     result = ResultUtils.success("取消成功");
                 else
-                    result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST, "删除失败，您可能没选该课程");
+                    result = ResultUtils.error(ResultUtils.CODE_FAIL_NO_SELECT, "删除失败，您可能没选该课程");
             } else {
                 result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "该课程已结束，无法取消选课");
             }
         }
+        return result;
+    }
+
+    /**
+     * 管理员强制取消选课
+     * @param courseNo
+     * @param stuNo
+     * @return
+     */
+    @Override
+    public Result cancelSelectCourseByAdmin(int courseNo, String stuNo) {
+        Result result = null;
+        Course course = cm.getCourseInfo(courseNo, 1);
+        if(course==null) {
+            result = ResultUtils.error(ResultUtils.CODE_RESULT_NOT_EXIST,"没有查到课程");
+        } else {
+            if(cm.cancelSelectCourse(courseNo, stuNo)>0)
+                result = ResultUtils.success("取消选课成功");
+            else
+                result = ResultUtils.error(ResultUtils.CODE_FAIL_NO_SELECT, "删除失败，该学员可能未选该课程");
+        }
+
         return result;
     }
 

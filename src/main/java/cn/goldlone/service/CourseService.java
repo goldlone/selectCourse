@@ -100,6 +100,8 @@ public interface CourseService {
      */
     public Result cancelSelectCourse(int courseNo, int stage, String stuNo);
 
+    Result cancelSelectCourseByAdmin(int courseNo, String stuNo);
+
     /**
      * 学员获取自己的选课状况
      * @param stuNo

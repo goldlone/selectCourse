@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.service.CourseService;
 import cn.goldlone.utils.ResultUtils;
@@ -29,6 +30,15 @@ public class CourseController extends BaseController {
     }
 
     /**
+     * 修改课程信息
+     * @return
+     */
+    @PostMapping("/course/update")
+    public Result updateCourse() {
+        return null;
+    }
+
+    /**
      * 获取全部的课程信息
      * @return
      */
@@ -39,11 +49,12 @@ public class CourseController extends BaseController {
 
     /**
      * 根据权限获取可选课程列表
-     * @param power
      * @return
      */
     @PostMapping("/course/list")
-    public Result getCourseList(int power) {
+    public Result getCourseList(HttpServletRequest request) {
+//        int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
+        int power = 3;
         return cs.getCourseList(power);
     }
 
@@ -91,10 +102,21 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/cancel")
     public Result cancelSelectCourse(HttpServletRequest request, int courseNo, int stage) {
-        System.out.println("Q:"+courseNo+"---"+stage);
 //        String stuNo = (String) request.getSession().getAttribute("stuNo");
         String stuNo = "123";
         return cs.cancelSelectCourse(courseNo, stage, stuNo);
+    }
+
+
+    /**
+     * 管理员强制取消选课
+     * @param stuNo
+     * @param courseNo
+     * @return
+     */
+    @PostMapping("/course/admin/cancel")
+    public Result cancelSelectCourseByAdmin(String stuNo, int courseNo) {
+        return cs.cancelSelectCourseByAdmin(courseNo, stuNo);
     }
 
     /**
