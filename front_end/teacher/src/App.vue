@@ -7,7 +7,7 @@
         </el-menu>
       </el-header>
       <el-container>
-        <el-aside width="200px">
+        <el-aside width="400px">
           <left-nav></left-nav>
         </el-aside>
         <el-main>
