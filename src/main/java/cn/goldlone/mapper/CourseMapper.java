@@ -42,7 +42,7 @@ public interface CourseMapper {
      */
     @Insert("INSERT " +
             "INTO CoursePlus(courseNo, stage, classroom, " +
-            "   teacher, startDateTime, endDateTime) " +
+                "   teacher, startDateTime, endDateTime) " +
             "VALUES(#{courseNo}, #{stage}, #{classroom}, " +
             "   #{teacher}, #{startDateTime}, #{endDateTime});")
     public Integer addCoursePlus(DBCoursePlus coursePlus);

@@ -3,17 +3,11 @@ package cn.goldlone.controller;
 import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.service.StudentService;
-import cn.goldlone.utils.CheckUtils;
-import cn.goldlone.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Created by CN on 2018/2/3.
@@ -45,28 +39,28 @@ public class IndexController extends BaseController {
 //            System.out.println(password);
 //            if (type == 1) {
 //                Result result = ss.login(request, no, password);
-//                if(result.getCode().equals(ResultUtils.CODE_SUCCESS)) {
+//                if(result.getCode().equals(ResultUtil.CODE_SUCCESS)) {
 //                    // 登录成功
 //                    model.addAttribute("tips", "学员，你好");
 //                    response.sendRedirect("/sc/");
 //                    return "/index";
-//                } else if(result.getCode().equals(ResultUtils.CODE_RESULT_NOT_EXIST)) {
+//                } else if(result.getCode().equals(ResultUtil.CODE_RESULT_NOT_EXIST)) {
 //                    model.addAttribute("tips", "用户不存在");
-//                } else if (result.getCode().equals(ResultUtils.CODE_OPERATE_FAIL)){
+//                } else if (result.getCode().equals(ResultUtil.CODE_OPERATE_FAIL)){
 //                    model.addAttribute("tips", "密码错误");
 //                } else {
 //                    model.addAttribute("tips", "未知错误");
 //                }
 //            } else if (type == 2) {
 //                Result result = ss.loginAdmin(request, no, password);
-//                if(result.getCode().equals(ResultUtils.CODE_SUCCESS)) {
+//                if(result.getCode().equals(ResultUtil.CODE_SUCCESS)) {
 //                    // 登录成功
 //                    model.addAttribute("tips", "管理员，你好");
 //                    response.sendRedirect("/sc/");
 //                    return "/index";
-//                } else if(result.getCode().equals(ResultUtils.CODE_RESULT_NOT_EXIST)) {
+//                } else if(result.getCode().equals(ResultUtil.CODE_RESULT_NOT_EXIST)) {
 //                    model.addAttribute("tips", "用户不存在");
-//                } else if (result.getCode().equals(ResultUtils.CODE_OPERATE_FAIL)){
+//                } else if (result.getCode().equals(ResultUtil.CODE_OPERATE_FAIL)){
 //                    model.addAttribute("tips", "密码错误");
 //                } else {
 //                    model.addAttribute("tips", "未知错误");

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by CN on 2018/1/31.
  */
-public class ExcelUtils {
+public class ExcelUtil {
     /**
      * 导出录入信息模板
      * @return

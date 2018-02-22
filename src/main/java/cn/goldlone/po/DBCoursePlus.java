@@ -1,7 +1,5 @@
 package cn.goldlone.po;
 
-import cn.goldlone.model.Course;
-
 import java.sql.Timestamp;
 
 /**
@@ -22,6 +20,14 @@ public class DBCoursePlus {
     private Timestamp endDateTime;
 
     public DBCoursePlus(){}
+
+    public DBCoursePlus(int stage, String classroom, String teacher, Timestamp startDateTime, Timestamp endDateTime) {
+        this.stage = stage;
+        this.classroom = classroom;
+        this.teacher = teacher;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+    }
 
     public int getCourseNo() {
         return courseNo;

@@ -1,13 +1,22 @@
 package cn.goldlone.controller;
 
 import cn.goldlone.model.Result;
+import cn.goldlone.po.DBCourse;
+import cn.goldlone.po.DBCoursePlus;
+import cn.goldlone.po.DBCoursePower;
 import cn.goldlone.service.CourseService;
-import cn.goldlone.utils.ResultUtils;
+import cn.goldlone.utils.IOUtil;
+import cn.goldlone.utils.ResultUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +33,29 @@ public class CourseController extends BaseController {
      * @return
      */
     @PostMapping("/course/public")
-    public Result publicCourse(){
-        return ResultUtils.success("该功能正在实现");
+    public Result publicCourse(HttpServletRequest request) throws IOException {
+        String rec = IOUtil.streamToString(request.getInputStream());
+        JSONObject recJSON = new JSONObject(rec);
+        String name = recJSON.getString("name");
+        Integer time = recJSON.getInt("time");
+        List powers = recJSON.getJSONArray("powers").toList();
+        List<DBCoursePlus> plus = new ArrayList<>();
+        JSONArray arr = recJSON.getJSONArray("plus");
+        for(Object obj: arr) {
+            JSONObject json = (JSONObject) obj;
+            Integer stage = json.getInt("stage");
+            String classroom = json.getString("classroom");
+            String teacher = json.getString("teacher");
+            Timestamp startDateTime = Timestamp.valueOf(json.getString("startDateTime"));
+            Timestamp endDateTime = Timestamp.valueOf(json.getString("endDateTime"));
+            plus.add(new DBCoursePlus(stage, classroom, teacher, startDateTime, endDateTime));
+        }
+
+        List<DBCoursePower> powers1 = new ArrayList<>();
+        for(Object power: powers)
+            powers1.add(new DBCoursePower((Integer) power));
+
+        return cs.publicCourse(new DBCourse(name, time), powers1, plus);
     }
 
     /**
@@ -34,7 +64,7 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/update")
     public Result updateCourse() {
-        return null;
+        return ResultUtil.success("该功能正在实现");
     }
 
     /**

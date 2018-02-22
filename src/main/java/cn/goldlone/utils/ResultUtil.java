@@ -6,7 +6,7 @@ import cn.goldlone.model.Result;
  * API 请求返回消息工具类
  * Created by CN on 2018/1/25.
  */
-public class ResultUtils {
+public class ResultUtil {
 
     /****  请求成功  ****/
     public static final Integer CODE_SUCCESS = 1001;
@@ -34,7 +34,7 @@ public class ResultUtils {
      */
     public static Result success(String msg, Object data) {
         Result res = new Result();
-        res.setCode(ResultUtils.CODE_SUCCESS);
+        res.setCode(ResultUtil.CODE_SUCCESS);
         res.setMsg(msg);
         res.setData(data);
         return res;
@@ -47,7 +47,7 @@ public class ResultUtils {
      */
     public static Result success(String msg) {
         Result res = new Result();
-        res.setCode(ResultUtils.CODE_SUCCESS);
+        res.setCode(ResultUtil.CODE_SUCCESS);
         res.setMsg(msg);
         res.setData(null);
         return res;

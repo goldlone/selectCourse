@@ -6,8 +6,8 @@ import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.utils.CheckUtils;
-import cn.goldlone.utils.ExcelUtils;
-import cn.goldlone.utils.ResultUtils;
+import cn.goldlone.utils.ExcelUtil;
+import cn.goldlone.utils.ResultUtil;
 import jxl.read.biff.BiffException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class StudentController extends BaseController {
     public Result addAdmin(DBAdmin admin) {
         System.out.println(admin);
         if(CheckUtils.IsEffectiveStr(new String[]{admin.getNo(), admin.getName()})) {
-            return ResultUtils.error(ResultUtils.CODE_PARAMS_LOSE, "缺少必要的参数");
+            return ResultUtil.error(ResultUtil.CODE_PARAMS_LOSE, "缺少必要的参数");
         }
         return ss.addAdmin(admin);
     }
@@ -130,7 +130,7 @@ public class StudentController extends BaseController {
     public Result addStudent(@RequestParam("file") MultipartFile file) {
         Result result = null;
         try {
-            List<Student> list = ExcelUtils.importStuInfo(file);
+            List<Student> list = ExcelUtil.importStuInfo(file);
             List<String> errorList = new ArrayList<>();
             for(Student stu: list) {
                 try {
@@ -140,13 +140,13 @@ public class StudentController extends BaseController {
                     errorList.add("【失败】："+stu.getNo()+"-"+stu.getName()+"-数据格式有问题");
                 }
             }
-            result = ResultUtils.success("如果data为空数组，则插入全部正确，反之，data存储错误信息", errorList);
+            result = ResultUtil.success("如果data为空数组，则插入全部正确，反之，data存储错误信息", errorList);
         } catch (IOException e) {
             e.printStackTrace();
-            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "文件格式有误");
+            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
         } catch (BiffException e) {
             e.printStackTrace();
-            result = ResultUtils.error(ResultUtils.CODE_OPERATE_FAIL, "文件格式有误");
+            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
         }
         return result;
     }
