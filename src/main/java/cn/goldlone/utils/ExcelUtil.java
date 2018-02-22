@@ -1,5 +1,6 @@
 package cn.goldlone.utils;
 
+import cn.goldlone.model.CourseSeat;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
 import jxl.DateCell;
@@ -14,8 +15,8 @@ import jxl.write.biff.RowsExceededException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,7 +116,36 @@ public class ExcelUtil {
         return list;
     }
 
-    // 导出某课程某期的选座状况
+    /**
+     * 导出某课程某期的选座状况
+     * @param list
+     * @return
+     */
+    public static File exportSelectSeatStatus(List<CourseSeat> list) {
+        File file = new File("./selectSeatStatus.xls");
+
+        try {
+            WritableWorkbook workbook = Workbook.createWorkbook(file);
+            WritableSheet sheet = workbook.createSheet("选座信息", 0);
+            Label label = null;
+
+            CourseSeat cs = null;
+            for(int i=0; i<list.size(); i++) {
+                cs = list.get(i);
+                sheet.addCell(new Label(0, i, ""+cs.getSeatNo()));
+                sheet.addCell(new Label(1, i, cs.getStuNo()));
+                sheet.addCell(new Label(2, i, cs.getStuName()));
+            }
+
+            workbook.write();
+            workbook.close();
+        } catch (IOException | WriteException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+
 
 
 }

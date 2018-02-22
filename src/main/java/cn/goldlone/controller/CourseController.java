@@ -1,20 +1,24 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.model.CourseSeat;
 import cn.goldlone.model.Result;
 import cn.goldlone.po.DBCourse;
 import cn.goldlone.po.DBCoursePlus;
 import cn.goldlone.po.DBCoursePower;
 import cn.goldlone.service.CourseService;
+import cn.goldlone.utils.ExcelUtil;
 import cn.goldlone.utils.IOUtil;
 import cn.goldlone.utils.ResultUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +102,8 @@ public class CourseController extends BaseController {
         return cs.getSeatStatus(courseNo, stage);
     }
 
+
+
     /**
      * 学员选课选座
      * @param courseNo
@@ -157,6 +163,42 @@ public class CourseController extends BaseController {
     @PostMapping("/course/selectStatus")
     public Result getSelectCourseInfoByMaster(int courseNo, int stage) {
         return cs.getSelectCourseInfoByMaster(courseNo, stage);
+    }
+
+    @GetMapping("/course/exportSelectStatus")
+    public Result exportSelectSeatStatus(int courseNo, int stage, HttpServletResponse response) {
+        Result res = cs.getSelectCourseInfoByMaster(courseNo, stage);
+        List<CourseSeat> list = (List<CourseSeat>) res.getData();
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + "selectSeatStatus.xls");
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        Result result = null;
+        try {
+            os = response.getOutputStream();
+            File file = ExcelUtil.exportSelectSeatStatus(list);
+            bis = new BufferedInputStream(new FileInputStream(file));
+            int i = bis.read(buff);
+            while (i != -1) {
+                os.write(buff, 0, buff.length);
+                os.flush();
+                i = bis.read(buff);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
