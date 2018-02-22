@@ -56,7 +56,8 @@ public interface CourseMapper {
             "   c2.stage,c2.startDateTime,c2.endDateTime " +
             "FROM Course c1, CoursePlus c2 " +
             "WHERE c1.no=c1.no AND " +
-            "   c1.no=c2.courseNo;")
+            "   c1.no=c2.courseNo " +
+            "ORDER BY c2.startDateTime DESC;")
     public List<Course> getAllCourseInfo();
 
 
@@ -182,7 +183,7 @@ public interface CourseMapper {
                                       @Param("stuNo") String stuNo);
 
     /**
-     * 学员获取自己的选课状况
+     * 查询某位学员的选课状况
      * @param stuNo
      * @return
      */
@@ -193,7 +194,8 @@ public interface CourseMapper {
             "      s.schoolNo=ss.no AND " +
             "      c2.courseNo=c1.no AND " +
             "      c2.courseNo=c3.courseNo AND " +
-            "      c2.stage=c3.stage;")
+            "      c2.stage=c3.stage" +
+            "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getMyCourseSeat(String stuNo);
 
     /**
@@ -212,7 +214,8 @@ public interface CourseMapper {
             "   s.schoolNo=ss.no AND " +
             "   c2.courseNo=c1.no AND " +
             "   c2.courseNo=c3.courseNo AND " +
-            "   c2.stage=c3.stage;")
+            "   c2.stage=c3.stage " +
+            "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getSelectCourseInfoByMaster(@Param("courseNo") int courseNo,
                                                         @Param("stage") int stage);
 
@@ -231,7 +234,8 @@ public interface CourseMapper {
             "   s.schoolNo=ss.no AND " +
             "   c2.courseNo=c1.no AND " +
             "   c2.courseNo=c3.courseNo AND " +
-            "   c2.stage=c3.stage;")
+            "   c2.stage=c3.stage " +
+            "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getSelectCourse(String stuNo);
 
 

@@ -217,6 +217,17 @@ WHERE no = #{no};
 
 
 
+SELECT c2.stuNo,s.name stuName,ss.name school, c1.no courseNo,c1.name courseName,c3.stage,startDateTime, endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE c2.stuNo=#{stuNo} AND
+   c2.stuNo=s.no AND
+   s.schoolNo=ss.no AND
+   c2.courseNo=c1.no AND
+   c2.courseNo=c3.courseNo AND
+   c2.stage=c3.stage
+ORDER BY startDateTime DESC;
+
+
 INSERT
 INTO Course(no, name, time)
 VALUES(#{no}, #{name}, #{time});

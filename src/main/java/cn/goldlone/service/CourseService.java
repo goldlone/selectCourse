@@ -230,7 +230,7 @@ public class CourseService {
     }
 
     /**
-     * 反馈某期课程到课人员信息（单个人的信息）
+     * 反馈某期课程到课人员信息
      * @param list
      * @param courseNo
      * @return
