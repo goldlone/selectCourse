@@ -170,6 +170,15 @@ public class CourseController extends BaseController {
     }
 
     /**
+     * 获取已结束的课程信息
+     * @return
+     */
+    @PostMapping("/course/end")
+    public Result getCanFeedbackCourse() {
+        return cs.getCanFeedbackCourse();
+    }
+
+    /**
      * 反馈某期课程到课人员信息
      * @param stu
      * @param courseNo

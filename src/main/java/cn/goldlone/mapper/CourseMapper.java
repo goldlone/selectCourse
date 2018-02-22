@@ -249,6 +249,18 @@ public interface CourseMapper {
             "WHERE stuNo=#{stuNo};")
     public Integer getAcquireTime(String stuNo);
 
+    /**
+     * 获取已结束的课程信息
+     * @return
+     */
+    @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time," +
+            "   c2.stage,c2.startDateTime,c2.endDateTime " +
+            "FROM Course c1, CoursePlus c2 " +
+            "WHERE c2.endDateTime<now() AND " +
+            "   c1.no=c1.no AND " +
+            "   c1.no=c2.courseNo " +
+            "ORDER BY c2.startDateTime DESC;")
+    public List<Course> getCanFeedbackCourse();
 
     /**
      * 反馈某期课程到课人员信息（单个人的信息）
@@ -259,6 +271,6 @@ public interface CourseMapper {
     @Update("UPDATE SelectCourse " +
             "SET acquireTime = (SELECT time FROM Course WHERE no=#{courseNo}) " +
             "WHERE stuNo = #{stuNo};")
-    public Integer updateSomeoneCome(@Param("stuNo") String stuNo,
-                                     @Param("courseNo") int courseNo);
+    public Integer feedbackCome(@Param("stuNo") String stuNo,
+                                @Param("courseNo") int courseNo);
 }

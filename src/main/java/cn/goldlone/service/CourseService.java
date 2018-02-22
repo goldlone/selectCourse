@@ -230,6 +230,14 @@ public class CourseService {
     }
 
     /**
+     * 获取已结束的课程信息
+     * @return
+     */
+    public Result getCanFeedbackCourse() {
+        return ResultUtil.success("查询成功", cm.getCanFeedbackCourse());
+    }
+
+    /**
      * 反馈某期课程到课人员信息
      * @param list
      * @param courseNo
@@ -237,7 +245,7 @@ public class CourseService {
      */
     public Result updateSomeoneCome(List<String> list, int courseNo) {
         for(String stuNo: list)
-            cm.updateSomeoneCome(stuNo, courseNo);
+            cm.feedbackCome(stuNo, courseNo);
         return ResultUtil.success("反馈到课信息成功");
     }
 
