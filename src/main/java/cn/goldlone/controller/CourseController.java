@@ -165,6 +165,13 @@ public class CourseController extends BaseController {
         return cs.getSelectCourseInfoByMaster(courseNo, stage);
     }
 
+    /**
+     * 导出某课程某期的选座状况
+     * @param courseNo
+     * @param stage
+     * @param response
+     * @return
+     */
     @GetMapping("/course/exportSelectStatus")
     public Result exportSelectSeatStatus(int courseNo, int stage, HttpServletResponse response) {
         Result res = cs.getSelectCourseInfoByMaster(courseNo, stage);
