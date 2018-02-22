@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" th:href="@{/imgs/favicon.ico}">
-  <title>山西大学党委选课系统</title>
+  <meta charset=utf-8 />
+  <title>teacher</title>
+  <link th:href="@{/static/css/app.78453d628dd56dd5206c21bcb9629bd6.css}" rel=stylesheet>
 </head>
 <body>
-  <h1 align="center">山西大学党委选课系统</h1><hr />
-  <div align="center">
-    <!--/*@thymesVar id="tips" type="java.lang.String"*/-->
-    <p th:if="tips!=null" th:text="${tips}"></p>
-  </div>
+  <div id=app></div>
+  <script type=text/javascript th:src="@{/static/js/manifest.3e949b53b4a4e57703ba.js}"></script>
+  <script type=text/javascript th:src="@{/static/js/vendor.442923829c1e144faad9.js}"></script>
+  <script type=text/javascript th:src="@{/static/js/app.1ae4e7f05541bfc5c044.js}"></script>
 </body>
 </html>

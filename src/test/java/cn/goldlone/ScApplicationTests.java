@@ -159,51 +159,51 @@ public class ScApplicationTests {
 //
 //    }
 
-//    @Test
-////    @Transactional
-//    public void addCourse1() {
-//        DBCourse dbc = new DBCourse("操作系统", 3);
-//        cm.addCourse(dbc);
-//        System.out.println(dbc);
-//
-//        DBCoursePlus dbcp = new DBCoursePlus();
-//        dbcp.setCourseNo(dbc.getNo());
-//        dbcp.setStage(1);
-//        dbcp.setClassroom("文科三层报告厅");
-//        dbcp.setTeacher("李老师");
-//        dbcp.setStartDateTime(Timestamp.valueOf("2018-02-14 14:00:00"));
-//        dbcp.setEndDateTime(Timestamp.valueOf("2018-02-14 16:00:00"));
-//        DBCoursePlus dbcp2 = new DBCoursePlus();
-//        dbcp2.setCourseNo(dbc.getNo());
-//        dbcp2.setStage(2);
-//        dbcp2.setClassroom("文科三层报告厅");
-//        dbcp2.setTeacher("孙老师");
-//        dbcp2.setStartDateTime(Timestamp.valueOf("2018-02-15 14:00:00"));
-//        dbcp2.setEndDateTime(Timestamp.valueOf("2018-02-15 16:00:00"));
-//        DBCoursePlus dbcp3 = new DBCoursePlus();
-//        dbcp3.setCourseNo(dbc.getNo());
-//        dbcp3.setStage(3);
-//        dbcp3.setClassroom("文科三层报告厅");
-//        dbcp3.setTeacher("白老师");
-//        dbcp3.setStartDateTime(Timestamp.valueOf("2018-02-16 14:00:00"));
-//        dbcp3.setEndDateTime(Timestamp.valueOf("2018-02-16 16:00:00"));
-//        cm.addCoursePlus(dbcp);
-//        cm.addCoursePlus(dbcp2);
-//        cm.addCoursePlus(dbcp3);
-//
-//        DBCoursePower dbcpo3 = new DBCoursePower();
-//        dbcpo3.setCourseNo(dbc.getNo());
-//        dbcpo3.setPower(3);
-//        DBCoursePower dbcpo4 = new DBCoursePower();
-//        dbcpo4.setCourseNo(dbc.getNo());
-//        dbcpo4.setPower(4);
-//        DBCoursePower dbcpo5 = new DBCoursePower();
-//        dbcpo5.setCourseNo(dbc.getNo());
-//        dbcpo5.setPower(5);
-//        cm.addCoursePower(dbcpo3);
-//        cm.addCoursePower(dbcpo4);
-//        cm.addCoursePower(dbcpo5);
-//    }
+    @Test
+//    @Transactional
+    public void addCourse1() {
+        DBCourse dbc = new DBCourse("操作系统", 3);
+        cm.addCourse(dbc);
+        System.out.println(dbc);
+
+        DBCoursePlus dbcp = new DBCoursePlus();
+        dbcp.setCourseNo(dbc.getNo());
+        dbcp.setStage(1);
+        dbcp.setClassroom("文科三层报告厅");
+        dbcp.setTeacher("李老师");
+        dbcp.setStartDateTime(Timestamp.valueOf("2018-02-14 14:00:00"));
+        dbcp.setEndDateTime(Timestamp.valueOf("2018-02-14 16:00:00"));
+        DBCoursePlus dbcp2 = new DBCoursePlus();
+        dbcp2.setCourseNo(dbc.getNo());
+        dbcp2.setStage(2);
+        dbcp2.setClassroom("文科三层报告厅");
+        dbcp2.setTeacher("孙老师");
+        dbcp2.setStartDateTime(Timestamp.valueOf("2018-02-15 14:00:00"));
+        dbcp2.setEndDateTime(Timestamp.valueOf("2018-02-15 16:00:00"));
+        DBCoursePlus dbcp3 = new DBCoursePlus();
+        dbcp3.setCourseNo(dbc.getNo());
+        dbcp3.setStage(3);
+        dbcp3.setClassroom("文科三层报告厅");
+        dbcp3.setTeacher("白老师");
+        dbcp3.setStartDateTime(Timestamp.valueOf("2018-02-16 14:00:00"));
+        dbcp3.setEndDateTime(Timestamp.valueOf("2018-02-16 16:00:00"));
+        cm.addCoursePlus(dbcp);
+        cm.addCoursePlus(dbcp2);
+        cm.addCoursePlus(dbcp3);
+
+        DBCoursePower dbcpo3 = new DBCoursePower();
+        dbcpo3.setCourseNo(dbc.getNo());
+        dbcpo3.setPower(3);
+        DBCoursePower dbcpo4 = new DBCoursePower();
+        dbcpo4.setCourseNo(dbc.getNo());
+        dbcpo4.setPower(4);
+        DBCoursePower dbcpo5 = new DBCoursePower();
+        dbcpo5.setCourseNo(dbc.getNo());
+        dbcpo5.setPower(5);
+        cm.addCoursePower(dbcpo3);
+        cm.addCoursePower(dbcpo4);
+        cm.addCoursePower(dbcpo5);
+    }
 
 
 

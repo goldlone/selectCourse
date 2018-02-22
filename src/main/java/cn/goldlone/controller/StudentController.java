@@ -1,13 +1,10 @@
 package cn.goldlone.controller;
 
-import cn.goldlone.Properties;
-import cn.goldlone.model.Admin;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.DBAdmin;
 import cn.goldlone.po.DBStudent;
 import cn.goldlone.service.StudentService;
-import cn.goldlone.service.impl.StudentServiceImpl;
 import cn.goldlone.utils.CheckUtils;
 import cn.goldlone.utils.ExcelUtils;
 import cn.goldlone.utils.ResultUtils;
@@ -115,12 +112,22 @@ public class StudentController extends BaseController {
     }
 
     /**
+     * 添加单个学生信息
+     * @param stu
+     * @return
+     */
+    @PostMapping("/stu/addOne")
+    public Result addOneStudent(DBStudent stu) {
+        return ss.addStudent(stu);
+    }
+
+    /**
      * 添加学生
      * @param file
      * @return
      */
     @PostMapping("/stu/add")
-        public Result addStudent(@RequestParam("file") MultipartFile file) {
+    public Result addStudent(@RequestParam("file") MultipartFile file) {
         Result result = null;
         try {
             List<Student> list = ExcelUtils.importStuInfo(file);

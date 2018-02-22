@@ -5,7 +5,7 @@
 
 	<groupId>cn.goldlone</groupId>
 	<artifactId>sc</artifactId>
-	<version>0.0.1</version>
+	<version>1.0</version>
 	<packaging>war</packaging>
 
 	<name>sc</name>
@@ -35,12 +35,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			 <!--取消使用内置tomcat容器 -->
-			<!--<exclusions>-->
-				<!--<exclusion>-->
-					<!--<groupId>org.springframework.boot</groupId>-->
-					<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-				<!--</exclusion>-->
-			<!--</exclusions>-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
         <dependency>

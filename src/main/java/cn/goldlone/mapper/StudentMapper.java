@@ -238,7 +238,7 @@ public interface StudentMapper {
             "   applyDate=#{applyDate}, " +
             "   beActivistDate=#{beActivistDate}, " +
             "   beDevelopDate=#{beDevelopDate}, " +
-            "   power=#{power}" +
+            "   power=#{power} " +
             "WHERE no = #{no};")
     public Integer updateStuInfoAdmin(DBStudent stu);
 

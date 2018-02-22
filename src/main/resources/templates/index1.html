@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" th:href="@{/imgs/favicon.ico}">
+  <title>山西大学党委选课系统</title>
+</head>
+<body>
+  <h1 align="center">山西大学党委选课系统</h1><hr />
+  <div align="center">
+    <!--/*@thymesVar id="tips" type="java.lang.String"*/-->
+    <p th:if="tips!=null" th:text="${tips}"></p>
+  </div>
+</body>
+</html>

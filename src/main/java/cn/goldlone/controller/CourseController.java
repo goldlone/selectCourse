@@ -1,6 +1,5 @@
 package cn.goldlone.controller;
 
-import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.service.CourseService;
 import cn.goldlone.utils.ResultUtils;
