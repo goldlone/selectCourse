@@ -12,10 +12,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -205,6 +209,16 @@ public class ScApplicationTests {
         cm.addCoursePower(dbcpo5);
     }
 
+    @Test
+    public void upload() {
+	    String birthStr = "1900/02/01";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            System.out.println(simpleDateFormat.parse(birthStr).toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

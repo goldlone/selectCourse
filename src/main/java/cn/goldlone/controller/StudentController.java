@@ -89,6 +89,7 @@ public class StudentController extends BaseController {
         Result result = null;
         try {
             os = response.getOutputStream();
+//            File file = ExcelUtil.exportStuModel();
             File file = new File("./stuModel.xls");
             bis = new BufferedInputStream(new FileInputStream(file));
             int i = bis.read(buff);
@@ -141,10 +142,7 @@ public class StudentController extends BaseController {
                 }
             }
             result = ResultUtil.success("如果data为空数组，则插入全部正确，反之，data存储错误信息", errorList);
-        } catch (IOException e) {
-            e.printStackTrace();
-            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
-        } catch (BiffException e) {
+        } catch (IOException | BiffException e) {
             e.printStackTrace();
             result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
         }

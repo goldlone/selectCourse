@@ -1,16 +1,16 @@
 # 权限信息表
 DROP TABLE IF EXISTS Powers;
 CREATE TABLE Powers(
-  no TINYINT,
+  no TINYINT AUTO_INCREMENT,
   identity VARCHAR(20) NOT NULL UNIQUE,
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
-INSERT INTO Powers(no, identity) VALUES(0, '超级管理管理员');
-INSERT INTO Powers(no, identity) VALUES(1, '基层党委组织管理员');
-INSERT INTO Powers(no, identity) VALUES(2, '党员');
-INSERT INTO Powers(no, identity) VALUES(3, '预备党员');
-INSERT INTO Powers(no, identity) VALUES(4, '入党积极分子');
-INSERT INTO Powers(no, identity) VALUES(5, '发展对象');
+INSERT INTO Powers(identity) VALUES('超级管理管理员');
+INSERT INTO Powers(identity) VALUES('基层党委组织管理员');
+INSERT INTO Powers(identity) VALUES('党员');
+INSERT INTO Powers(identity) VALUES('预备党员');
+INSERT INTO Powers(identity) VALUES('入党积极分子');
+INSERT INTO Powers(identity) VALUES('发展对象');
 
 # 学院信息表
 DROP TABLE IF EXISTS Schools;
@@ -94,7 +94,7 @@ CREATE TABLE Student(
 ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
-ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
+# ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;

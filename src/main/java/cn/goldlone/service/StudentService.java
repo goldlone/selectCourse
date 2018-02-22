@@ -203,7 +203,7 @@ public class StudentService {
         if(sm.addStudent(stu)>0) {
             result = ResultUtil.success("添加学员成功");
         } else {
-            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加用户失败");
+            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加学员失败");
         }
         return result;
     }

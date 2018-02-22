@@ -2,6 +2,7 @@ package cn.goldlone.utils;
 
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
+import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -15,7 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +31,10 @@ public class ExcelUtil {
      * @return
      */
     public static File exportStuModel() {
-        String[] titles = {"学号/工号", "姓名", "基层党组织名称",
-                "年龄", "性别", "身份"};
+        String[] titles = {"姓名", "学号/工号", "基层党组织名称", "性别", "民族",
+                "出生日期(1900/01/01)", "类别", "年级", "职务", "申请入党时间",
+                "定为积极分子时间", "定为发展对象初步人选时间",
+                "身份(党员/预备党员/积极分子/发展对象)"};
         File file = new File("./stuModel.xls");
         try {
             WritableWorkbook workbook = Workbook.createWorkbook(file);
@@ -54,30 +60,62 @@ public class ExcelUtil {
      * @return
      */
     public static List importStuInfo(MultipartFile file) throws IOException, BiffException {
-        Result result = null;
         List<Student> list = new ArrayList<>();
         Workbook workbook = Workbook.getWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheet(0);
         Student stu = null;
         for(int i=1; i<sheet.getRows(); i++) {
-            String no = sheet.getCell(0, i).getContents();
-            String name = sheet.getCell(1, i).getContents();
+            String name = sheet.getCell(0, i).getContents();
+            String no = sheet.getCell(1, i).getContents();
             String schoolName = sheet.getCell(2, i).getContents();
-            int age = Integer.parseInt(sheet.getCell(3, i).getContents());
-            String gender = sheet.getCell(4, i).getContents();
-            String identity = sheet.getCell(5, i).getContents();
+            String gender = sheet.getCell(3, i).getContents();
+            String nation = sheet.getCell(4, i).getContents();
+            Date birth = ((DateCell) sheet.getCell(5, i)).getDate();
+//            String birthStr = sheet.getCell(5, i).getContents();
+//            System.out.println(birthStr);
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            String type = sheet.getCell(6, i).getContents();
+            int grade = Integer.parseInt(sheet.getCell(7, i).getContents());
+            String position = sheet.getCell(8, i).getContents();
+//            String applyDateStr = sheet.getCell(9, i).getContents();
+//            String beActivistDateStr = sheet.getCell(10, i).getContents();
+//            String beDevelopDateStr = sheet.getCell(11, i).getContents();
+            Date applyDate = ((DateCell) sheet.getCell(9, i)).getDate();
+            Date beActivistDate = ((DateCell) sheet.getCell(10, i)).getDate();
+            Date beDevelopDate = ((DateCell) sheet.getCell(11, i)).getDate();
+            String identity = sheet.getCell(12, i).getContents();
+
+
+//            try {
+//                birth = simpleDateFormat.parse(birthStr);
+//                applyDate =simpleDateFormat.parse(applyDateStr);
+//                beActivistDate =simpleDateFormat.parse(beActivistDateStr);
+//                beDevelopDate =simpleDateFormat.parse(beDevelopDateStr);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
 
             stu = new Student();
             stu.setNo(no);
             stu.setName(name);
             stu.setSchool(schoolName);
             stu.setGender(gender);
+            stu.setNation(nation);
+            stu.setBirth(birth);
+            stu.setType(type);
+            stu.setGrade(grade);
+            stu.setPosition(position);
+            stu.setApplyDate(applyDate);
+            stu.setBeActivistDate(beActivistDate);
+            stu.setBeDevelopDate(beDevelopDate);
             stu.setIdentity(identity);
             stu.setPassword(DigestUtils.sha256Hex(no));
             list.add(stu);
         }
         return list;
     }
+
+    // 导出某课程某期的选座状况
 
 
 }
