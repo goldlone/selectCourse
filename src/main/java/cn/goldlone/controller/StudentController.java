@@ -141,7 +141,7 @@ public class StudentController extends BaseController {
                     errorList.add("【失败】："+stu.getNo()+"-"+stu.getName()+"-数据格式有问题");
                 }
             }
-            result = ResultUtil.success("如果data为空数组，则插入全部正确，反之，data存储错误信息", errorList);
+            result = ResultUtil.success("如果data为空数组，则插入全部正确，反之，data存储错误学生列表", errorList);
         } catch (IOException | BiffException e) {
             e.printStackTrace();
             result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
