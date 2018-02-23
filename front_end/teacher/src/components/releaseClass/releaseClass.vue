@@ -17,15 +17,6 @@
           <div class="time">
             <div v-for="item in stages" class="chooseTime">
               <span>{{item.name}} </span>
-              <el-form-item label="选课时间">
-                <el-date-picker
-                  v-model="item.selectClassTime"
-                  type="datetimerange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </el-form-item>
               <el-form-item label="开课时间">
                 <el-date-picker
                   v-model="item.classTime"
@@ -89,7 +80,8 @@
               selectClassTime:[],
               classTime:[],
               teacher:"",
-              classroom:""
+              classroom:"",
+              stage:1
             }],
             tempClass:{
               power:[]
@@ -123,7 +115,27 @@
           releaseNewClass(){
               // console.log(this.stages)
             let self = this;
-            $.post(`http://${ip}/`)
+            this.stages.forEach(function (ele) {
+              ele.startDateTime = ele.classTime[0];
+              ele.endDateTime = ele.classTime[1];
+              ele.startDateTime = moment(ele.startDateTime).format("YYYY-MM-D HH:mm:ss")
+              ele.endDateTime = moment(ele.endDateTime).format("YYYY-MM-D HH:mm:ss")
+            })
+            this.$http.post(`http://${ip}/course/public`,{
+              name:self.tempClass.name,
+              time:self.tempClass.time,
+              powers:self.tempClass.power,
+              plus:self.stages
+            }).then((res)=>{
+              if(res.data.code === 1001 ){
+                self.$message("发布课程成功");
+              }else{
+                if(res.data.code === 3001){
+                  self.$message.error("您输入的数据有误");
+                }else
+                  self.$message.error("发布课程失败，请检查您的课程数据");
+              }
+            })
           }
         },
         watch:{
@@ -131,6 +143,7 @@
                 this.stages = [];
                 for(let i = 0;i < this.stageLength;i ++){
                   this.stages.push({
+                    stage:i+1,
                     name:`第${i+1}期`,
                     value:i+1,
                     selectClassTime:[],
