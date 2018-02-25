@@ -223,6 +223,11 @@ public class StudentService {
         return result;
     }
 
+    /**
+     * 查询学员权限
+     * @param request
+     * @return
+     */
     public Result getStuPower(HttpServletRequest request) {
         Result result = null;
         String stuNo = (String) request.getSession().getAttribute("stuNo");
@@ -261,6 +266,16 @@ public class StudentService {
     public Result getStuInfoByNo(String stuNo) {
         Student stu = sm.getStuInfo(stuNo);
         return ResultUtil.success("获取学员信息成功", stu);
+    }
+
+    /**
+     * 根据部分姓名查询学员信息
+     * @param name
+     * @return
+     */
+    public Result getStuInfoByName(String name) {
+        List<Student> list = sm.getStuInfoByName(name);
+       return ResultUtil.success("查询成功", list);
     }
 
     /**

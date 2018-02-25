@@ -220,6 +220,22 @@ public interface StudentMapper {
             "   s1.schoolNo=s2.no;")
     public Student getStuInfo(String stuNo);
 
+    /**
+     * 根据部分姓名查询学员信息
+     * @param name
+     * @return
+     */
+    @Select("SELECT s1.no, s1.name, s2.name school, " +
+            "   s1.gender, s1.nation, s1.birth, s1.type, " +
+            "   s1.grade, s1.position, s1.applyDate, " +
+            "   s1.beActivistDate, s1.beDevelopDate, " +
+            "   s1.power, p.identity " +
+            "FROM Student s1, Powers p, Schools s2 " +
+            "WHERE s1.name LIKE concat('%',#{name},'%') AND " +
+            "   s1.power=p.no AND " +
+            "   s1.schoolNo=s2.no;")
+    public List<Student> getStuInfoByName(String name);
+
 
     /**
      * 管理员修改某个学生的基本信息

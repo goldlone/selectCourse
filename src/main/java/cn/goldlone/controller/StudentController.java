@@ -206,6 +206,16 @@ public class StudentController extends BaseController {
     }
 
     /**
+     * 根据部分姓名查询学员信息
+     * @param name
+     * @return
+     */
+    @PostMapping("/stu/infoByName")
+    public Result getStuInfoByName(String name) {
+        return ss.getStuInfoByName(name);
+    }
+
+    /**
      * 管理员修改学员信息
      * @param stu
      * @return
