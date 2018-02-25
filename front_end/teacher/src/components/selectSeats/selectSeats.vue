@@ -19,13 +19,20 @@
       </el-col>
     </el-row>
     <!--座位显示页面-->
-    <el-dialog title="选择座位" :visible.sync="chooseSeat">
+    <el-dialog title="座位状况" :visible.sync="chooseSeat">
       <el-row :gutter="10">
         <div class="seat" v-for="a in seats">
           <button class="innerSeat" v-if="a.seatAble"></button>
           <button class="disableSeat" v-if="!a.seatAble" disabled></button>
         </div>
+        <div>
+          <el-button @click="openDetail()">查看详细座位状况</el-button>
+          <el-button @click="downloadSeat()">下载座位位次表</el-button>
+        </div>
       </el-row>
+    </el-dialog>
+
+    <el-dialog title="查看详细座位状况" :visible.sync="detailSeat">
     </el-dialog>
   </div>
 </template>
@@ -92,59 +99,29 @@
           return{
             chooseSeat:false,
             beenChooseClass:"",
-            beenChooseSeat:"",
+            beenChooseStage:"",
             seats:[],//保存座位的数组
             classes:[
-              // {
-              //   no:1,
-              //   name:'数据结构和算法',
-              //   classroom:'B103',
-              //   teacher:'李明',
-              //   time:'2017-1-18',
-              //   stage:'一期',
-              //   startSelectDate:'2017-1-9',
-              //   endSelectDate:'2017-1-12'
-              // },{
-              //   no:2,
-              //   name:'数据结构和算法',
-              //   classroom:'B103',
-              //   teacher:'李明',
-              //   time:'2017-1-18',
-              //   stage:'一期',
-              //   startSelectDate:'2017-1-9',
-              //   endSelectDate:'2017-1-12'
-              // },{
-              //   no:3,
-              //   name:'数据结构和算法',
-              //   classroom:'B103',
-              //   teacher:'李明',
-              //   time:'2017-1-18',
-              //   stage:'一期',
-              //   startSelectDate:'2017-1-9',
-              //   endSelectDate:'2017-1-12'
-              // },{
-              //   no:4,
-              //   name:'数据结构和算法',
-              //   classroom:'B103',
-              //   teacher:'李明',
-              //   time:'2017-1-18',
-              //   stage:'一期',
-              //   startSelectDate:'2017-1-9',
-              //   endSelectDate:'2017-1-12'
-              // },{
-              //   no:5,
-              //   name:'数据结构和算法',
-              //   classroom:'B103',
-              //   teacher:'李明',
-              //   time:'2017-1-18',
-              //   stage:'一期',
-              //   startSelectDate:'2017-1-9',
-              //   endSelectDate:'2017-1-12'
-              // }
-            ]
+
+            ],
+            detailSeat:false//查看详细座位状况
           }
         },
-      methods:{
+      methods: {
+
+        /**
+         * 下载座位信息表
+         */
+        downloadSeat(){
+          let self = this;
+          window.location.href = `http://${ip}/course/exportSelectStatus/?courseNo=${self.beenChooseClass}&stage=${self.beenChooseStage}`;
+        },
+          /**
+           * 查看详细座位状况
+           * */
+          openDetail(){
+            this.detailSeat = true;
+          },
         /**
          *  获取课程列表
          *  @returns {null}
@@ -152,7 +129,7 @@
         getClassLists() {
           let self = this;
           let result;
-          $.post(`http://${ip}/course/list`,{
+          $.post(`http://${ip}/course/allInfo`,{
             power:4
           },function (response) {
             result = response.data;
@@ -162,6 +139,15 @@
               ele.endDateTime = moment(ele.endDateTime).format("YYYY/MM/D,HH:mm:ss")
             })
             self.classes = result;
+          })
+        },
+        getSpecialClassStudents(no,stage){
+          let self = this;
+          $.post(`http://${ip}/course/selectStatus`,{
+            courseNo:no,
+            stage:stage
+          },function (response) {
+            console.log(response)
           })
         },
         /**
@@ -186,6 +172,7 @@
           }).catch(function (e) {
             self.$message.error("获取座位信息失败");
           })
+          this.getSpecialClassStudents(no,stage);
         },
 
         /**
@@ -239,6 +226,8 @@
           }
         }
         this.getClassLists();
+
+
       }
     }
 </script>
