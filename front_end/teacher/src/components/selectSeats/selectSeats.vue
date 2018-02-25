@@ -1,23 +1,47 @@
 <template>
   <div>
-    <el-row :gutter="5">
-      <el-col :span="12" v-for="c in classes"  type="flex">
-        <el-card class="box-card" style="margin-top:20px;">
-          <div slot="header" class="clearfix">
-            <span>{{c.name}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" :key="c.no" v-on:click="searchClass(c.no,c.stage)">查询此课程的选课状况</el-button>
-          </div>
-          <div>
-            <p>教室:{{c.classroom}}</p>
-            <p>授课教师:{{c.teacher}}</p>
-            <p>开课时间:{{c.time}}</p>
-            <p>期数:{{c.stage}}</p>
-            <p>开始选课时间:{{c.startDateTime}}</p>
-            <p>结束选课时间:{{c.endDateTime}}</p>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+
+    <el-tabs v-model="activeName">
+      <el-tab-pane v-for="s in stages" v-bind:label="s.label" v-bind:name="s.label">
+        <el-row :gutter="5">
+          <el-col :span="12" v-for="c in s.classes"  type="flex">
+            <el-card class="box-card" style="margin-top:20px;">
+              <div slot="header" class="clearfix">
+                <span>{{c.name}}</span>
+                <el-button style="float: right; padding: 3px 0" type="text" :key="c.no" v-on:click="searchClass(c.no,c.stage)">查询此课程的选课状况</el-button>
+              </div>
+              <div>
+                <p>教室:{{c.classroom}}</p>
+                <p>授课教师:{{c.teacher}}</p>
+                <!--<p>开课时间:{{c.time}}</p>-->
+                <p>期数:{{c.stage}}</p>
+                <p>开始上课时间:{{c.startDateTime}}</p>
+                <p>结束上课时间:{{c.endDateTime}}</p>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
+
+    <!--<el-row :gutter="5">-->
+      <!--<el-col :span="12" v-for="c in classes"  type="flex">-->
+        <!--<el-card class="box-card" style="margin-top:20px;">-->
+          <!--<div slot="header" class="clearfix">-->
+            <!--<span>{{c.name}}</span>-->
+            <!--<el-button style="float: right; padding: 3px 0" type="text" :key="c.no" v-on:click=""></el-button>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<p>教室:{{c.classroom}}</p>-->
+            <!--<p>授课教师:{{c.teacher}}</p>-->
+            <!--<p>开课时间:{{c.time}}</p>-->
+            <!--<p>期数:{{c.stage}}</p>-->
+            <!--<p>开始选课时间:{{c.startDateTime}}</p>-->
+            <!--<p>结束选课时间:{{c.endDateTime}}</p>-->
+          <!--</div>-->
+        <!--</el-card>-->
+      <!--</el-col>-->
+    <!--</el-row>-->
     <!--座位显示页面-->
     <el-dialog title="座位状况" :visible.sync="chooseSeat">
       <el-row :gutter="10">
@@ -26,7 +50,7 @@
           <button class="disableSeat" v-if="!a.seatAble" disabled></button>
         </div>
         <div>
-          <el-button @click="openDetail()">查看详细座位状况</el-button>
+          <!--<el-button @click="openDetail()">查看详细座位状况</el-button>-->
           <el-button @click="downloadSeat()">下载座位位次表</el-button>
         </div>
       </el-row>
@@ -38,7 +62,8 @@
 </template>
 
 <script>
-
+    let classArray = [];//用来存放课程的数组
+    let maxStage = 0;//用来存放最大课程期数的变量
     let config = require("../../config/config");
     const ip = config.ip;
     let moment = require("moment");
@@ -100,11 +125,14 @@
             chooseSeat:false,
             beenChooseClass:"",
             beenChooseStage:"",
+            classes:[],
             seats:[],//保存座位的数组
             classes:[
 
             ],
-            detailSeat:false//查看详细座位状况
+            activeName:"第1期",
+            detailSeat:false,//查看详细座位状况
+            stages:[]
           }
         },
       methods: {
@@ -139,6 +167,37 @@
               ele.endDateTime = moment(ele.endDateTime).format("YYYY/MM/D,HH:mm:ss")
             })
             self.classes = result;
+            self.classes = response.data;
+            maxStage = result[0].stage;
+            for(let i in result){
+              if(i.stage>maxStage){
+                maxStage = i.stage;//求出最大的期数
+              }
+            }
+            for(let j = 0;j<maxStage;j++){
+              self.stages.push({
+                label:`第${j+1}期`,
+                name:j+1,
+                classes:[]
+              })
+            }
+            // let flag = 0;//计数
+            setTimeout(function () {
+
+              for(let x=0;x<self.classes.length;x++){
+                // console.log(x)
+                for(let y = 0;y<self.stages.length;y++){
+                  // console.log(x.stage);
+                  // console.log(self.stages[y].name)
+                  if(self.classes[x].stage == self.stages[y].name){
+
+                    self.stages[y].classes.push(
+                      self.classes[x]
+                    )
+                  }
+                }
+              }
+            },100)
           })
         },
         getSpecialClassStudents(no,stage){
