@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -244,9 +245,11 @@ public class CourseService {
      * @return
      */
     public Result updateSomeoneCome(List<String> list, int courseNo) {
-        for(String stuNo: list)
-            cm.feedbackCome(stuNo, courseNo);
-        return ResultUtil.success("反馈到课信息成功");
+        List<String> nos = new ArrayList<>();
+        for(Object stuNo: list)
+            if(cm.feedbackCome(stuNo.toString(), courseNo) < 1)
+                nos.add(stuNo.toString());
+        return ResultUtil.success("反馈到课信息成功", nos);
     }
 
     /**

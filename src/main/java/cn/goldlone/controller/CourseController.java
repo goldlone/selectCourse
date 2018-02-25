@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -227,15 +228,19 @@ public class CourseController extends BaseController {
         return cs.getCanFeedbackCourse();
     }
 
+
     /**
      * 反馈某期课程到课人员信息
-     * @param stu
-     * @param courseNo
+     * @param request
      * @return
+     * @throws IOException
      */
     @PostMapping("/course/feedback")
-    public Result updateSomeoneCome(List<String> stu, int courseNo) {
-        return cs.updateSomeoneCome(stu, courseNo);
+    public Result updateSomeoneCome(HttpServletRequest request) throws IOException {
+        JSONObject recJSON = new JSONObject(IOUtil.streamToString(request.getInputStream()));
+        System.out.println(recJSON);
+        List list = recJSON.getJSONArray("stu").toList();
+        return cs.updateSomeoneCome(list, recJSON.getInt("courseNo"));
     }
 
     /**
