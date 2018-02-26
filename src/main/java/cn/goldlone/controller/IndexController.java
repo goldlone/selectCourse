@@ -3,6 +3,7 @@ package cn.goldlone.controller;
 import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.service.StudentService;
+import cn.goldlone.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,6 +97,18 @@ public class IndexController extends BaseController {
     public Result updateAdminPassword(HttpServletRequest request, String password, String newPassword) {
         String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         return ss.updateAdminPassword(no, password, newPassword);
+    }
+
+
+    /**
+     * 获取当前登录用户的权限
+     * @param request
+     * @return
+     */
+    @PostMapping("/power")
+    public Result getPower(HttpServletRequest request) {
+        Integer power = (Integer)request.getSession().getAttribute(Properties.LOGIN_POWER);
+        return ResultUtil.success("获取成功", power);
     }
 
 
