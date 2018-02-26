@@ -209,6 +209,20 @@ public class StudentService {
     }
 
     /**
+     * 删除学员信息
+     * @param no
+     * @return
+     */
+    public Result deleteStudent(String no) {
+        Result result = null;
+        if (sm.deleteStu(no)>0)
+            result = ResultUtil.success("删除成功");
+        else
+            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该学员不存在");
+        return result;
+    }
+
+    /**
      * 获取用户权限
      * @param stuNo
      * @return

@@ -123,6 +123,14 @@ public interface StudentMapper {
     public Integer addStudent(Student stu);
 
     /**
+     * 删除学员
+     * @param no
+     * @return
+     */
+    @Delete("DELETE FROM Student WHERE no=#{no};")
+    public Integer deleteStu(String no);
+
+    /**
      * 录入管理员信息
      * @param admin
      * @return
@@ -143,6 +151,14 @@ public interface StudentMapper {
             "INTO Admin(no, name, schoolNo, password, power) " +
             "VALUES(#{no}, #{name}, #{schoolNo}, #{password}, #{power});")
     public Integer addDBAdmin(DBAdmin admin);
+
+    /**
+     * 删除管理员
+     * @param no
+     * @return
+     */
+    @Delete("DELETE FROM Admin WHERE no=#{no};")
+    public Integer deleteAdmin(String no);
 
     /**
      * 获取全部管理员信息

@@ -46,6 +46,8 @@ public class StudentController extends BaseController {
         return ss.addAdmin(admin);
     }
 
+    
+
     /**
      * 获取全部管理员信息
      * @return
@@ -147,6 +149,16 @@ public class StudentController extends BaseController {
             result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "文件格式有误");
         }
         return result;
+    }
+
+    /**
+     * 删除学员信息
+     * @param no
+     * @return
+     */
+    @PostMapping("/stu/delete")
+    public Result deleteStudent(String no) {
+        return ss.deleteStudent(no);
     }
 
     /**
