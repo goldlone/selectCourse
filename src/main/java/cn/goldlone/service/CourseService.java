@@ -124,6 +124,20 @@ public class CourseService {
 
 
     /**
+     * 删除课程
+     * @param courseNo
+     * @return
+     */
+    public Result deleteCourse(int courseNo) {
+        Result result = null;
+        if (cm.deleteCourse(courseNo)>0)
+            result = ResultUtil.success("删除成功");
+        else
+            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该课程不存在");
+        return result;
+    }
+
+    /**
      * 获取全部的课程信息
      * @return
      */

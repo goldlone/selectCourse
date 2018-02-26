@@ -181,7 +181,6 @@ END;
 
 
 
-
 # 获取学员密码
 SELECT no, password, schoolNo, power FROM Student WHERE no = '201502401086';
 

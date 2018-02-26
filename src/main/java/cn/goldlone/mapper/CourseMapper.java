@@ -143,6 +143,13 @@ public interface CourseMapper {
     @Delete("DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};")
     public Integer deleteMoreCoursePlus(int courseNo, int maxStage);
 
+    /**
+     * 删除课程
+     * @param courseNo
+     * @return
+     */
+    @Delete("DELETE FROM Course WHERE no=#{courseNo};")
+    public Integer deleteCourse(int courseNo);
 
     /**
      * 根据权限获取可选课程列表

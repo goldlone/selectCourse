@@ -119,6 +119,17 @@ public class CourseController extends BaseController {
         return cs.updateCourse(course1, powers, plus);
     }
 
+
+    /**
+     * 删除课程
+     * @param courseNo
+     * @return
+     */
+    @PostMapping("/course/delete")
+    public Result deleteCourse(int courseNo) {
+        return cs.deleteCourse(courseNo);
+    }
+
     /**
      * 获取全部的课程信息
      * @return
