@@ -88,11 +88,21 @@ public interface CourseMapper {
     public List<Integer> getCoursePowers(int courseNo);
 
     /**
+     * 查询某课程详情
+     * @param courseNo
+     * @return
+     */
+    @Select("SELECT * " +
+            "FROM CoursePlus " +
+            "WHERE courseNo=#{courseNo}")
+    public List<DBCoursePlus> getCoursePlus(int courseNo);
+
+    /**
      * 修改课程基本信息(课程名，学分)
      * @param course
      * @return
      */
-    @Update("UPDATE course " +
+    @Update("UPDATE Course " +
             "SET name=#{name}, " +
             "   time=#{time} " +
             "WHERE no=#{no}")
@@ -123,6 +133,15 @@ public interface CourseMapper {
             "WHERE courseNo=#{courseNo} AND " +
             "   stage=#{stage};")
     public Integer updateCoursePlus(DBCoursePlus coursePlus);
+
+    /**
+     * 删除多余的课程-期
+     * @param courseNo
+     * @param maxStage
+     * @return
+     */
+    @Delete("DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};")
+    public Integer deleteMoreCoursePlus(int courseNo, int maxStage);
 
 
     /**

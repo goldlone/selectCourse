@@ -29,6 +29,15 @@ public class DBCoursePlus {
         this.endDateTime = endDateTime;
     }
 
+    public DBCoursePlus(int courseNo, int stage, String classroom, String teacher, Timestamp startDateTime, Timestamp endDateTime) {
+        this.courseNo = courseNo;
+        this.stage = stage;
+        this.classroom = classroom;
+        this.teacher = teacher;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+    }
+
     public int getCourseNo() {
         return courseNo;
     }

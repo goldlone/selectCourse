@@ -22,6 +22,8 @@ public class ResultUtil {
     public static final Integer CODE_PARAMS_LOSE = 2005;
     /****  操作未选课程  ****/
     public static final Integer CODE_FAIL_NO_SELECT = 2006;
+//    /****  sd  ****/
+//    public static final Integer CODE_ = 2007;
 
     /****  异常代码  ****/
     public static final Integer CODE_EXCEPTION = 3001;

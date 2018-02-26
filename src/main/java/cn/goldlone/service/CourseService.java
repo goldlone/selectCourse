@@ -8,6 +8,8 @@ import cn.goldlone.po.DBCourse;
 import cn.goldlone.po.DBCoursePlus;
 import cn.goldlone.po.DBCoursePower;
 import cn.goldlone.utils.ResultUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,40 @@ public class CourseService {
     }
 
     /**
+     * 获取修改课程的信息
+     * @param courseNo
+     * @return
+     */
+    public Result getUpdateCourseInfo(int courseNo) {
+        JSONObject json = new JSONObject();
+        Course course = cm.getCourseInfo(courseNo, 1);
+        json.put("name", course.getName());
+        json.put("time", course.getTime());
+        json.put("powers", cm.getCoursePowers(courseNo));
+        json.put("plus", cm.getCoursePlus(courseNo));
+        return ResultUtil.success("获取成功", json);
+    }
+
+    /**
+     * 修改课程信息
+     * @param course
+     * @param powers
+     * @param coursePluses
+     * @return
+     */
+    public Result updateCourse(DBCourse course, List<Object> powers, List<DBCoursePlus> coursePluses) {
+        this.updateBaseCourse(course);
+        int maxStage = 0;
+        for (DBCoursePlus plus: coursePluses) {
+            this.updateCoursePlus(plus);
+            maxStage=plus.getStage();
+        }
+        cm.deleteMoreCoursePlus(course.getNo(), maxStage);
+        this.updateCoursePower(course.getNo(), powers);
+        return ResultUtil.success("修改课程信息成功");
+    }
+
+    /**
      * 修改某门课程的基本信息
      * @param course
      * @return
@@ -63,11 +99,10 @@ public class CourseService {
      * @param powers
      * @return
      */
-    public Result updateCoursePower(int courseNo, List<Integer> powers) {
-        if(cm.deleteCoursePower(courseNo)<1)
-            return ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该课程不存在");
-        for(Integer power: powers)
-            cm.addCoursePower(new DBCoursePower(courseNo, power));
+    public Result updateCoursePower(int courseNo, List<Object> powers) {
+        cm.deleteCoursePower(courseNo);
+        for(Object power: powers)
+            cm.addCoursePower(new DBCoursePower(courseNo, (int)power));
         return ResultUtil.success("修改成功");
     }
 
@@ -78,6 +113,8 @@ public class CourseService {
      */
     public Result updateCoursePlus(DBCoursePlus coursePlus) {
         Result result = null;
+        if (cm.getCourseInfo(coursePlus.getCourseNo(), coursePlus.getStage()) == null)
+            cm.addCoursePlus(coursePlus);
         if(cm.updateCoursePlus(coursePlus)>0)
             result = ResultUtil.success("修改课程信息成功");
         else
@@ -95,21 +132,20 @@ public class CourseService {
         return ResultUtil.success("获取课程信息成功", list);
     }
 
-//    /**
-//     * 获取某门课程的基本信息
-//     * @param courseNo
-//     * @return
-//     */
-//    @Override
-//    public Result getCourseInfo(int courseNo) {
-//        Result result = null;
-//        Course course = cm.getCourseInfo(courseNo);
+    /**
+     * 获取某门课程的基本信息
+     * @param courseNo
+     * @return
+     */
+    public Course getCourseInfo(int courseNo) {
+        Result result = null;
+//        Course course = cm.getCourseInfo(courseNo, 1);
 //        if(course != null)
 //            result = ResultUtil.success("获取课程信息成功", course);
 //        else
 //            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "课程信息不存在");
-//        return result;
-//    }
+        return cm.getCourseInfo(courseNo, 1);
+    }
 
 
     /**

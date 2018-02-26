@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.model.Course;
 import cn.goldlone.model.CourseSeat;
 import cn.goldlone.model.Result;
 import cn.goldlone.po.DBCourse;
@@ -63,13 +64,59 @@ public class CourseController extends BaseController {
         return cs.publicCourse(new DBCourse(name, time), powers1, plus);
     }
 
+
+    /**
+     * 获取修改课程的信息
+     * @param courseNo
+     * @return
+     */
+    @PostMapping("/course/infoOfUpdate")
+    public String getUpdateCourseInfo(int courseNo, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        Result res =  cs.getUpdateCourseInfo(courseNo);
+        JSONObject json = new JSONObject();
+        json.put("code", res.getCode());
+        json.put("msg", res.getMsg());
+        json.put("data", res.getData());
+        PrintWriter out = response.getWriter();
+        out.print(json.toString());
+        out.flush();
+        out.close();
+        return null;
+    }
+
     /**
      * 修改课程信息
+     * @param request
      * @return
      */
     @PostMapping("/course/update")
-    public Result updateCourse() {
-        return ResultUtil.success("该功能正在实现");
+    public Result updateCourse(HttpServletRequest request) throws IOException {
+//        Course course = cs.getCourseInfo(courseNo);
+//        if(course == null)
+//            return ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "课程不存在");
+        String rec = IOUtil.streamToString(request.getInputStream());
+        JSONObject recJSON = new JSONObject(rec);
+        int courseNo = recJSON.getInt("courseNo");
+        String name = recJSON.getString("name");
+        Integer time = recJSON.getInt("time");
+        List powers = recJSON.getJSONArray("powers").toList();
+        List<DBCoursePlus> plus = new ArrayList<>();
+        JSONArray arr = recJSON.getJSONArray("plus");
+        for(Object obj: arr) {
+            JSONObject json = (JSONObject) obj;
+            Integer stage = json.getInt("stage");
+            String classroom = json.getString("classroom");
+            String teacher = json.getString("teacher");
+            Timestamp startDateTime = Timestamp.valueOf(json.getString("startDateTime"));
+            Timestamp endDateTime = Timestamp.valueOf(json.getString("endDateTime"));
+            plus.add(new DBCoursePlus(courseNo, stage, classroom, teacher, startDateTime, endDateTime));
+        }
+
+        DBCourse course1 = new DBCourse(name, time);
+        course1.setNo(courseNo);
+        return cs.updateCourse(course1, powers, plus);
     }
 
     /**
@@ -77,7 +124,7 @@ public class CourseController extends BaseController {
      * @return
      */
     @PostMapping("/course/allInfo")
-    public Result getAllCourseInfo(){
+    public Result getAllCourseInfo() {
         return cs.getAllCourseInfo();
     }
 

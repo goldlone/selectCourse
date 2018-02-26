@@ -143,6 +143,38 @@ CREATE TABLE SelectCourse(
 )DEFAULT CHARSET=utf8;
 ALTER TABLE SelectCourse ADD CONSTRAINT uq_select_seat UNIQUE(courseNo, seatNo, stage);
 
+# # 触发器
+# 删除学生信息时，删除其选课信息
+DROP TRIGGER IF EXISTS del_stu;
+CREATE TRIGGER del_stu
+BEFORE
+DELETE ON Student
+FOR EACH ROW
+BEGIN
+  DELETE FROM SelectCourse WHERE OLD.no;
+END;
+
+# 删除课程信息
+DROP TRIGGER IF EXISTS del_course;
+CREATE TRIGGER del_course
+BEFORE
+DELETE ON Course
+FOR EACH ROW
+BEGIN
+  DELETE FROM SelectCourse WHERE SelectCourse.courseNo=OLD.no;
+  DELETE FROM CoursePower WHERE CoursePower.courseNo=OLD.no;
+  DELETE FROM CoursePlus WHERE CoursePlus.courseNo=OLD.no;
+END;
+
+# 删除某期课程信息
+DROP TRIGGER IF EXISTS del_stage_course;
+CREATE TRIGGER del_stage_course
+BEFORE
+DELETE ON CoursePlus
+FOR EACH ROW
+BEGIN
+  DELETE FROM SelectCourse WHERE SelectCourse.courseNo=OLD.courseNo AND SelectCourse.stage=OLD.stage;
+END;
 
 
 
@@ -219,6 +251,9 @@ WHERE no = #{no};
 
 # 自己修改用户信息
 
+
+# 删除多余的课程-期
+DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
 
 
 
