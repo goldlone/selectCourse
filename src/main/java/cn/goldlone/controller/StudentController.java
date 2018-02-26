@@ -46,7 +46,15 @@ public class StudentController extends BaseController {
         return ss.addAdmin(admin);
     }
 
-    
+    /**
+     * 删除管理员
+     * @param no
+     * @return
+     */
+    @PostMapping("/admin/delete")
+    public Result deleteAdmin(String no) {
+        return ss.deleteAdmin(no);
+    }
 
     /**
      * 获取全部管理员信息

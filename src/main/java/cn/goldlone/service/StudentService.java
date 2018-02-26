@@ -147,6 +147,20 @@ public class StudentService {
     }
 
     /**
+     * 删除管理员
+     * @param no
+     * @return
+     */
+    public Result deleteAdmin(String no) {
+        Result result = null;
+        if (sm.deleteAdmin(no)>0)
+            result = ResultUtil.success("删除成功");
+        else
+            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该管理员不存在");
+        return result;
+    }
+
+    /**
      * 获取全部管理员信息
      * @return
      */
