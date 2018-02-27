@@ -43,7 +43,7 @@ public class StudentService {
                 session.setAttribute(Properties.LOGIN_NO, info.getNo());
                 session.setAttribute(Properties.LOGIN_POWER, info.getPower());
                 session.setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
-                session.setMaxInactiveInterval(960);
+                session.setMaxInactiveInterval(3600);
             }
             else
                 result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "登录密码错误");
@@ -88,7 +88,7 @@ public class StudentService {
                 session.setAttribute(Properties.LOGIN_NO, info.getNo());
                 session.setAttribute(Properties.LOGIN_POWER, info.getPower());
                 session.setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
-                session.setMaxInactiveInterval(960);
+                session.setMaxInactiveInterval(3600);
             }
             else
                 result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "登录密码错误");

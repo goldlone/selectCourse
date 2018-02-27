@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -199,7 +200,8 @@ public class StudentController extends BaseController {
      * @return
      */
     @PostMapping("/stu/schoolInfo")
-    public Result getStudentInfoBySchoolNo(int schoolNo) {
+    public Result getStudentInfoBySchoolNo(int schoolNo, HttpServletRequest request) {
+//        System.out.println("权限："+request.getSession().getAttribute(Properties.LOGIN_POWER));
         return ss.getStudentInfoBySchoolNo(schoolNo);
     }
 
@@ -210,12 +212,12 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/info")
     public Result getMyselfInfo(HttpServletRequest request) {
-        Integer power = (Integer) request.getSession().getAttribute(Properties.LOGIN_POWER);
-        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
-//        String no = "456";
-//        Integer power = 2;
+        HttpSession session = request.getSession();
+        Integer power = (Integer) session.getAttribute(Properties.LOGIN_POWER);
+        String no = (String) session.getAttribute(Properties.LOGIN_NO);
         System.out.println(no);
         System.out.println(power);
+        System.out.println(session.getMaxInactiveInterval());
         if(power>1)
             return ss.getStuInfoByNo(no);
         else

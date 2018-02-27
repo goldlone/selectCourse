@@ -144,7 +144,6 @@ public class CourseController extends BaseController {
     @PostMapping("/course/list")
     public Result getCourseList(HttpServletRequest request) {
         int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
-//        int power = 3;
         return cs.getCourseList(power);
     }
 

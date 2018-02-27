@@ -47,6 +47,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
                                  Object handler)
                 throws IOException {
             HttpSession session = request.getSession();
+//            System.out.println("拦截器："+session.getAttribute(Properties.LOGIN_POWER));
+//            System.out.println("拦截器："+request.getSession().getMaxInactiveInterval());
             // 判断是否已有该用户登录的session
             if(session.getAttribute(Properties.LOGIN_POWER) != null){
                 return true;

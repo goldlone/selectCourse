@@ -18,6 +18,7 @@ public class ViewController implements ErrorController {
     public String index(HttpServletRequest request, Model model) {
         System.out.println(request.getSession().getAttribute(Properties.LOGIN_POWER));
         Integer power = (Integer)request.getSession().getAttribute(Properties.LOGIN_POWER);
+        System.out.println("默认："+power);
         if(power!=null) {
             if (power > 1) {
                 return "/stu";
