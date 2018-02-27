@@ -1,5 +1,7 @@
 package cn.goldlone;
 
+import cn.goldlone.utils.ResultUtil;
+import org.json.JSONObject;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,12 +25,13 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
      */
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration addInterceptor = registry.addInterceptor(getLoginInterceptor());
-//        addInterceptor.excludePathPatterns("/*");
+        addInterceptor.addPathPatterns("/*");
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/login");
         addInterceptor.excludePathPatterns("/loginVerify");
-        addInterceptor.addPathPatterns("/*");
+        super.addInterceptors(registry);
     }
+
 
     public LoginInterceptor getLoginInterceptor() {
         return new LoginInterceptor();
@@ -48,6 +51,17 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
             if(session.getAttribute(Properties.LOGIN_POWER) != null){
                 return true;
             }
+//            response.setHeader("sessionTimeout", "1");
+//            response.setCharacterEncoding("utf-8");
+//            response.setContentType("application/json");
+//            PrintWriter out = response.getWriter();
+//            JSONObject json = new JSONObject();
+//            json.put("code", ResultUtil.CODE_OUT_LOGIN);
+//            json.put("msg", "登录失效，请重新登录");
+//            json.put("data", "");
+//            out.print(json.toString());
+//            out.flush();
+//            out.close();
             // 跳转到登录页
             response.sendRedirect("/sc/login");
             return false;
