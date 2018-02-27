@@ -5,14 +5,17 @@ import cn.goldlone.model.Result;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.utils.CheckUtils;
 import cn.goldlone.utils.ResultUtil;
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -46,7 +49,7 @@ public class IndexController extends BaseController {
                 Result result = ss.login(request, no, password);
                 if(result.getCode().equals(ResultUtil.CODE_SUCCESS)) {
                     // 登录成功
-//                    response.sendRedirect("/sc/");
+                    response.sendRedirect("/sc/");
                     return "/stu";
                 } else if(result.getCode().equals(ResultUtil.CODE_RESULT_NOT_EXIST)) {
                     model.addAttribute("tips", "用户不存在");
@@ -59,11 +62,11 @@ public class IndexController extends BaseController {
                 Result result = ss.loginAdmin(request, no, password);
                 if(result.getCode().equals(ResultUtil.CODE_SUCCESS)) {
                     // 登录成功
-//                    response.sendRedirect("/sc/");
+                    response.sendRedirect("/sc/");
                     return "/tea";
                 } else if(result.getCode().equals(ResultUtil.CODE_RESULT_NOT_EXIST)) {
                     model.addAttribute("tips", "用户不存在");
-                } else if (result.getCode().equals(ResultUtil.CODE_OPERATE_FAIL)){
+                } else if (result.getCode().equals(ResultUtil.CODE_OPERATE_FAIL)) {
                     model.addAttribute("tips", "密码错误");
                 } else {
                     model.addAttribute("tips", "未知错误");
@@ -84,6 +87,7 @@ public class IndexController extends BaseController {
      * @return
      */
     @PostMapping("/updatePassword")
+    @ResponseBody
     public Result updatePassword(HttpServletRequest request, String password, String newPassword) {
         String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         return ss.updatePassword(stuNo, password, newPassword);
@@ -96,6 +100,7 @@ public class IndexController extends BaseController {
      * @return
      */
     @PostMapping("/updateAdminPassword")
+    @ResponseBody
     public Result updateAdminPassword(HttpServletRequest request, String password, String newPassword) {
         String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         return ss.updateAdminPassword(no, password, newPassword);
@@ -108,10 +113,11 @@ public class IndexController extends BaseController {
      * @return
      */
     @PostMapping("/power")
+    @ResponseBody
     public Result getPower(HttpServletRequest request) {
         Integer power = (Integer)request.getSession().getAttribute(Properties.LOGIN_POWER);
         return ResultUtil.success("获取成功", power);
-    }
+}
 
 
 }

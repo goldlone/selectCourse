@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -38,10 +39,11 @@ public class StudentService {
         } else {
             if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
                 result = ResultUtil.success(null, "登录成功");
-                request.getSession(true).setAttribute(Properties.LOGIN_NO, info.getNo());
-                request.getSession(true).setAttribute(Properties.LOGIN_POWER, info.getPower());
-                request.getSession(true).setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
-                request.getSession(true).setMaxInactiveInterval(120);
+                HttpSession session = request.getSession();
+                session.setAttribute(Properties.LOGIN_NO, info.getNo());
+                session.setAttribute(Properties.LOGIN_POWER, info.getPower());
+                session.setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
+                session.setMaxInactiveInterval(960);
             }
             else
                 result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "登录密码错误");
@@ -82,10 +84,11 @@ public class StudentService {
         } else {
             if(info.getPassword().equals(DigestUtils.sha256Hex(password))) {
                 result = ResultUtil.success(null, "登录成功");
-                request.getSession(true).setAttribute(Properties.LOGIN_NO, info.getNo());
-                request.getSession(true).setAttribute(Properties.LOGIN_POWER, info.getPower());
-                request.getSession(true).setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
-                request.getSession(true).setMaxInactiveInterval(120);
+                HttpSession session = request.getSession();
+                session.setAttribute(Properties.LOGIN_NO, info.getNo());
+                session.setAttribute(Properties.LOGIN_POWER, info.getPower());
+                session.setAttribute(Properties.LOGIN_SCHOOL_NO, info.getSchoolNo());
+                session.setMaxInactiveInterval(960);
             }
             else
                 result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "登录密码错误");

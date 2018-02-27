@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.Properties;
 import cn.goldlone.model.Course;
 import cn.goldlone.model.CourseSeat;
 import cn.goldlone.model.Result;
@@ -93,9 +94,6 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/update")
     public Result updateCourse(HttpServletRequest request) throws IOException {
-//        Course course = cs.getCourseInfo(courseNo);
-//        if(course == null)
-//            return ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "课程不存在");
         String rec = IOUtil.streamToString(request.getInputStream());
         JSONObject recJSON = new JSONObject(rec);
         int courseNo = recJSON.getInt("courseNo");
@@ -145,8 +143,8 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/list")
     public Result getCourseList(HttpServletRequest request) {
-//        int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
-        int power = 3;
+        int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
+//        int power = 3;
         return cs.getCourseList(power);
     }
 
@@ -172,8 +170,8 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/select")
     public Result selectCourse(HttpServletRequest request, int courseNo, int stage, int seatNo) {
-//        String stuNo = (String) request.getSession().getAttribute("stuNo");
-        String stuNo = "123";
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String stuNo = "123";
         return cs.selectCourse(stuNo, courseNo, stage, seatNo);
     }
 
@@ -184,7 +182,8 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/myCourse")
     public Result getMyCourseSeat(HttpServletRequest request) {
-        String stuNo = "123";
+//        String stuNo = "123";
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
         return cs.getMyCourseSeat(stuNo);
     }
 
@@ -196,8 +195,8 @@ public class CourseController extends BaseController {
      */
     @PostMapping("/course/cancel")
     public Result cancelSelectCourse(HttpServletRequest request, int courseNo, int stage) {
-//        String stuNo = (String) request.getSession().getAttribute("stuNo");
-        String stuNo = "123";
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String stuNo = "123";
         return cs.cancelSelectCourse(courseNo, stage, stuNo);
     }
 

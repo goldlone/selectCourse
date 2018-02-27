@@ -1,5 +1,6 @@
 package cn.goldlone.controller;
 
+import cn.goldlone.Properties;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.DBAdmin;
@@ -209,10 +210,12 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/info")
     public Result getMyselfInfo(HttpServletRequest request) {
-//        Integer power = (Integer) request.getSession().getAttribute(Properties.LOGIN_POWER);
-//        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
-        String no = "456";
-        Integer power = 2;
+        Integer power = (Integer) request.getSession().getAttribute(Properties.LOGIN_POWER);
+        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String no = "456";
+//        Integer power = 2;
+        System.out.println(no);
+        System.out.println(power);
         if(power>1)
             return ss.getStuInfoByNo(no);
         else

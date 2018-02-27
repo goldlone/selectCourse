@@ -1,7 +1,6 @@
 package cn.goldlone.controller;
 
 import cn.goldlone.Properties;
-import cn.goldlone.utils.CheckUtils;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +22,6 @@ public class ViewController implements ErrorController {
             if (power > 1) {
                 return "/stu";
             } else {
-//                model.addAttribute("tips", "管理员，你好");
                 return "/tea";
             }
         }
@@ -39,12 +37,6 @@ public class ViewController implements ErrorController {
     @Override
     public String getErrorPath() {
         return "/error";
-    }
-
-
-    @GetMapping("/upload")
-    public String upload() {
-        return "/upload";
     }
 
 }

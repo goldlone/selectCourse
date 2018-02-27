@@ -67,7 +67,7 @@ public class ExcelUtil {
         Sheet sheet = workbook.getSheet(0);
         Student stu = null;
         Cell cell = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for(int i=1; i<sheet.getRows(); i++) {
             String name = sheet.getCell(0, i).getContents();
             String no = sheet.getCell(1, i).getContents();
@@ -111,20 +111,11 @@ public class ExcelUtil {
             try {
                 birth = simpleDateFormat.parse(birthStr);
                 applyDate = simpleDateFormat.parse(applyDateStr);
-                beActivistDate = simpleDateFormat.parse(beActivistDateStr);
-                beDevelopDate = simpleDateFormat.parse(beDevelopDateStr);
+                beActivistDate = simpleDateFormat.parse(applyDateStr);
+                applyDate = simpleDateFormat.parse(applyDateStr);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-//            try {
-//                birth = simpleDateFormat.parse(birthStr);
-//                applyDate =simpleDateFormat.parse(applyDateStr);
-//                beActivistDate =simpleDateFormat.parse(beActivistDateStr);
-//                beDevelopDate =simpleDateFormat.parse(beDevelopDateStr);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
 
             stu = new Student();
             stu.setNo(no);
@@ -150,7 +141,6 @@ public class ExcelUtil {
      * 导出某课程某期的选座状况
      * @param list
      * @return
-     *
      */
     public static File exportSelectSeatStatus(List<CourseSeat> list) {
         File file = new File("./selectSeatStatus.xls");

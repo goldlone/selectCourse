@@ -94,7 +94,7 @@ CREATE TABLE Student(
 ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
-# ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
+ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;
