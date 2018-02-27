@@ -24,25 +24,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <!--<el-row :gutter="5">-->
-      <!--<el-col :span="12" v-for="c in classes"  type="flex">-->
-        <!--<el-card class="box-card" style="margin-top:20px;">-->
-          <!--<div slot="header" class="clearfix">-->
-            <!--<span>{{c.name}}</span>-->
-            <!--<el-button style="float: right; padding: 3px 0" type="text" :key="c.no" v-on:click=""></el-button>-->
-          <!--</div>-->
-          <!--<div>-->
-            <!--<p>教室:{{c.classroom}}</p>-->
-            <!--<p>授课教师:{{c.teacher}}</p>-->
-            <!--<p>开课时间:{{c.time}}</p>-->
-            <!--<p>期数:{{c.stage}}</p>-->
-            <!--<p>开始选课时间:{{c.startDateTime}}</p>-->
-            <!--<p>结束选课时间:{{c.endDateTime}}</p>-->
-          <!--</div>-->
-        <!--</el-card>-->
-      <!--</el-col>-->
-    <!--</el-row>-->
-    <!--座位显示页面-->
+
     <el-dialog title="座位状况" :visible.sync="chooseSeat">
       <el-row :gutter="10">
         <div class="seat" v-for="a in seats">
@@ -125,7 +107,7 @@
             chooseSeat:false,
             beenChooseClass:"",
             beenChooseStage:"",
-            classes:[],
+
             seats:[],//保存座位的数组
             classes:[
 
@@ -166,12 +148,10 @@
               ele.startDateTime = moment(ele.startDateTime).format("YYYY/MM/D,HH:mm:ss")
               ele.endDateTime = moment(ele.endDateTime).format("YYYY/MM/D,HH:mm:ss")
             })
-            self.classes = result;
             self.classes = response.data;
-            maxStage = result[0].stage;
-            for(let i in result){
-              if(i.stage>maxStage){
-                maxStage = i.stage;//求出最大的期数
+            for(let i = 0 ;i < result.length;i++){
+              if(result[i].stage>maxStage){
+                maxStage = result[i].stage;//求出最大的期数
               }
             }
             for(let j = 0;j<maxStage;j++){

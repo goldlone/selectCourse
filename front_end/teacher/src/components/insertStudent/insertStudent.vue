@@ -3,15 +3,17 @@
     <el-tab-pane label="模板录入" name="templete">
       <el-row>
         <el-col :span="8" class="upload">
-          <el-button class="downloadExcel"><a href="http://www.goldlone.cn/sc/stu/exportModel
+          <el-button class="downloadExcel"><a v-bind:href="`${attr}/stu/exportModel`
 ">点击下载模板</a></el-button>
           <el-upload
             class="upload-demo"
-            action="http://www.goldlone.cn/sc/stu/add"
+            v-bind:action="`${attr}/stu/add`"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
             multiple
+            :on-success="addSuccess"
+            :on-error="addError"
             :limit="3"
             :on-exceed="handleExceed"
             :file-list="fileList">
@@ -110,14 +112,16 @@
 </template>
 
 <script>
-  let config = require("../../config/config");
-  const ip = config.ip;
+    let config = require("../../config/config");
+    const ip = config.ip;
     let $ = require("jquery");
     let moment = require("moment");
+    let _ = require("underscore");
     export default {
         name: "insert-student",
         data(){
           return{
+            attr:`http://${ip}`,
             parties:[],
             fileList:[],
             activeName:"templete",
@@ -151,6 +155,16 @@
           }
         },
       methods: {
+        addError(){
+          this.$message.error("上传失败");
+        },
+        addSuccess(response){
+          if(response.code == 1001){
+            this.$message(`上传成功,${response.data}`);
+          }else{
+            this.$message.error(`上传错误,${response.msg},${response.data}`)
+          }
+        },
         handleRemove(file, fileList) {
           console.log(file, fileList);
         },
@@ -169,8 +183,18 @@
           this.tempStudentInfo.applyDate = moment(this.tempStudentInfo.applyDate).format("YYYY/MM/DD");
           this.tempStudentInfo.beDevelopDate = moment(this.tempStudentInfo.beDevelopDate).format("YYYY/MM/DD");
           this.tempStudentInfo.beActivistDate = moment(this.tempStudentInfo.beActivistDate).format("YYYY/MM/DD");
+          let req = _.clone(this.tempStudentInfo);
+          if(req.applyDate == ""){
+            delete req.applyDate;
+          }
+          if(req.beDevelopDate == ""){
+            delete req.beDevelopDate;
+          }
+          if(req.beActivistDate == ""){
+            delete req.beActivistDate;
+          }
           console.log(this.tempStudentInfo)
-          $.post(`http://${ip}/stu/addOne`,self.tempStudentInfo,function (response) {
+          $.post(`http://${ip}/stu/addOne`,req,function (response) {
             if(response.code == 1001){
               self.$message("添加学员成功");
               self.tempStudentInfo = {};
