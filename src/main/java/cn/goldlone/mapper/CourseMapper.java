@@ -141,7 +141,7 @@ public interface CourseMapper {
      * @return
      */
     @Delete("DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};")
-    public Integer deleteMoreCoursePlus(int courseNo, int maxStage);
+    public Integer deleteMoreCoursePlus(@Param("courseNo") int courseNo, @Param("maxStage") int maxStage);
 
     /**
      * 删除课程
@@ -220,7 +220,7 @@ public interface CourseMapper {
             "      s.schoolNo=ss.no AND " +
             "      c2.courseNo=c1.no AND " +
             "      c2.courseNo=c3.courseNo AND " +
-            "      c2.stage=c3.stage" +
+            "      c2.stage=c3.stage " +
             "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getMyCourseSeat(String stuNo);
 

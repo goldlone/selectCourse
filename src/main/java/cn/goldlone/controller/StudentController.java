@@ -144,6 +144,10 @@ public class StudentController extends BaseController {
             List<Student> list = ExcelUtil.importStuInfo(file);
             List<String> errorList = new ArrayList<>();
             for(Student stu: list) {
+                if(ss.getStuInfoByNo(stu.getNo()).getData() != null) {
+                    errorList.add("【失败】："+stu.getNo()+"-"+stu.getName()+"-该学员已存在");
+                    continue;
+                }
                 try {
                     ss.addStudent(stu);
                 } catch (Exception e) {
@@ -253,6 +257,7 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/updateInfoBySelf")
     public Result updateStuInfoSelf(HttpServletRequest request, DBStudent stu) {
+        System.out.println(stu);
         stu.setNo((String) request.getSession().getAttribute("stuNo"));
         return ss.updateStuInfoSelf(stu);
     }

@@ -7,6 +7,7 @@ import cn.goldlone.model.Course;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.*;
+import cn.goldlone.service.CourseService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -220,5 +221,15 @@ public class ScApplicationTests {
         }
     }
 
+    @Test
+    public void deleteMoreCoursePlus() {
+        cm.deleteMoreCoursePlus(3, 4);
+    }
 
+
+    @Test
+    public void addAdmin() {
+	    Admin admin = new Admin("123", "我的管理员", "文学院党委", DigestUtils.sha256Hex("123"), 1);
+	    sm.addAdmin(admin);
+    }
 }

@@ -282,17 +282,12 @@ public interface StudentMapper {
      */
     @Update("UPDATE Student " +
             "SET name=#{name}, " +
-//            "   schoolNo=#{schoolNo}, " +
             "   gender=#{gender}, " +
             "   nation=#{nation}, " +
             "   birth=#{birth}, " +
             "   type=#{type}, " +
             "   grade=#{grade}, " +
-            "   position=#{position}, " +
-//            "   applyDate=#{applyDate}, " +
-//            "   beActivistDate=#{beActivistDate}, " +
-//            "   beDevelopDate=#{beDevelopDate}, " +
-//            "   power=#{power}" +
-            "WHERE no = #{no};")
+            "   position=#{position} " +
+            "WHERE no=#{no};")
     public Integer updateStuInfoSelf(DBStudent stu);
 }

@@ -3,6 +3,7 @@ package cn.goldlone.utils;
 import cn.goldlone.model.CourseSeat;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
+import jxl.Cell;
 import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -65,27 +66,56 @@ public class ExcelUtil {
         Workbook workbook = Workbook.getWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheet(0);
         Student stu = null;
+        Cell cell = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         for(int i=1; i<sheet.getRows(); i++) {
             String name = sheet.getCell(0, i).getContents();
             String no = sheet.getCell(1, i).getContents();
             String schoolName = sheet.getCell(2, i).getContents();
             String gender = sheet.getCell(3, i).getContents();
             String nation = sheet.getCell(4, i).getContents();
-            Date birth = ((DateCell) sheet.getCell(5, i)).getDate();
-//            String birthStr = sheet.getCell(5, i).getContents();
+            Date birth = null;
+//            cell = sheet.getCell(5, i);
+//            if(cell.getContents()!=null && !cell.getContents().equals("")) {
+//                birth = ((DateCell) sheet.getCell(5, i)).getDate();
+//            }
+            String birthStr = sheet.getCell(5, i).getContents();
 //            System.out.println(birthStr);
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
             String type = sheet.getCell(6, i).getContents();
             int grade = Integer.parseInt(sheet.getCell(7, i).getContents());
             String position = sheet.getCell(8, i).getContents();
-//            String applyDateStr = sheet.getCell(9, i).getContents();
-//            String beActivistDateStr = sheet.getCell(10, i).getContents();
-//            String beDevelopDateStr = sheet.getCell(11, i).getContents();
-            Date applyDate = ((DateCell) sheet.getCell(9, i)).getDate();
-            Date beActivistDate = ((DateCell) sheet.getCell(10, i)).getDate();
-            Date beDevelopDate = ((DateCell) sheet.getCell(11, i)).getDate();
+            String applyDateStr = sheet.getCell(9, i).getContents();
+            String beActivistDateStr = sheet.getCell(10, i).getContents();
+            String beDevelopDateStr = sheet.getCell(11, i).getContents();
+            Date applyDate = null;
+            Date beActivistDate = null;
+            Date beDevelopDate = null;
+
+//            cell = sheet.getCell(9, i);
+//            if(cell.getContents()!=null && !cell.getContents().equals("")) {
+//                applyDate = ((DateCell) sheet.getCell(9, i)).getDate();
+//            }
+//            cell = sheet.getCell(10, i);
+//            if(cell.getContents()!=null && !cell.getContents().equals("")) {
+//                beActivistDate = ((DateCell) sheet.getCell(10, i)).getDate();
+//            }
+//            cell = sheet.getCell(11, i);
+//            if(cell.getContents()!=null && !cell.getContents().equals("")) {
+//                beDevelopDate = ((DateCell) sheet.getCell(11, i)).getDate();
+//            }
+
             String identity = sheet.getCell(12, i).getContents();
 
+
+            try {
+                birth = simpleDateFormat.parse(birthStr);
+                applyDate = simpleDateFormat.parse(applyDateStr);
+                beActivistDate = simpleDateFormat.parse(beActivistDateStr);
+                beDevelopDate = simpleDateFormat.parse(beDevelopDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
 //            try {
 //                birth = simpleDateFormat.parse(birthStr);
@@ -120,6 +150,7 @@ public class ExcelUtil {
      * 导出某课程某期的选座状况
      * @param list
      * @return
+     *
      */
     public static File exportSelectSeatStatus(List<CourseSeat> list) {
         File file = new File("./selectSeatStatus.xls");

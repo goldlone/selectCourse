@@ -177,7 +177,7 @@ BEGIN
 END;
 
 
-
+DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
 
 
 
