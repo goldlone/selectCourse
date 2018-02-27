@@ -13,7 +13,7 @@
               <div>
                 <p>教室:{{c.classroom}}</p>
                 <p>授课教师:{{c.teacher}}</p>
-                <p>开课时间:{{c.time}}</p>
+                <p>课时数:{{c.time}}</p>
                 <p>期数:{{c.stage}}</p>
                 <p>开始上课时间:{{c.startDateTime}}</p>
                 <p>结束上课时间:{{c.endDateTime}}</p>
@@ -178,9 +178,9 @@
             })
             self.classes = response.data;
             maxStage = result[0].stage;
-            for(let i in result){
-              if(i.stage>maxStage){
-                maxStage = i.stage;//求出最大的期数
+            for(let i = 0 ;i < result.length;i++){
+              if(result[i].stage>maxStage){
+                maxStage = result[i].stage;//求出最大的期数
               }
             }
             for(let j = 0;j<maxStage;j++){

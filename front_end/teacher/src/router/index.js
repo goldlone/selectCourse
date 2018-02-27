@@ -8,6 +8,8 @@ import selectSeats from '../components/selectSeats/selectSeats'
 import updateClass from '../components/updateClass/updateClass'
 import updateStudent from '../components/updateStudent/updateStudent'
 import viewStudent from '../components/viewStudent/viewStudent'
+import changePassword from  '../components/changePassword/changePassword'
+
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,11 @@ export default new Router({
       path:'/viewStudent',
       // name:'viewStudent',
       component:viewStudent
+    },
+    {
+      path:'/changePassword',
+      // name:'changePassword',
+      component:changePassword
     }
   ]
 })
