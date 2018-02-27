@@ -1,0 +1,88 @@
+<template>
+  <div>
+    <el-row>
+      <el-col :span="4" class="title">
+        <span>修改密码</span>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12" :offset="4">
+        <span>旧密码</span>
+        <el-input v-model="oldPassword" type="password"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12" :offset="4">
+        <span>新密码</span>
+        <el-input v-model="newPassword" type="password">新密码</el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12" :offset="4">
+        <span>再次输入新密码</span>
+        <el-input v-model="reNewPassword" type="password">新密码</el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="6" :offset="8" style="margin-top: 20px">
+        <el-button type="danger" @click="inputNewPassword">修改密码</el-button>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+  let $ = require("jquery");
+  let conifg = require("../../config/config.js");
+  let ip = conifg.ip;
+  export default {
+    name: "change-password",
+    data(){
+      return {
+        oldPassword:"",
+        newPassword:"",
+        reNewPassword:""
+      }
+    },
+    methods:{
+      inputNewPassword(){
+        let self = this;
+
+        this.$confirm('此操作将修改密码, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          if(self.oldPassword == ""|| self.newPassword == ""|| self.reNewPassword == ""){
+            return  self.$message.error("请完整输入表单");
+          }
+          if(self.newPassword != self.reNewPassword){
+            return self.$message.error("请输入相同的新密码");
+          }
+          $.post(`http://${ip}/updateAdminPassword`,{
+            stuNo:'123',
+            password:self.oldPassword,
+            newPassword:self.newPassword,
+          },function (response) {
+            if(response.code == 1001){
+              self.$message("修改密码成功");
+            }else if(response.code == 2002){
+              self.$message.error("原始密码错误");
+            }else{
+              self.$message.error("修改密码失败");
+            }
+          })
+        }).catch(()=>{
+
+        })
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  .title{
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+</style>

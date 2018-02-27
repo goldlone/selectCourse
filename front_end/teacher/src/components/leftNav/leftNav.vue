@@ -9,9 +9,8 @@
                       <span>学员管理</span>
                     </template>
                     <el-menu-item-group>
-                      <el-menu-item index="/viewStudent">查看学员信息</el-menu-item>
+                      <el-menu-item index="/viewStudent">管理学员信息</el-menu-item>
                       <el-menu-item index="/insertStudent">录入学员信息</el-menu-item>
-                      <el-menu-item index="/updateStudent">修改学员信息</el-menu-item>
                     </el-menu-item-group>
                   </el-submenu>
                 <el-submenu index="2">
@@ -26,6 +25,10 @@
                     <el-menu-item index="/feedBack">反馈到课情况</el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
+              <el-menu-item index="/changePassword">
+                <i class="el-icon-warning"></i>
+                <span slot="title">修改密码</span>
+              </el-menu-item>
             </el-menu>
         </el-col>
     </el-row>
