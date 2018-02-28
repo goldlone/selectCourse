@@ -227,9 +227,9 @@ public class ScApplicationTests {
     }
 
 
-    @Test
-    public void addAdmin() {
-	    Admin admin = new Admin("123", "我的管理员", "文学院党委", DigestUtils.sha256Hex("123"), 1);
-	    sm.addAdmin(admin);
-    }
+//    @Test
+//    public void addAdmin() {
+//	    Admin admin = new Admin("123", "我的管理员", "文学院党委", DigestUtils.sha256Hex("123"), 1);
+//	    sm.addAdmin(admin);
+//    }
 }

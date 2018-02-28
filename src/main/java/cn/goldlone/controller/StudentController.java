@@ -256,14 +256,12 @@ public class StudentController extends BaseController {
 
     /**
      * 学员自己修改信息
-     * @param request
      * @param stu
      * @return
      */
     @PostMapping("/stu/updateInfoBySelf")
-    public Result updateStuInfoSelf(HttpServletRequest request, DBStudent stu) {
+    public Result updateStuInfoSelf(DBStudent stu) {
         System.out.println(stu);
-        stu.setNo((String) request.getSession().getAttribute("stuNo"));
         return ss.updateStuInfoSelf(stu);
     }
 
