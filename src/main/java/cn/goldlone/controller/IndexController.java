@@ -5,10 +5,10 @@ import cn.goldlone.model.Result;
 import cn.goldlone.service.StudentService;
 import cn.goldlone.utils.CheckUtils;
 import cn.goldlone.utils.ResultUtil;
-import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -117,7 +117,21 @@ public class IndexController extends BaseController {
     public Result getPower(HttpServletRequest request) {
         Integer power = (Integer)request.getSession().getAttribute(Properties.LOGIN_POWER);
         return ResultUtil.success("获取成功", power);
-}
+    }
 
+    /**
+     * 注销登录
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.removeAttribute(Properties.LOGIN_POWER);
+        session.removeAttribute(Properties.LOGIN_NO);
+        session.removeAttribute(Properties.LOGIN_SCHOOL_NO);
+        response.sendRedirect("/sc/login");
+    }
 
 }
