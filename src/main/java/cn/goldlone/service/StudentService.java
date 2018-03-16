@@ -347,4 +347,20 @@ public class StudentService {
         return result;
     }
 
+    /**
+     * 一批学员结束党课
+     * @return
+     */
+    public Result endCourse() {
+        int num = sm.endCourse();
+        return ResultUtil.success("设置该批次学生结束成功", num);
+    }
+
+    /**
+     * 提交反馈信息
+     * @return
+     */
+    public Result feedback() {
+        return null;
+    }
 }

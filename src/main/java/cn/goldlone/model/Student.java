@@ -34,6 +34,7 @@ public class Student {
     private int power;
     // 身份名称
     private String identity;
+    //
     // 密码
     private String password;
 

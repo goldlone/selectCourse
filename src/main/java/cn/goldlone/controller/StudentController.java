@@ -265,6 +265,23 @@ public class StudentController extends BaseController {
         return ss.updateStuInfoSelf(stu);
     }
 
+    /**
+     * 一批学员结束党课
+     * @return
+     */
+    @PostMapping("/stu/endCourse")
+    public Result endCourse() {
+        return ss.endCourse();
+    }
 
+
+    /**
+     * 提交反馈信息
+     * @return
+     */
+    @PostMapping("/stu/feedback")
+    public Result feedback() {
+        return ss.feedback();
+    }
 
 }

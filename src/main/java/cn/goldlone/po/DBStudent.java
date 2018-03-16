@@ -36,6 +36,8 @@ public class DBStudent {
     private int power;
     // 密码
     private String password;
+    // 批次
+    private int batch;
 
     public DBStudent() {
     }
@@ -152,6 +154,14 @@ public class DBStudent {
         this.password = password;
     }
 
+    public int getBatch() {
+        return batch;
+    }
+
+    public void setBatch(int batch) {
+        this.batch = batch;
+    }
+
     @Override
     public String toString() {
         return "DBStudent{" +
@@ -169,6 +179,7 @@ public class DBStudent {
                 ", beDevelopDate=" + beDevelopDate +
                 ", power=" + power +
                 ", password='" + password + '\'' +
+                ", batch=" + batch +
                 '}';
     }
 }

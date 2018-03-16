@@ -167,8 +167,8 @@ public class CourseService {
      * @param power
      * @return
      */
-    public Result getCourseList(int power) {
-        List<Course> list = cm.getCourseList(power);
+    public Result getCourseList(int power, String no) {
+        List<Course> list = cm.getCourseList(power, no);
         return ResultUtil.success("获取课程列表成功", list);
     }
 

@@ -99,11 +99,11 @@ public interface StudentMapper {
             "INTO Student(name, no, schoolNo, gender, " +
             "   nation, birth, type, grade, position, " +
             "   applyDate, beActivistDate, " +
-            "   beDevelopDate, power, password) " +
+            "   beDevelopDate, power, password, batch) " +
             "VALUES (#{name}, #{no}, #{schoolNo},  #{gender}, " +
             "   #{nation}, #{birth}, #{type}, #{grade}, #{position}, " +
             "   #{applyDate}, #{beActivistDate}, " +
-            "   #{beDevelopDate}, #{power}, #{password});")
+            "   #{beDevelopDate}, #{power}, #{password}, 0);")
     public Integer addDBStudent(DBStudent stu);
 
     /**
@@ -115,11 +115,11 @@ public interface StudentMapper {
             "INTO Student(name, no, schoolNo, gender, " +
             "   nation, birth, type, grade, position, " +
             "   applyDate, beActivistDate, " +
-            "   beDevelopDate, power, password) " +
+            "   beDevelopDate, power, password, batch) " +
             "VALUES(#{name}, #{no}, (SELECT no FROM Schools WHERE Schools.name=#{school}), " +
             "   #{gender}, #{nation}, #{birth}, #{type}, #{grade}, " +
             "   #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, " +
-            "   (SELECT no FROM Powers WHERE identity=#{identity}), #{password});")
+            "   (SELECT no FROM Powers WHERE identity=#{identity}), #{password}, 0);")
     public Integer addStudent(Student stu);
 
     /**
@@ -216,7 +216,8 @@ public interface StudentMapper {
             "FROM Student s1, Powers p, Schools s2 " +
             "WHERE s2.no=#{schoolNo} AND " +
             "   s1.power=p.no AND " +
-            "   s1.schoolNo=s2.no;")
+            "   s1.schoolNo=s2.no AND " +
+            "   s1.batch=0;")
     public List<Student> getStudentInfoBySchoolNo(int schoolNo);
 
 
@@ -290,4 +291,13 @@ public interface StudentMapper {
             "   position=#{position} " +
             "WHERE no=#{no};")
     public Integer updateStuInfoSelf(DBStudent stu);
+
+    /**
+     * 一批学员结束党课
+     * @return
+     */
+    @Update("UPDATE Student " +
+            "SET batch=(SELECT DATE_FORMAT(now(), '%Y%m')) " +
+            "WHERE batch=0;")
+    public Integer endCourse();
 }

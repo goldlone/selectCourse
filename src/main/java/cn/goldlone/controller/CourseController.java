@@ -45,9 +45,13 @@ public class CourseController extends BaseController {
         JSONObject recJSON = new JSONObject(rec);
         String name = recJSON.getString("name");
         Integer time = recJSON.getInt("time");
+        Timestamp startSelectDateTime = Timestamp.valueOf(recJSON.getString("startSelectDateTime"));
+        Timestamp endSelectDateTime = Timestamp.valueOf(recJSON.getString("endSelectDateTime"));
         List powers = recJSON.getJSONArray("powers").toList();
         List<DBCoursePlus> plus = new ArrayList<>();
         JSONArray arr = recJSON.getJSONArray("plus");
+
+        Timestamp earlyStartTime = null;
         for(Object obj: arr) {
             JSONObject json = (JSONObject) obj;
             Integer stage = json.getInt("stage");
@@ -56,12 +60,27 @@ public class CourseController extends BaseController {
             Timestamp startDateTime = Timestamp.valueOf(json.getString("startDateTime"));
             Timestamp endDateTime = Timestamp.valueOf(json.getString("endDateTime"));
             plus.add(new DBCoursePlus(stage, classroom, teacher, startDateTime, endDateTime));
+            if(earlyStartTime==null)
+                earlyStartTime = startDateTime;
+            else
+                if(earlyStartTime.getTime()>startDateTime.getTime())
+                    earlyStartTime = startDateTime;
         }
 
         List<DBCoursePower> powers1 = new ArrayList<>();
         for(Object power: powers)
             powers1.add(new DBCoursePower((Integer) power));
 
+        if (earlyStartTime==null)
+            return ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "课程不能一期都没有");
+        if(endSelectDateTime.getTime()>earlyStartTime.getTime()) {
+            return ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "选课结束时间不能晚于该课程的最早开始时间");
+        }
+        DBCourse course = new DBCourse();
+        course.setName(name);
+        course.setTime(time);
+        course.setStartSelectDateTime(startSelectDateTime);
+        course.setEndSelectDateTime(endSelectDateTime);
         return cs.publicCourse(new DBCourse(name, time), powers1, plus);
     }
 
@@ -144,7 +163,8 @@ public class CourseController extends BaseController {
     @PostMapping("/course/list")
     public Result getCourseList(HttpServletRequest request) {
         int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
-        return cs.getCourseList(power);
+        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        return cs.getCourseList(power, no);
     }
 
     /**

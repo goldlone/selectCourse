@@ -22,8 +22,8 @@ public interface CourseMapper {
      * @return
      */
     @Insert("INSERT " +
-            "INTO Course(name, time) " +
-            "VALUES(#{name}, #{time});")
+            "INTO Course(name, time, startSelectDateTime, endSelectDateTime) " +
+            "VALUES(#{name}, #{time}, #{startSelectDateTime}, #{endSelectDateTime});")
     @Options(useGeneratedKeys=true, keyProperty="no", keyColumn="no")
     public Integer addCourse(DBCourse course);
     /**
@@ -140,7 +140,10 @@ public interface CourseMapper {
      * @param maxStage
      * @return
      */
-    @Delete("DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};")
+    @Delete("DELETE " +
+            "FROM CoursePlus " +
+            "WHERE courseNo=#{courseNo} AND " +
+            "   stage>#{maxStage};")
     public Integer deleteMoreCoursePlus(@Param("courseNo") int courseNo, @Param("maxStage") int maxStage);
 
     /**
@@ -162,8 +165,16 @@ public interface CourseMapper {
             "WHERE c3.power=#{power} AND " +
             "   c3.courseNo=c1.no AND " +
             "   c3.courseNo=c2.courseNo AND " +
-            "   now()<c2.startDateTime;")
-    public List<Course> getCourseList(int power);
+            "   now()>c1.startSelectDateTime AND " +
+            "   now()<c1.endSelectDateTime AND " +
+            "   s.no=#{no} AND " +
+            "   s.batch == 0 AND " +
+            "      NOT exists( " +
+            "          SELECT * " +
+            "          FROM SelectCourse sc " +
+            "          WHERE stuNo=#{no} AND " +
+            "                sc.courseNo=c1.no)")
+    public List<Course> getCourseList(@Param("power") int power, @Param("no") String no);
 
 
 

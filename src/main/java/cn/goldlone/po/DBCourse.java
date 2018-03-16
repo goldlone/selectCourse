@@ -2,6 +2,8 @@ package cn.goldlone.po;
 
 import cn.goldlone.model.Course;
 
+import java.sql.Timestamp;
+
 /**
  * Created by CN on 2017/12/17.
  */
@@ -12,6 +14,10 @@ public class DBCourse {
     private String name;
     // 学时
     private int time;
+    // 课程开始选课时间
+    private Timestamp startSelectDateTime;
+    // 课程结束选课时间
+    private Timestamp endSelectDateTime;
 
     public DBCourse(){}
 
@@ -44,12 +50,30 @@ public class DBCourse {
         this.time = time;
     }
 
+    public Timestamp getStartSelectDateTime() {
+        return startSelectDateTime;
+    }
+
+    public void setStartSelectDateTime(Timestamp startSelectDateTime) {
+        this.startSelectDateTime = startSelectDateTime;
+    }
+
+    public Timestamp getEndSelectDateTime() {
+        return endSelectDateTime;
+    }
+
+    public void setEndSelectDateTime(Timestamp endSelectDateTime) {
+        this.endSelectDateTime = endSelectDateTime;
+    }
+
     @Override
     public String toString() {
         return "DBCourse{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
                 ", time=" + time +
+                ", startSelectDateTime=" + startSelectDateTime +
+                ", endSelectDateTime=" + endSelectDateTime +
                 '}';
     }
 }

@@ -20,6 +20,10 @@ public class Course {
     private Timestamp startDateTime;
     // 课程结束时间
     private Timestamp endDateTime;
+    // 课程开始选课时间
+    private Timestamp startSelectDateTime;
+    // 课程结束选课时间
+    private Timestamp endSelectDateTime;
     // 学时
     private int time;
 
@@ -90,6 +94,22 @@ public class Course {
         this.time = time;
     }
 
+    public Timestamp getStartSelectDateTime() {
+        return startSelectDateTime;
+    }
+
+    public void setStartSelectDateTime(Timestamp startSelectDateTime) {
+        this.startSelectDateTime = startSelectDateTime;
+    }
+
+    public Timestamp getEndSelectDateTime() {
+        return endSelectDateTime;
+    }
+
+    public void setEndSelectDateTime(Timestamp endSelectDateTime) {
+        this.endSelectDateTime = endSelectDateTime;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -100,6 +120,8 @@ public class Course {
                 ", teacher='" + teacher + '\'' +
                 ", startDateTime=" + startDateTime +
                 ", endDateTime=" + endDateTime +
+                ", startSelectDateTime=" + startSelectDateTime +
+                ", endSelectDateTime=" + endSelectDateTime +
                 ", time=" + time +
                 '}';
     }

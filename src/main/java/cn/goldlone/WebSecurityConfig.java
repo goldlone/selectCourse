@@ -50,9 +50,10 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 //            System.out.println("拦截器："+session.getAttribute(Properties.LOGIN_POWER));
 //            System.out.println("拦截器："+request.getSession().getMaxInactiveInterval());
             // 判断是否已有该用户登录的session
-            if(session.getAttribute(Properties.LOGIN_POWER) != null){
-                return true;
-            }
+//            if(session.getAttribute(Properties.LOGIN_POWER) != null){
+//                return true;
+//            }
+
 //            response.setHeader("sessionTimeout", "1");
 //            response.setCharacterEncoding("utf-8");
 //            response.setContentType("application/json");
@@ -64,9 +65,16 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 //            out.print(json.toString());
 //            out.flush();
 //            out.close();
+
             // 跳转到登录页
-            response.sendRedirect("/sc/login");
-            return false;
+//            response.sendRedirect("/sc/login");
+//            return false;
+
+
+            session.setAttribute(Properties.LOGIN_NO, "123");
+            session.setAttribute(Properties.LOGIN_POWER, "2");
+            session.setAttribute(Properties.LOGIN_SCHOOL_NO, "1");
+            return true;
         }
     }
 }

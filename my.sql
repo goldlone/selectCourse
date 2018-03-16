@@ -1,16 +1,33 @@
+# 删除触发器
+DROP TRIGGER IF EXISTS del_stage_course;
+DROP TRIGGER IF EXISTS del_course;
+DROP TRIGGER IF EXISTS del_stu;
+
+# 删除表
+DROP TABLE IF EXISTS SelectCourse;
+DROP TABLE IF EXISTS CoursePower;
+DROP TABLE IF EXISTS CoursePlus;
+DROP TABLE IF EXISTS Course;
+DROP TABLE IF EXISTS Student;
+DROP TABLE IF EXISTS Admin;
+DROP TABLE IF EXISTS Schools;
+DROP TABLE IF EXISTS Powers;
+DROP TABLE IF EXISTS Feedback;
+
+
 # 权限信息表
 DROP TABLE IF EXISTS Powers;
 CREATE TABLE Powers(
-  no TINYINT AUTO_INCREMENT,
+  no TINYINT,
   identity VARCHAR(20) NOT NULL UNIQUE,
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
-INSERT INTO Powers(identity) VALUES('超级管理管理员');
-INSERT INTO Powers(identity) VALUES('基层党委组织管理员');
-INSERT INTO Powers(identity) VALUES('党员');
-INSERT INTO Powers(identity) VALUES('预备党员');
-INSERT INTO Powers(identity) VALUES('入党积极分子');
-INSERT INTO Powers(identity) VALUES('发展对象');
+INSERT INTO Powers(no, identity) VALUES(0, '超级管理员');
+INSERT INTO Powers(no, identity) VALUES(1, '基层党委组织管理员');
+INSERT INTO Powers(no, identity) VALUES(2, '党员');
+INSERT INTO Powers(no, identity) VALUES(3, '预备党员');
+INSERT INTO Powers(no, identity) VALUES(4, '入党积极分子');
+INSERT INTO Powers(no, identity) VALUES(5, '发展对象');
 
 # 学院信息表
 DROP TABLE IF EXISTS Schools;
@@ -75,7 +92,7 @@ DROP TABLE IF EXISTS Student;
 CREATE TABLE Student(
   name VARCHAR(30) NOT NULL,
   no VARCHAR(24) NOT NULL,
-  schoolNo INT DEFAULT NULL,
+  schoolNo INT,
   gender VARCHAR(2),
   nation VARCHAR(20),
   birth DATE,
@@ -87,14 +104,15 @@ CREATE TABLE Student(
   beDevelopDate DATE,
   power TINYINT NOT NULL,
   password VARCHAR(64) NOT NULL,
-  PRIMARY KEY (no),
+  batch INT NOT NULL,
+  PRIMARY KEY (no, batch),
   FOREIGN KEY (power) REFERENCES Powers(no),
   FOREIGN KEY (schoolNo) REFERENCES Schools(no)
 )DEFAULT CHARSET=utf8;
 ALTER TABLE Student ADD CONSTRAINT check_gender CHECK (gender IN ('男','女'));
 ALTER TABLE Student ADD CONSTRAINT check_age CHECK (gender BETWEEN 10 AND 150);
 ALTER TABLE Student ADD CONSTRAINT check_grade CHECK (gender BETWEEN 1902 AND 3000);
-ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>1);
+ALTER TABLE Student ADD CONSTRAINT low_power CHECK(power>2);
 
 # 课程信息表
 DROP TABLE IF EXISTS Course;
@@ -102,6 +120,8 @@ CREATE TABLE Course(
   no INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   time TINYINT NOT NULL,
+  startSelectDateTime DATETIME,
+  endSelectDateTime DATETIME,
   PRIMARY KEY (no)
 )DEFAULT CHARSET=utf8;
 # ALTER TABLE Course ADD CONSTRAINT uq_name UNIQUE(name);
@@ -143,6 +163,21 @@ CREATE TABLE SelectCourse(
 )DEFAULT CHARSET=utf8;
 ALTER TABLE SelectCourse ADD CONSTRAINT uq_select_seat UNIQUE(courseNo, seatNo, stage);
 
+# 反馈信息表
+DROP TABLE IF EXISTS Feedback;
+CREATE TABLE Feedback(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  content VARCHAR(255) NOT NULL,
+  publicer VARCHAR(24),
+  publicTime DATETIME,
+  isDeal TINYINT DEFAULT 0,
+  dealTime DATETIME,
+  dealMan VARCHAR(24),
+  PRIMARY KEY (id),
+  FOREIGN KEY (publicer) REFERENCES Student(no),
+  FOREIGN KEY (dealMan) REFERENCES Admin(no)
+)DEFAULT CHARSET=utf8;
+
 # # 触发器
 # 删除学生信息时，删除其选课信息
 DROP TRIGGER IF EXISTS del_stu;
@@ -177,6 +212,15 @@ BEGIN
 END;
 
 
+
+
+
+
+
+
+SELECT DATE_FORMAT(now(), '%Y%m');
+
+
 DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
 
 
@@ -195,7 +239,7 @@ UPDATE Admin SET password=#{newPassword} WHERE no=#{no} AND password=#{password}
 
 # 录入学员基本信息
 INSERT
-INTO student (name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
+INTO Student (name, no, schoolNo, gender, nation, birth, type, grade, position, applyDate, beActivistDate, beDevelopDate, power, password)
 VALUES (#{name}, #{no}, #{schoolNo},  #{gender}, #{nation}, #{birth}, #{type}, #{grade}, #{position}, #{applyDate}, #{beActivistDate}, #{beDevelopDate}, #{power}, #{password});
 
 # 录入学员信息
@@ -253,6 +297,39 @@ WHERE no = #{no};
 
 # 删除多余的课程-期
 DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
+
+
+
+
+SELECT c1.no, c1.name, c2.classroom,
+  c2.teacher, c1.time, c2.stage,
+  c2.startDateTime, c2.endDateTime
+FROM Course c1, CoursePlus c2, CoursePower c3, Student s
+WHERE c3.power=3 AND
+      c3.courseNo=c1.no AND
+      c3.courseNo=c2.courseNo AND
+      now()>c1.startSelectDateTime AND
+      now()<c1.endSelectDateTime AND s.no=#{no} AND s.batch=0 AND
+      NOT exists(
+          SELECT *
+          FROM SelectCourse sc
+          WHERE stuNo=#{no} AND
+                sc.courseNo=c1.no);
+
+SELECT *
+FROM SelectCourse sc
+WHERE stuNo='123' AND sc.courseNo=1;
+# c1.no NOT IN (
+# SELECT courseNo
+# FROM SelectCourse WHERE stuNo='123');
+
+UPDATE Student
+SET batch=(SELECT DATE_FORMAT(now(), '%Y%m'))
+WHERE batch=0;
+
+
+
+
 
 
 

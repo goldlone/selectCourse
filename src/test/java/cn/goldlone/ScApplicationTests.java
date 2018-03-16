@@ -55,44 +55,9 @@ public class ScApplicationTests {
 //            System.out.println(s);
 //        // 根据基层党委名查询编号
 //        System.out.println(sm.getSchoolNoByName("计算机与信息技术学院党委（大数据学院党委）"));
-//        // 录入学员基本信息
-//        DBStudent stu = new DBStudent();
-//        stu.setNo("456");
-//        stu.setName("学员2");
-//        stu.setSchoolNo(1);
-//        stu.setGender("女");
-//        stu.setNation("汉");
-//        stu.setBirth(Date.valueOf("1997-06-02"));
-//        stu.setType("研究生");
-//        stu.setGrade(2017);
-//        stu.setPosition("党支部");
-//        stu.setApplyDate(Date.valueOf("2015-01-01"));
-//        stu.setBeActivistDate(Date.valueOf("2015-01-02"));
-//        stu.setBeDevelopDate(Date.valueOf("2015-01-03"));
-//        stu.setPower(2);
-//        stu.setPassword(DigestUtils.sha256Hex("456"));
-//        sm.addDBStudent(stu);
-//        // 录入学员信息
-//        Student stu1 = new Student();
-//        stu1.setNo("123");
-//        stu1.setName("学员1");
-//        stu1.setSchool("文学院党委");
-//        stu1.setGender("男");
-//        stu1.setNation("汉");
-//        stu1.setBirth(Date.valueOf("1997-06-02"));
-//        stu1.setType("本科生");
-//        stu1.setGrade(2016);
-//        stu1.setPosition("无");
-//        stu1.setApplyDate(Date.valueOf("2015-01-01"));
-//        stu1.setBeActivistDate(Date.valueOf("2015-01-02"));
-//        stu1.setBeDevelopDate(Date.valueOf("2015-01-03"));
-//        stu1.setIdentity("入党积极分子");
-//        stu1.setPassword(DigestUtils.sha256Hex("123"));
-//        sm.addStudent(stu1);
-//        Admin admin1 = new Admin("456", "管理员2", "文学院党委", DigestUtils.sha256Hex("456"), 1);
-//        sm.addAdmin(admin1);
-//        DBAdmin admin2 = new DBAdmin("789", "超级管理员1", 37, DigestUtils.sha256Hex("789"), 0);
-//        sm.addDBAdmin(admin2);
+
+
+
 //        for(Admin a: sm.getAllAdminInfo())
 //            System.out.println(a);
 //        System.out.println("----");
