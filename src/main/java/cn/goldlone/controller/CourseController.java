@@ -43,6 +43,7 @@ public class CourseController extends BaseController {
     public Result publicCourse(HttpServletRequest request) throws IOException {
         String rec = IOUtil.streamToString(request.getInputStream());
         JSONObject recJSON = new JSONObject(rec);
+        System.out.println(rec);
         String name = recJSON.getString("name");
         Integer time = recJSON.getInt("time");
         Timestamp startSelectDateTime = Timestamp.valueOf(recJSON.getString("startSelectDateTime"));
@@ -81,7 +82,8 @@ public class CourseController extends BaseController {
         course.setTime(time);
         course.setStartSelectDateTime(startSelectDateTime);
         course.setEndSelectDateTime(endSelectDateTime);
-        return cs.publicCourse(new DBCourse(name, time), powers1, plus);
+        System.out.println(course);
+        return cs.publicCourse(course, powers1, plus);
     }
 
 

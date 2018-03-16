@@ -53,7 +53,8 @@ public interface CourseMapper {
      * @return
      */
     @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time," +
-            "   c2.stage,c2.startDateTime,c2.endDateTime " +
+            "   c2.stage,c2.startDateTime,c2.endDateTime, " +
+            "   c1.startSelectDateTime, c1.endSelectDateTime " +
             "FROM Course c1, CoursePlus c2 " +
             "WHERE c1.no=c1.no AND " +
             "   c1.no=c2.courseNo " +
@@ -67,7 +68,8 @@ public interface CourseMapper {
      * @return
      */
     @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time, " +
-            "   c2.stage,c2.startDateTime,c2.endDateTime " +
+            "   c2.stage,c2.startDateTime,c2.endDateTime, " +
+            "   c1.startSelectDateTime, c1.endSelectDateTime" +
             "FROM Course c1, CoursePlus c2 " +
             "WHERE c1.no=#{courseNo} AND " +
             "   c2.stage=#{stage} AND " +
@@ -104,7 +106,9 @@ public interface CourseMapper {
      */
     @Update("UPDATE Course " +
             "SET name=#{name}, " +
-            "   time=#{time} " +
+            "   time=#{time}, " +
+            "   startSelectDateTime=#{startSelectDateTime}, " +
+            "   endSelectDateTime=#{endSelectDateTime}" +
             "WHERE no=#{no}")
     public Integer updateBaseCourse(DBCourse course);
 
@@ -160,7 +164,8 @@ public interface CourseMapper {
      * @return
      */
     @Select("SELECT c1.no, c1.name, c2.classroom, c2.teacher, c1.time, " +
-            "   c2.stage, c2.startDateTime, c2.endDateTime " +
+            "   c2.stage, c2.startDateTime, c2.endDateTime, " +
+            "   c1.startSelectDateTime, c1.endSelectDateTime " +
             "FROM Course c1, CoursePlus c2, CoursePower c3 " +
             "WHERE c3.power=#{power} AND " +
             "   c3.courseNo=c1.no AND " +
@@ -291,7 +296,8 @@ public interface CourseMapper {
      * @return
      */
     @Select("SELECT c1.no,c1.name,c2.classroom,c2.teacher,c1.time," +
-            "   c2.stage,c2.startDateTime,c2.endDateTime " +
+            "   c2.stage,c2.startDateTime,c2.endDateTime, " +
+            "   c1.startSelectDateTime, c1.endSelectDateTime  " +
             "FROM Course c1, CoursePlus c2 " +
             "WHERE c2.endDateTime<now() AND " +
             "   c1.no=c1.no AND " +
