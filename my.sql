@@ -298,6 +298,14 @@ WHERE no = #{no};
 # 删除多余的课程-期
 DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
 
+SELECT *
+FROM Feedback WHERE isDeal=0;
+
+UPDATE Feedback
+SET isDeal = 1,
+  dealTime = now(),
+  dealMan = #{no}
+WHERE id=#{id};
 
 
 

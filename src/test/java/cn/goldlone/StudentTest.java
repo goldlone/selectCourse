@@ -4,6 +4,7 @@ import cn.goldlone.mapper.StudentMapper;
 import cn.goldlone.model.Admin;
 import cn.goldlone.model.Student;
 import cn.goldlone.po.DBAdmin;
+import cn.goldlone.po.DBFeedback;
 import cn.goldlone.po.DBStudent;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -77,6 +79,19 @@ public class StudentTest {
         DBAdmin admin2 = new DBAdmin("123", "超级管理员1", 1, DigestUtils.sha256Hex("123"), 1);
         sm.addDBAdmin(admin2);
     }
+
+    @Test
+    public void feedback(){
+        sm.feedback("123", "第四条反馈信息");
+
+        List<DBFeedback> list = sm.getFeedback();
+        for (DBFeedback df: list)
+            System.out.println(df);
+
+        sm.dealFeedback(list.get(0).getId(), "123");
+    }
+
+
 
 
 }

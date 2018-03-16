@@ -6,10 +6,7 @@ import cn.goldlone.model.Admin;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Result;
 import cn.goldlone.model.Student;
-import cn.goldlone.po.DBAdmin;
-import cn.goldlone.po.DBPowers;
-import cn.goldlone.po.DBSchool;
-import cn.goldlone.po.DBStudent;
+import cn.goldlone.po.*;
 import cn.goldlone.utils.ResultUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -357,11 +354,31 @@ public class StudentService {
     }
 
     /**
+     * 获取反馈信息
+     * @return
+     */
+    public Result getFeedback() {
+        List<DBFeedback> list = sm.getFeedback();
+        return ResultUtil.success("获取反馈信息成功", list);
+    }
+
+    /**
      * 提交反馈信息
      * @return
      */
-    public Result feedback() {
-//        return sm.feedback();
-        return null;
+    public Result feedback(String stuNo, String content) {
+        sm.feedback(stuNo, content);
+        return ResultUtil.success("提交反馈成功");
+    }
+
+    /**
+     * 处理反馈信息
+     * @param id
+     * @param no
+     * @return
+     */
+    public Result dealFeedback(long id, String no) {
+        sm.dealFeedback(id, no);
+        return ResultUtil.success("处理成功");
     }
 }

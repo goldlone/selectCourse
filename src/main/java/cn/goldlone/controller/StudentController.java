@@ -280,8 +280,30 @@ public class StudentController extends BaseController {
      * @return
      */
     @PostMapping("/stu/feedback")
-    public Result feedback() {
-        return ss.feedback();
+    public Result feedback(HttpServletRequest request, String content) {
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        return ss.feedback(stuNo, content);
+    }
+
+    /**
+     * 获取反馈信息
+     * @return
+     */
+    @PostMapping("/stu/getFeedback")
+    public Result getFeedback() {
+        return ss.getFeedback();
+    }
+
+    /**
+     * 处理反馈信息
+     * @param request
+     * @param id
+     * @return
+     */
+    @PostMapping("/stu/dealFeedback")
+    public Result dealFeedback(HttpServletRequest request, long id) {
+        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        return ss.dealFeedback(id, no);
     }
 
 }

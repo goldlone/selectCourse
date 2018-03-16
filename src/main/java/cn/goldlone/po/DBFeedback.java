@@ -3,6 +3,7 @@ package cn.goldlone.po;
 import java.sql.Timestamp;
 
 public class DBFeedback {
+    private long id;
     // 反馈信息
     private String content;
     // 反馈者
@@ -15,6 +16,14 @@ public class DBFeedback {
     private Timestamp dealTime;
     // 处理者
     private String dealMan;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getContent() {
         return content;
@@ -67,7 +76,8 @@ public class DBFeedback {
     @Override
     public String toString() {
         return "DBFeedback{" +
-                "content='" + content + '\'' +
+                "id=" + id +
+                ", content='" + content + '\'' +
                 ", publicer='" + publicer + '\'' +
                 ", publicTime=" + publicTime +
                 ", isDeal=" + isDeal +

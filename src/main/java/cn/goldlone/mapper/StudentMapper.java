@@ -3,10 +3,7 @@ package cn.goldlone.mapper;
 import cn.goldlone.model.Admin;
 import cn.goldlone.model.LoginInfo;
 import cn.goldlone.model.Student;
-import cn.goldlone.po.DBAdmin;
-import cn.goldlone.po.DBPowers;
-import cn.goldlone.po.DBSchool;
-import cn.goldlone.po.DBStudent;
+import cn.goldlone.po.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -300,4 +297,35 @@ public interface StudentMapper {
             "SET batch=(SELECT DATE_FORMAT(now(), '%Y%m')) " +
             "WHERE batch=0;")
     public Integer endCourse();
+
+    /**
+     * 提交反馈信息
+     * @return
+     */
+    @Insert("INSERT " +
+            "INTO Feedback(content, publicer, publicTime) " +
+            "VALUES(#{content}, #{stuNo}, now());")
+    public Integer feedback(@Param("stuNo") String stuNo, @Param("content") String content);
+
+    /**
+     * 获取反馈信息
+     * @return
+     */
+    @Select("SELECT * " +
+            "FROM Feedback " +
+            "WHERE isDeal=0;")
+    public List<DBFeedback> getFeedback();
+
+    /**
+     * 处理反馈信息
+     * @param id
+     * @param no
+     * @return
+     */
+    @Update("UPDATE Feedback " +
+            "SET isDeal = 1, " +
+            "  dealTime = now(), " +
+            "  dealMan = #{no} " +
+            "WHERE id=#{id};")
+    public Integer dealFeedback(@Param("id") long id, @Param("no") String no);
 }
