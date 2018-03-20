@@ -42,10 +42,13 @@ public class StudentController extends BaseController {
     @PostMapping("/admin/add")
     public Result addAdmin(DBAdmin admin) {
         System.out.println(admin);
-        if(CheckUtils.IsEffectiveStr(new String[]{admin.getNo(), admin.getName()})) {
+        if(!CheckUtils.IsEffectiveStr(new String[]{admin.getNo(), admin.getName()})) {
             return ResultUtil.error(ResultUtil.CODE_PARAMS_LOSE, "缺少必要的参数");
         }
-        return ss.addAdmin(admin);
+        if(admin.getSchoolNo()==0) {
+            return ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "不允许添加超级管理员");
+        }return ss.addAdmin(admin);
+
     }
 
     /**
@@ -281,7 +284,8 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/feedback")
     public Result feedback(HttpServletRequest request, String content) {
-        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        String stuNo = "123";
         return ss.feedback(stuNo, content);
     }
 
@@ -302,7 +306,8 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/dealFeedback")
     public Result dealFeedback(HttpServletRequest request, long id) {
-        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+        String no = "123";
         return ss.dealFeedback(id, no);
     }
 

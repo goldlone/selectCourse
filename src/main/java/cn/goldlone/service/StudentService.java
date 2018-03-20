@@ -118,13 +118,12 @@ public class StudentService {
      */
     public Result addAdmin(DBAdmin admin) {
         Result result = null;
-        System.out.println(admin.toString());
-        admin.setPassword(DigestUtils.sha256Hex(admin.getPassword()));
+        admin.setPassword(DigestUtils.sha256Hex(admin.getNo()));
         admin.setPower(1);
         if(sm.addDBAdmin(admin)>0) {
             result = ResultUtil.success("添加管理员成功");
         } else {
-            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加用户失败");
+            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加管理员失败");
         }
         return result;
     }
@@ -141,7 +140,7 @@ public class StudentService {
         if(sm.addAdmin(admin)>0) {
             result = ResultUtil.success("添加管理员成功");
         } else {
-            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加用户失败");
+            result = ResultUtil.error(ResultUtil.CODE_OPERATE_FAIL, "添加管理员失败");
         }
         return result;
     }
@@ -378,7 +377,8 @@ public class StudentService {
      * @return
      */
     public Result dealFeedback(long id, String no) {
-        sm.dealFeedback(id, no);
+        if(sm.dealFeedback(id, no)==0)
+            return ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该条信息不存在");
         return ResultUtil.success("处理成功");
     }
 }
