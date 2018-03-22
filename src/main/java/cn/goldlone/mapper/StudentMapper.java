@@ -15,6 +15,16 @@ import java.util.List;
  */
 @Mapper
 public interface StudentMapper {
+
+    /**
+     * 获取所有批次
+     * @return
+     */
+    @Select("SELECT DISTINCT batch " +
+            "FROM Student " +
+            "WHERE 1;")
+    public List<Integer> getBatch();
+
     /**
      * 获取学员密码
      * @param no
@@ -194,14 +204,14 @@ public interface StudentMapper {
             "   s1.gender, s1.nation, s1.birth, s1.type, " +
             "   s1.grade, s1.position, s1.applyDate, " +
             "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity " +
+            "   s1.power, p.identity, s1.batch  " +
             "FROM Student s1, Powers p, Schools s2 " +
             "WHERE s1.power=p.no AND " +
             "   s1.schoolNo=s2.no;")
     public List<Student> getAllStuInfo();
 
     /**
-     * 根据学院编号获取学生信息
+     * 根据学院编号及批次获取学生信息
      * @param schoolNo
      * @return
      */
@@ -209,13 +219,14 @@ public interface StudentMapper {
             "   s1.gender, s1.nation, s1.birth, s1.type, " +
             "   s1.grade, s1.position, s1.applyDate, " +
             "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity " +
+            "   s1.power, p.identity, s1.batch " +
             "FROM Student s1, Powers p, Schools s2 " +
             "WHERE s2.no=#{schoolNo} AND " +
             "   s1.power=p.no AND " +
             "   s1.schoolNo=s2.no AND " +
-            "   s1.batch=0;")
-    public List<Student> getStudentInfoBySchoolNo(int schoolNo);
+            "   s1.batch=#{batch};")
+    public List<Student> getStudentInfoBySchoolNo(@Param("schoolNo") int schoolNo,
+                                                  @Param("batch") int batch);
 
 
     /**
@@ -227,7 +238,7 @@ public interface StudentMapper {
             "   s1.gender, s1.nation, s1.birth, s1.type, " +
             "   s1.grade, s1.position, s1.applyDate, " +
             "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity " +
+            "   s1.power, p.identity, s1.batch  " +
             "FROM Student s1, Powers p, Schools s2 " +
             "WHERE s1.no=#{stuNo} AND " +
             "   s1.power=p.no AND " +
@@ -243,7 +254,7 @@ public interface StudentMapper {
             "   s1.gender, s1.nation, s1.birth, s1.type, " +
             "   s1.grade, s1.position, s1.applyDate, " +
             "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity " +
+            "   s1.power, p.identity, s1.batch  " +
             "FROM Student s1, Powers p, Schools s2 " +
             "WHERE s1.name LIKE concat('%',#{name},'%') AND " +
             "   s1.power=p.no AND " +

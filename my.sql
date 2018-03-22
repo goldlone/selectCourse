@@ -307,7 +307,7 @@ SET isDeal = 1,
   dealMan = #{no}
 WHERE id=#{id};
 
-
+SELECT DISTINCT batch FROM Student WHERE 1;
 
 SELECT c1.no, c1.name, c2.classroom,
   c2.teacher, c1.time, c2.stage,

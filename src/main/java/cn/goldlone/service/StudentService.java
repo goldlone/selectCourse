@@ -112,6 +112,14 @@ public class StudentService {
     }
 
     /**
+     * 获取全部批次信息
+     * @return
+     */
+    public Result getBatch() {
+        return ResultUtil.success("获取批次信息成功", sm.getBatch());
+    }
+
+    /**
      * 录入管理员信息
      * @param admin
      * @return
@@ -280,8 +288,8 @@ public class StudentService {
      * @param schoolNo
      * @return
      */
-    public Result getStudentInfoBySchoolNo(int schoolNo) {
-        List<Student> list = sm.getStudentInfoBySchoolNo(schoolNo);
+    public Result getStudentInfoBySchoolNo(int schoolNo, int batch) {
+        List<Student> list = sm.getStudentInfoBySchoolNo(schoolNo, batch);
         return ResultUtil.success("获取学员信息成功", list);
     }
 
@@ -381,4 +389,5 @@ public class StudentService {
             return ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该条信息不存在");
         return ResultUtil.success("处理成功");
     }
+
 }

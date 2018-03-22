@@ -34,9 +34,10 @@ public class Student {
     private int power;
     // 身份名称
     private String identity;
-    //
     // 密码
     private String password;
+    // 批次
+    private int batch;
 
     public Student() {
     }
@@ -159,6 +160,14 @@ public class Student {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getBatch() {
+        return batch;
+    }
+
+    public void setBatch(int batch) {
+        this.batch = batch;
     }
 
     @Override

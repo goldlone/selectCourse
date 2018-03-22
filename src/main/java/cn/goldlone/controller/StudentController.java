@@ -35,6 +35,15 @@ public class StudentController extends BaseController {
     private StudentService ss;
 
     /**
+     * 获取全部批次信息
+     * @return
+     */
+    @PostMapping("/stu/batch")
+    public Result getBatch() {
+        return ss.getBatch();
+    }
+
+    /**
      * 单个录入管理员信息
      * @param admin
      * @return
@@ -203,9 +212,13 @@ public class StudentController extends BaseController {
      * @return
      */
     @PostMapping("/stu/schoolInfo")
-    public Result getStudentInfoBySchoolNo(int schoolNo, HttpServletRequest request) {
-//        System.out.println("权限："+request.getSession().getAttribute(Properties.LOGIN_POWER));
-        return ss.getStudentInfoBySchoolNo(schoolNo);
+    public Result getStudentInfoBySchoolNo(int schoolNo, int batch, HttpServletRequest request) {
+//        int power = (int) request.getSession().getAttribute(Properties.LOGIN_POWER);
+//        int schoolNo1 = (int) request.getSession().getAttribute(Properties.LOGIN_SCHOOL_NO);
+//        if(power==0 || (power==1 && schoolNo==schoolNo1))
+            return ss.getStudentInfoBySchoolNo(schoolNo, batch);
+
+//        return ResultUtil.error(ResultUtil.CODE_NO_POWER, "权限不足");
     }
 
     /**
