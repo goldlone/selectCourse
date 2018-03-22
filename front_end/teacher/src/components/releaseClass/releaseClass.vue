@@ -14,6 +14,25 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="所占学时">
+            <el-input v-model="tempClass.time"></el-input>
+          </el-form-item>
+          <el-form-item label="上课学生权限">
+            <el-select v-model="tempClass.power" multiple>
+              <el-option v-for="item in powerOption" :key="item.value" :label="item.label" :value="item.value">
+
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="开课选课时间">
+            <el-date-picker
+              v-model="tempClass.selectTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
           <div class="time">
             <div v-for="item in stages" class="chooseTime">
               <span>{{item.name}} </span>
@@ -27,23 +46,13 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="教室">
-                <el-input v-model="item.classroom"></el-input>
+                <el-input v-model="item.classroom" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="教师">
                 <el-input v-model="item.teacher"></el-input>
               </el-form-item>
             </div>
           </div>
-          <el-form-item label="所占学时">
-            <el-input v-model="tempClass.time"></el-input>
-          </el-form-item>
-          <el-form-item label="上课学生权限">
-            <el-select v-model="tempClass.power" multiple>
-              <el-option v-for="item in powerOption" :key="item.value" :label="item.label" :value="item.value">
-
-              </el-option>
-            </el-select>
-          </el-form-item>
         </el-form>
 
         <el-row>
@@ -70,7 +79,9 @@
    * 所占学时
    * 选择权限（多选） ---身份有 党员 预备党员 入党积极分子 发展对象
    */
-    export default {
+  let util = require("../../util/utils");
+
+  export default {
         name: "release-class",
         data(){
           return {
@@ -80,7 +91,7 @@
               selectClassTime:[],
               classTime:[],
               teacher:"",
-              classroom:"",
+              classroom:"文科楼三层报告厅",
               stage:1
             }],
             tempClass:{
@@ -123,17 +134,20 @@
             })
             this.$http.post(`http://${ip}/course/public`,{
               name:self.tempClass.name,
+              startSelectDateTime : moment(self.tempClass.selectTime[0]).format("YYYY-MM-D HH:mm:ss"),
+              endSelectDateTime : moment(self.tempClass.selectTime[1]).format("YYYY-MM-D HH:mm:ss"),
               time:self.tempClass.time,
               powers:self.tempClass.power,
               plus:self.stages
             }).then((res)=>{
+              util.redict(res.data);
               if(res.data.code === 1001 ){
                 self.$message("发布课程成功");
               }else{
                 if(res.data.code === 3001){
-                  self.$message.error("您输入的数据有误");
+                  self.$message.error(res.data.msg);
                 }else
-                  self.$message.error("发布课程失败，请检查您的课程数据");
+                  self.$message.error(res.data.msg);
               }
             })
           }
@@ -149,7 +163,7 @@
                     selectClassTime:[],
                     classTime:[],
                     teacher:"",
-                    classroom:""
+                    classroom:"文科楼三层报告厅"
                   })
                 }
             console.log(this.stages)

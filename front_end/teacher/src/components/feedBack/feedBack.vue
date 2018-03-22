@@ -31,7 +31,7 @@
     <!--修改到课情况-->
     <el-dialog  :visible.sync="feedBackFlag" title ="修改到课情况">
       <el-row>
-        <el-col :span="18" :offset="5">
+        <el-col :span="18" :offset="6">
           <el-transfer v-model="absentStudent" :data="student"     :titles="['到课学生', '未到课学生']" filterable></el-transfer>
         </el-col>
       </el-row>
@@ -48,7 +48,7 @@
 
     <el-dialog :visible.sync="sureFlag" title="确定修改到课状况吗？">
       <el-row>
-        <el-col :offset="9" >
+        <el-col :offset="10" >
           <el-button @click="sendFeedBack">确认</el-button>
           <el-button @click="sureFlag = false">取消</el-button>
         </el-col>
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-    import ElSpinner from "element-ui/packages/spinner/src/spinner";
+  let util = require("../../util/utils");
+  import ElSpinner from "element-ui/packages/spinner/src/spinner";
     let ip = require("../../config/config").ip;
     let moment = require("moment");
     let $ = require("jquery");
@@ -122,6 +123,7 @@
             stu:self.absentStudent,
             courseNo:self.selectNo
           }).then((response)=>{
+            // util.redict(response);
             console.log(response.data)
             if(response.data.code == 1001){
               self.$message("反馈到课信息成功");
@@ -144,6 +146,7 @@
             courseNo:no,
             stage:stage
           },function (response) {
+            // util.redict(response);
             self.student = [];
             if(response.code == 1001){
               console.log("1001");
@@ -170,6 +173,7 @@
         self.stages = [];
           let result;
         $.post(`http://${ip}/course/end`,function(response){
+          // util.redict(response);
           if(response.code == 1001){
             result = response.data;
             response.data.forEach(function (ele) {

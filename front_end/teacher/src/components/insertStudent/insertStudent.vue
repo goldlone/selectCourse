@@ -104,7 +104,6 @@
                 <el-button @click="insertSingleStudent()">提交</el-button>
               </el-col>
             </el-row>
-            提示：权限编号 0-代表超级管理员、1-基层党组织管理员、2-党员、3-预备党员、4-入党积极分子、5-发展对象
           </el-form>
         </el-row>
     </el-tab-pane>
@@ -112,7 +111,8 @@
 </template>
 
 <script>
-    let config = require("../../config/config");
+  let util = require("../../util/utils");
+  let config = require("../../config/config");
     const ip = config.ip;
     let $ = require("jquery");
     let moment = require("moment");
@@ -159,6 +159,7 @@
           this.$message.error("上传失败");
         },
         addSuccess(response){
+          // util.redict(response);
           if(response.code == 1001){
             this.$message(`上传成功,${response.data}`);
           }else{
@@ -195,6 +196,7 @@
           }
           console.log(this.tempStudentInfo)
           $.post(`http://${ip}/stu/addOne`,req,function (response) {
+            // util.redict(response);
             if(response.code == 1001){
               self.$message("添加学员成功");
               self.tempStudentInfo = {};
@@ -212,6 +214,7 @@
          */
         let self  = this;
         $.post(`http://${ip}/getSchools`,function (response) {
+          // util.redict(response);
           if(response.code == 1001){
             self.parties = response.data;
           }else{

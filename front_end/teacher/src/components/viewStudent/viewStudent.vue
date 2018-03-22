@@ -13,8 +13,18 @@
               </el-option>
             </el-select>
           </el-col>
-          <el-col :span="8"></el-col>
-          <el-col :span="8"></el-col>
+          <el-col :span="8">
+            <el-select v-model="selectBatch" placeholder="请选择批次" class="selectParty">
+              <el-option
+                v-for="item in batch"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="8" :offset="16">
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
@@ -25,13 +35,16 @@
             <span>姓名</span>
             <el-input v-model="filterName"></el-input>
           </el-col>
-          <el-col :span="6" :offset="2">
+          <el-col :span="1" :offset="1">
             <span style="position:relative;top:25px;">筛选</span>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="danger" @click="end()" style="position:relative;top:20px;">结束该批次学员</el-button>
           </el-col>
         </el-row>
         <el-row>
           <el-table
-            :data="students"
+            :data="showStudents"
             border
             style="width: 100%"
             class="studentTable">
@@ -39,72 +52,72 @@
               fixed
               prop="no"
               label="学号"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="name"
               label="姓名"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="gender"
               label="性别"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="nation"
               label="民族"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="birth"
               label="出生日期"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="type"
               label="学生类别"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="grade"
               label="年级"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="position"
               label="职务"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="applyDate"
               label="申请入党时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="beActivistDate"
               label="定为积极分子时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="beDevelopDate"
               label="定位发展对象初步入选时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="powerLabel"
               label="权限"
-              width="100">
+              width="120">
             </el-table-column>
-            <el-table-column
-              prop="power"
-              label="权限编号"
-              width="100">
-            </el-table-column>
+            <!--<el-table-column-->
+              <!--prop="power"-->
+              <!--label="权限编号"-->
+              <!--width="100">-->
+            <!--</el-table-column>-->
             <el-table-column
               fixed="right"
               label="操作"
-              width="180">
+              width="200">
               <template slot-scope="scope">
                 <el-row>
                   <el-col :span="4"><el-button @click="showUpdateInfo = true;selectStudentInfo = scope.row" type="text" size="small">修改</el-button></el-col>
@@ -114,6 +127,17 @@
               </template>
             </el-table-column>
           </el-table>
+          <el-row>
+            <el-col :span="8" :offset="9" class="pagination">
+              <el-pagination
+                background
+                :page-size="20"
+                @current-change="handleCurrentChange"
+                layout="prev, pager, next"
+                :total="students.length">
+              </el-pagination>
+            </el-col>
+          </el-row>
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="学生查询" name="search">
@@ -144,72 +168,72 @@
               fixed
               prop="no"
               label="学号"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="name"
               label="姓名"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="gender"
               label="性别"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="nation"
               label="民族"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="birth"
               label="出生日期"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="type"
               label="学生类别"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="grade"
               label="年级"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="position"
               label="职务"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="applyDate"
               label="申请入党时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="beActivistDate"
               label="定为积极分子时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="beDevelopDate"
               label="定位发展对象初步入选时间"
-              width="100">
+              width="120">
             </el-table-column>
             <el-table-column
               prop="powerLabel"
-              label="权限"
-              width="100">
+              label="身份"
+              width="120">
             </el-table-column>
-            <el-table-column
-              prop="power"
-              label="权限编号"
-              width="100">
-            </el-table-column>
+            <!--<el-table-column-->
+              <!--prop="power"-->
+              <!--label="权限编号"-->
+              <!--width="100">-->
+            <!--</el-table-column>-->
             <el-table-column
               fixed="right"
               label="操作"
-              width="180">
+              width="200">
               <template slot-scope="scope">
                 <el-row>
                   <el-col :span="4"><el-button @click="showUpdateInfo = true;selectStudentInfo = scope.row" type="text" size="small">修改</el-button></el-col>
@@ -291,7 +315,7 @@
               placeholder="选择定为积极分子日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="权限">
+          <el-form-item label="身份">
             <el-select v-model="tempStudentInfo.power">
               <el-option v-for="item in powerOption" :key="item.value" :label="item.label" :value="item.value">
 
@@ -368,7 +392,11 @@
       name: "view-student",
       data(){
         return {
+          showPage:0,//展示的页数
+          showStudents:[],//被展示的学生
+          selectBatch:"",//选中的批次
           tempStuNoCancelFlag:"",//取消学生选课临时变量
+          batch:[],//存储批次
           showChooseClass:false,//控制查看学生选课信息栏是否打开
           showUpdateInfo:false,//控制修改信息栏是否打开
           students:[],//存储学生信息
@@ -385,14 +413,6 @@
           filterName:"",//筛选学生的姓名
           filterBeforeStudentInfo:[],//筛选前学生信息
           powerOption:[
-            {
-              value:0,
-              label:"超级管理员"
-            },
-            {
-              value:1,
-              label:"基层党委组织超级管理员"
-            },
             {
               value:2,
               label:"党员"
@@ -414,6 +434,9 @@
         }
       },
       methods:{
+        handleCurrentChange:function(val){
+            this.showPage = val;
+        },
         viewChooseClass:function (row) {
           /***
            * 查看某个学生选课
@@ -438,6 +461,26 @@
           setTimeout(function () {
             self.showChooseClass = true;
           },100)
+        },
+        end(){
+          this.$confirm('此操作将结束当前批次学生, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(()=>{
+            this.$http.post(`http://${ip}/stu/endCourse`)
+              .then(response=>{
+                if(response.data.code == 1001){
+                  this.$message("成功结束当前批次学生")
+                }else{
+                  this.$message.error(`结束当前批次学生失败，原因：${response.data.msg}`);
+                }
+              }).catch(err=>{
+              this.$message.error(`结束当前批次学生失败，原因：${err}`);
+            })
+          }).catch(err=>{
+            console.log(err);
+          })
         },
         getSpecialSchoolStudents:function (schoolNo) {
 
@@ -524,6 +567,18 @@
            * 筛选出符合条件的学生
            * */
         },
+        updateShowPage(){
+          /**
+           *  更新显示页面
+           * */
+          if(this.showPage*20 > this.students.length){
+            this.showStudents = this.students.slice((this.showPage-1)*20,this.students.length);
+          }else
+            this.showStudents = this.students.slice((this.showPage-1)*20,this.showPage*20);
+          console.log(`------------------------------------>showPage:${this.showPage}`);
+          console.log(`------------------------------------>showStudent:${this.showStudents}`);
+          console.log(`------------------------------------>student:${this.students}`);
+        },
         updateSpecialStudentInfo:function(){
           /**
            *  修改某一个特定学生的信息
@@ -550,38 +605,42 @@
         },
         getAllStudents:function () {
           let self = this;
-          $.post(`http://${ip}/stu/schoolInfo`,{
-            schoolNo:self.selectParty
-          },function (response) {
-            if(response.code == 1001){
-              self.students = response.data;
-              self.beforeFilter = response.data;
-              self.students.forEach((ele)=>{
-                /**
-                 *  格式化日期
-                 * */
-                ele.birth = moment(ele.birth).format("YYYY/MM/D");
-                ele.beActivistDate = moment(ele.beActivistDate).format("YYYY/MM/D");
-                ele. applyDate = moment(ele. applyDate).format("YYYY/MM/D");
-                ele.beDevelopDate = moment(ele.beDevelopDate).format("YYYY/MM/D");
+          if(self.selectBatch!=="" && self.selectParty !== ""){
+            $.post(`http://${ip}/stu/schoolInfo`,{
+              schoolNo:self.selectParty,
+              batch:self.selectBatch
+            },function (response) {
+              if(response.code == 1001){
+                self.students = response.data;
+                self.beforeFilter = response.data;
+                self.students.forEach((ele)=>{
+                  /**
+                   *  格式化日期
+                   * */
+                  ele.birth = moment(ele.birth).format("YYYY/MM/D");
+                  ele.beActivistDate = moment(ele.beActivistDate).format("YYYY/MM/D");
+                  ele. applyDate = moment(ele. applyDate).format("YYYY/MM/D");
+                  ele.beDevelopDate = moment(ele.beDevelopDate).format("YYYY/MM/D");
 
-                /**
-                 *
-                 *   将权限信息格式化
-                 * */
+                  /**
+                   *
+                   *   将权限信息格式化
+                   * */
 
-                for(let i = 0;i < self.powerOption.length;i++){
-                  if(ele.power == self.powerOption[i].value){
-                    ele.powerLabel = self.powerOption[i].label;
+                  for(let i = 0;i < self.powerOption.length;i++){
+                    if(ele.power == self.powerOption[i].value){
+                      ele.powerLabel = self.powerOption[i].label;
+                    }
                   }
+                })
+               self.updateShowPage();
+              }else{
+                if(self.selectParty!=undefined){
+                  alert("获取学生信息失败")
                 }
-              })
-            }else{
-              if(self.selectParty!=undefined){
-                alert("获取学生信息失败")
               }
-            }
-          })
+            })
+          }
         },
         /**
          *
@@ -688,16 +747,44 @@
               console.log("获取基层党组织信息失败")
             }
           })
+
+        $.post(`http://${ip}/stu/batch`,function (response) {
+          if(response.code == 1001){
+            response.data.forEach(function (e) {
+              self.batch.push(
+                {
+                  label:e,
+                  value:e
+                }
+              )
+            })
+          }
+        })
       },
       watch:{
+        showPage:function () {
+          console.log(this.students);
+          console.log(this.students.slice(0,this.students.length));
+          if(this.showPage*20 > this.students.length){
+            this.showStudents = this.students.slice((this.showPage-1)*20,this.students.length);
+          }else
+            this.showStudents = this.students.slice((this.showPage-1)*20,this.showPage*20);
+        },
         selectParty:function () {
           this.students = [];
           this.getAllStudents();
+          this.showPage = 1;
+        },
+        selectBatch:function () {
+          this.students = [];
+          this.getAllStudents();
+          this.showPage = 1;
         },
         filterID:function () {
           if(this.filterID  == "" && this.filterName == ""){
             console.log("clean");
             this.students = this.beforeFilter;
+            this.updateShowPage();
           }else{
             let temp = [];
             for(let i = 0;i < this.beforeFilter.length;i++){
@@ -706,12 +793,14 @@
               }
             }
             this.students = temp;
+            this.updateShowPage();
           }
         },
         filterName:function () {
           if(this.filterID  == "" && this.filterName == ""){
             console.log("clean");
             this.students = this.beforeFilter;
+            this.updateShowPage();
           }else{
             let temp = [];
             for(let i = 0;i < this.beforeFilter.length;i++){
@@ -723,6 +812,7 @@
               }
             }
             this.students = temp;
+            this.updateShowPage();
           }
         },
         selectStudentInfo:function(){
@@ -737,6 +827,9 @@
 </script>
 
 <style scoped>
+  .pagination{
+    margin-top: 20px;
+  }
   .searchSpecialStu{
     margin-top:25px;
     margin-left:30px;

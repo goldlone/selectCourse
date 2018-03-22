@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  let util = require("../../util/utils");
   let $ = require("jquery");
   let conifg = require("../../config/config.js");
   let ip = conifg.ip;
@@ -64,6 +65,7 @@
             password:self.oldPassword,
             newPassword:self.newPassword,
           },function (response) {
+            util.redict(response);
             if(response.code == 1001){
               self.$message("修改密码成功");
             }else if(response.code == 2002){
