@@ -29,6 +29,14 @@
                 <i class="el-icon-warning"></i>
                 <span slot="title">修改密码</span>
               </el-menu-item>
+              <el-menu-item index="/admin">
+                <i class="el-icon-menu"></i>
+                <span slot="title">管理员</span>
+              </el-menu-item>
+              <el-menu-item  index="/feedBackMessage">
+                <i class="el-icon-document"></i>
+                <span slot="title">反馈信息列表</span>
+              </el-menu-item>
             </el-menu>
         </el-col>
     </el-row>

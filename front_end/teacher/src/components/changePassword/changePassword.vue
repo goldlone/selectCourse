@@ -1,30 +1,31 @@
 <template>
   <div>
+    <h2>修改密码</h2>
+    <!--<el-row>-->
+      <!--<el-col :span="4" class="title">-->
+        <!--<span>修改密码</span>-->
+      <!--</el-col>-->
+    <!--</el-row>-->
     <el-row>
-      <el-col :span="4" class="title">
-        <span>修改密码</span>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="12" :offset="4">
+      <el-col :span="12" :offset="6">
         <span>旧密码</span>
         <el-input v-model="oldPassword" type="password"></el-input>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12" :offset="4">
+      <el-col :span="12" :offset="6">
         <span>新密码</span>
         <el-input v-model="newPassword" type="password">新密码</el-input>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12" :offset="4">
+      <el-col :span="12" :offset="6">
         <span>再次输入新密码</span>
         <el-input v-model="reNewPassword" type="password">新密码</el-input>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="6" :offset="8" style="margin-top: 20px">
+      <el-col :span="6" :offset="10" style="margin-top: 20px">
         <el-button type="danger" @click="inputNewPassword">修改密码</el-button>
       </el-col>
     </el-row>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+  let util = require("../../util/utils");
   let $ = require("jquery");
   let conifg = require("../../config/config.js");
   let ip = conifg.ip;
@@ -64,6 +66,7 @@
             password:self.oldPassword,
             newPassword:self.newPassword,
           },function (response) {
+            util.redict(response);
             if(response.code == 1001){
               self.$message("修改密码成功");
             }else if(response.code == 2002){
@@ -81,6 +84,12 @@
 </script>
 
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
   .title{
     margin-top: 50px;
     margin-bottom: 50px;

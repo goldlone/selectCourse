@@ -9,6 +9,8 @@ import updateClass from '../components/updateClass/updateClass'
 import updateStudent from '../components/updateStudent/updateStudent'
 import viewStudent from '../components/viewStudent/viewStudent'
 import changePassword from  '../components/changePassword/changePassword'
+import admin from '../components/admin/admin'
+import feedBackMessage from '../components/feedBackMessage/feedBackMessage'
 
 Vue.use(Router)
 
@@ -58,6 +60,14 @@ export default new Router({
       path:'/changePassword',
       // name:'changePassword',
       component:changePassword
+    },
+    {
+      path:'/admin',
+      component:admin
+    },
+    {
+      path:'/feedBackMessage',
+      component:feedBackMessage
     }
   ]
 })

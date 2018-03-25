@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <h2>反馈到课情况</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="s in stages" v-bind:label="s.label" v-bind:name="s.label">
         <el-row :gutter="5">
@@ -31,7 +31,7 @@
     <!--修改到课情况-->
     <el-dialog  :visible.sync="feedBackFlag" title ="修改到课情况">
       <el-row>
-        <el-col :span="18" :offset="5">
+        <el-col :span="18" :offset="6">
           <el-transfer v-model="absentStudent" :data="student"     :titles="['到课学生', '未到课学生']" filterable></el-transfer>
         </el-col>
       </el-row>
@@ -48,7 +48,7 @@
 
     <el-dialog :visible.sync="sureFlag" title="确定修改到课状况吗？">
       <el-row>
-        <el-col :offset="9" >
+        <el-col :offset="10" >
           <el-button @click="sendFeedBack">确认</el-button>
           <el-button @click="sureFlag = false">取消</el-button>
         </el-col>
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-    import ElSpinner from "element-ui/packages/spinner/src/spinner";
+  let util = require("../../util/utils");
+  import ElSpinner from "element-ui/packages/spinner/src/spinner";
     let ip = require("../../config/config").ip;
     let moment = require("moment");
     let $ = require("jquery");
@@ -104,8 +105,9 @@
       methods:{
         sendFeedBack(){
           let self = this;
+          console.log(this.student);
           console.log(this.absentStudent);
-          console.log(this.selectNo)
+          // console.log(this.absentStudent);
           this.sureFlag = false;
           // $.post(`http://${ip}/course/feedback`,{
           //   stu:self.absentStudent,
@@ -117,11 +119,11 @@
           //     self.$message.error("反馈学生到课信息失败");
           //   }
           // })
-
           this.$http.post(`http://${ip}/course/feedback`,{
             stu:self.absentStudent,
             courseNo:self.selectNo
           }).then((response)=>{
+            // util.redict(response);
             console.log(response.data)
             if(response.data.code == 1001){
               self.$message("反馈到课信息成功");
@@ -144,14 +146,18 @@
             courseNo:no,
             stage:stage
           },function (response) {
+            // util.redict(response);
             self.student = [];
             if(response.code == 1001){
               console.log("1001");
               response.data.forEach(function (ele) {
                 self.student.push({
-                  value:ele.stuNo,
+                  key:parseInt(ele.stuNo),
                   label:ele.stuName
                 })
+                if(ele.time == 0){
+                  self.absentStudent.push(parseInt(ele.stuNo));
+                }
               })
               self.feedBackFlag = true;
             }else{
@@ -170,6 +176,7 @@
         self.stages = [];
           let result;
         $.post(`http://${ip}/course/end`,function(response){
+          // util.redict(response);
           if(response.code == 1001){
             result = response.data;
             response.data.forEach(function (ele) {
@@ -216,6 +223,12 @@
     }
 </script>
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
     .updateFeedBack{
       margin-top:30px;
     }

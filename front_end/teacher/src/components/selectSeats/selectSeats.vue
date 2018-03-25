@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <h2>查看选座情况</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="s in stages" v-bind:label="s.label" v-bind:name="s.label">
         <el-row :gutter="5">
@@ -27,9 +27,9 @@
 
     <el-dialog title="座位状况" :visible.sync="chooseSeat">
       <el-row :gutter="10">
-        <div class="seat" v-for="a in seats">
-          <button class="innerSeat" v-if="a.seatAble"></button>
-          <button class="disableSeat" v-if="!a.seatAble" disabled></button>
+        <div class="seat" v-for="(a,index) in seats">
+          <button class="innerSeat" v-if="a.seatAble">{{index}}</button>
+          <button class="disableSeat" v-if="!a.seatAble" disabled>{{index}}</button>
         </div>
         <div>
           <!--<el-button @click="openDetail()">查看详细座位状况</el-button>-->
@@ -44,7 +44,8 @@
 </template>
 
 <script>
-    let classArray = [];//用来存放课程的数组
+  let util = require("../../util/utils");
+  let classArray = [];//用来存放课程的数组
     let maxStage = 0;//用来存放最大课程期数的变量
     let config = require("../../config/config");
     const ip = config.ip;
@@ -142,6 +143,7 @@
           $.post(`http://${ip}/course/allInfo`,{
             power:4
           },function (response) {
+            util.redict(response);
             result = response.data;
             console.log(result)
             result.forEach(function (ele) {
@@ -186,6 +188,7 @@
             courseNo:no,
             stage:stage
           },function (response) {
+            util.redict(response);
             console.log(response)
           })
         },
@@ -297,6 +300,7 @@
     background-color: rgb(64,158,225);
   }
   .seat{
+    font-size: 2px;
     width:4.5%;
     /*padding:3px;*/
     /*margin: 5px;*/
@@ -314,5 +318,11 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+  }
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
   }
 </style>
