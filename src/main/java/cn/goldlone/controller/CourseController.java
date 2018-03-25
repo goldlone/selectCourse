@@ -327,8 +327,8 @@ public class CourseController extends BaseController {
      * @return
      */
     @PostMapping("/course/stuAllTime")
-    public Result getAcquireTime(String stuNo) {
-        return cs.getAcquireTime(stuNo);
+    public Result getAcquireTime(String stuNo, int batch) {
+        return cs.getAcquireTime(stuNo, batch);
     }
 
 }

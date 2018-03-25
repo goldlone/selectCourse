@@ -276,7 +276,7 @@ public class CourseService {
      * @return
      */
     public Result getSelectCourse(String stuNo) {
-        List<CourseSeat> list = cm.getSelectCourse(stuNo);
+        List<CourseSeat> list = cm.getMyCourseSeat(stuNo);
         return ResultUtil.success("查询成功", list);
     }
 
@@ -307,9 +307,9 @@ public class CourseService {
      * @param stuNo
      * @return
      */
-    public Result getAcquireTime(String stuNo) {
+    public Result getAcquireTime(String stuNo, int batch) {
         Result result = null;
-        Integer score = cm.getAcquireTime(stuNo);
+        Integer score = cm.getAcquireTime(stuNo, batch);
         if(score != null)
             result = ResultUtil.success("获取总分成功", score);
         else

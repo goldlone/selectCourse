@@ -299,8 +299,8 @@ public class StudentService {
      * @return
      */
     public Result getStuInfoByNo(String stuNo) {
-        Student stu = sm.getStuInfo(stuNo);
-        return ResultUtil.success("获取学员信息成功", stu);
+        List<Student> list = sm.getStuInfoByNo(stuNo);
+        return ResultUtil.success("获取学员信息成功", list);
     }
 
     /**

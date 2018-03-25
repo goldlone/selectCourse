@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 
 
             session.setAttribute(Properties.LOGIN_NO, "123");
-            session.setAttribute(Properties.LOGIN_POWER, 1);
+            session.setAttribute(Properties.LOGIN_POWER, 0);
             session.setAttribute(Properties.LOGIN_SCHOOL_NO, 2);
             return true;
         }

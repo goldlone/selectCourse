@@ -194,7 +194,8 @@ public interface CourseMapper {
     @Select("SELECT seatNo " +
             "FROM SelectCourse " +
             "WHERE courseNo=#{courseNo} AND " +
-            "   stage=#{stage};")
+            "      stage=#{stage} AND " +
+            "      batch=0;")
     public List<Integer> getSeatStatus(@Param("courseNo") int courseNo,
                                        @Param("stage") int stage);
 
@@ -233,13 +234,15 @@ public interface CourseMapper {
      * @return
      */
     @Select("SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime " +
-            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
+            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss\n" +
             "WHERE s.no = #{stuNo} AND " +
-            "      c2.stuNo=s.no AND " +
-            "      s.schoolNo=ss.no AND " +
-            "      c2.courseNo=c1.no AND " +
-            "      c2.courseNo=c3.courseNo AND " +
-            "      c2.stage=c3.stage " +
+            "  c2.batch=0 AND " +
+            "  c2.stuNo=s.no AND " +
+            "  c2.batch=s.batch AND " +
+            "  s.schoolNo=ss.no AND " +
+            "  c2.courseNo=c1.no AND " +
+            "  c2.courseNo=c3.courseNo AND " +
+            "  c2.stage=c3.stage " +
             "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getMyCourseSeat(String stuNo);
 
@@ -249,39 +252,39 @@ public interface CourseMapper {
      * @param stage
      * @return
      */
-    @Select("SELECT c2.stuNo,s.name stuName,ss.name school," +
-            "   c1.no courseNo,c1.name courseName,c3.stage,startDateTime," +
-            "   endDateTime,classroom,teacher,time,seatNo,acquireTime " +
-            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s, Schools ss " +
+    @Select("SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime " +
+            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
             "WHERE c2.courseNo = #{courseNo} AND " +
-            "   c2.stage = #{stage} AND " +
-            "   c2.stuNo=s.no AND " +
-            "   s.schoolNo=ss.no AND " +
-            "   c2.courseNo=c1.no AND " +
-            "   c2.courseNo=c3.courseNo AND " +
-            "   c2.stage=c3.stage " +
+            "      c2.stage = #{stage} AND " +
+            "      c2.batch=0 AND " +
+            "      c2.stuNo=s.no AND " +
+            "      c2.batch=s.batch AND " +
+            "      s.schoolNo=ss.no AND " +
+            "      c2.courseNo=c1.no AND " +
+            "      c2.courseNo=c3.courseNo AND " +
+            "      c2.stage=c3.stage " +
             "ORDER BY startDateTime DESC;")
     public List<CourseSeat> getSelectCourseInfoByMaster(@Param("courseNo") int courseNo,
                                                         @Param("stage") int stage);
 
 
-    /**
-     * 查看某个学员已选课程
-     * @param stuNo
-     * @return
-     */
-    @Select("SELECT c2.stuNo,s.name stuName,ss.name school," +
-            "   c1.no courseNo,c1.name courseName,c3.stage,startDateTime," +
-            "   endDateTime,classroom,teacher,time,seatNo,acquireTime " +
-            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
-            "WHERE c2.stuNo=#{stuNo} AND " +
-            "   c2.stuNo=s.no AND " +
-            "   s.schoolNo=ss.no AND " +
-            "   c2.courseNo=c1.no AND " +
-            "   c2.courseNo=c3.courseNo AND " +
-            "   c2.stage=c3.stage " +
-            "ORDER BY startDateTime DESC;")
-    public List<CourseSeat> getSelectCourse(String stuNo);
+//    /**
+//     * 查看某个学员已选课程
+//     * @param stuNo
+//     * @return
+//     */
+//    @Select("SELECT c2.stuNo,s.name stuName,ss.name school," +
+//            "   c1.no courseNo,c1.name courseName,c3.stage,startDateTime," +
+//            "   endDateTime,classroom,teacher,time,seatNo,acquireTime " +
+//            "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
+//            "WHERE c2.stuNo=#{stuNo} AND " +
+//            "   c2.stuNo=s.no AND " +
+//            "   s.schoolNo=ss.no AND " +
+//            "   c2.courseNo=c1.no AND " +
+//            "   c2.courseNo=c3.courseNo AND " +
+//            "   c2.stage=c3.stage " +
+//            "ORDER BY startDateTime DESC;")
+//    public List<CourseSeat> getSelectCourse(String stuNo);
 
 
     /**
@@ -291,8 +294,8 @@ public interface CourseMapper {
      */
     @Select("SELECT SUM(acquireTime) " +
             "FROM SelectCourse " +
-            "WHERE stuNo=#{stuNo};")
-    public Integer getAcquireTime(String stuNo);
+            "WHERE stuNo=#{stuNo} and sc.batch=#{batch};")
+    public Integer getAcquireTime(@Param("stuNo") String stuNo, @Param("batch") int batch);
 
     /**
      * 获取已结束的课程信息
@@ -316,7 +319,7 @@ public interface CourseMapper {
      */
     @Update("UPDATE SelectCourse " +
             "SET acquireTime = (SELECT time FROM Course WHERE no=#{courseNo}) " +
-            "WHERE stuNo = #{stuNo};")
+            "WHERE stuNo = #{stuNo} and batch=0;")
     public Integer feedbackCome(@Param("stuNo") String stuNo,
                                 @Param("courseNo") int courseNo);
 }

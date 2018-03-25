@@ -38,6 +38,8 @@ public class Student {
     private String password;
     // 批次
     private int batch;
+	// 已获总学时
+	private int time;
 
     public Student() {
     }
@@ -170,24 +172,11 @@ public class Student {
         this.batch = batch;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "no='" + no + '\'' +
-                ", name='" + name + '\'' +
-                ", school='" + school + '\'' +
-                ", gender='" + gender + '\'' +
-                ", nation='" + nation + '\'' +
-                ", birth=" + birth +
-                ", type='" + type + '\'' +
-                ", grade=" + grade +
-                ", position='" + position + '\'' +
-                ", applyDate=" + applyDate +
-                ", beActivistDate=" + beActivistDate +
-                ", beDevelopDate=" + beDevelopDate +
-                ", power=" + power +
-                ", identity='" + identity + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

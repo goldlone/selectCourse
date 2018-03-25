@@ -152,12 +152,13 @@ CREATE TABLE CoursePower (
 # 选课信息表
 DROP TABLE IF EXISTS SelectCourse;
 CREATE TABLE SelectCourse(
+  batch INT NOT NULL,
   stuNo VARCHAR(30),
   courseNo INT,
   stage TINYINT NOT NULL,
   seatNo INT NOT NULL,
   acquireTime TINYINT DEFAULT 0,
-  PRIMARY KEY (stuNo, courseNo),
+  PRIMARY KEY (batch, stuNo, courseNo),
   FOREIGN KEY (stuNo) REFERENCES Student(no),
   FOREIGN KEY (courseNo) REFERENCES Course(no)
 )DEFAULT CHARSET=utf8;
@@ -211,17 +212,129 @@ BEGIN
   DELETE FROM SelectCourse WHERE SelectCourse.courseNo=OLD.courseNo AND SelectCourse.stage=OLD.stage;
 END;
 
+# 修改批次的同时，修改选课信息的批次
+DROP TRIGGER IF EXISTS update_batch;
+CREATE TRIGGER update_batch
+AFTER
+UPDATE ON Student
+FOR EACH ROW
+BEGIN
+  IF NEW.batch!=0 THEN
+    UPDATE SelectCourse sc SET sc.batch=NEW.batch WHERE sc.stuNo=NEW.no AND sc.batch=0;
+  END IF;
+END;
 
 
 
 
 
+
+
+UPDATE Student SET batch=201804 WHERE no='123' AND batch=0;
+
+
+
+
+
+
+
+SELECT s1.no, s1.name, s2.name school, s1.gender,
+  s1.nation, s1.birth, s1.type,  s1.grade,
+  s1.position, s1.applyDate, s1.beActivistDate,
+  s1.beDevelopDate, s1.power, p.identity, s1.batch,
+  sum(sc.acquireTime) time
+ FROM Student s1, Powers p, Schools s2, SelectCourse sc
+ WHERE s1.no=#{stuNo} AND
+       s1.power=p.no AND
+       s1.schoolNo=s2.no AND
+       s1.no=sc.stuNo AND
+       s1.batch=#{batch};
+
+SELECT s1.no, s1.name, s2.name school, s1.gender,
+  s1.nation, s1.birth, s1.type,  s1.grade,
+  s1.position, s1.applyDate, s1.beActivistDate,
+  s1.beDevelopDate, s1.power, p.identity, s1.batch,
+  sum(sc.acquireTime) time
+FROM Student s1, Powers p, Schools s2, SelectCourse sc
+WHERE s2.no=2 AND
+  s1.power=p.no AND
+  s1.schoolNo=s2.no AND
+  s1.no=sc.stuNo AND
+  s1.batch=0
+GROUP BY sc.stuNo,sc.batch;
+
+SELECT s1.no, s1.name, s2.name school, s1.gender,
+  s1.nation, s1.birth, s1.type,  s1.grade,
+  s1.position, s1.applyDate, s1.beActivistDate,
+  s1.beDevelopDate, s1.power, p.identity, s1.batch,
+  sum(sc.acquireTime) time
+FROM Student s1, Powers p, Schools s2, SelectCourse sc
+WHERE s1.no=#{stuNo} AND
+  s1.power=p.no AND
+  s1.schoolNo=s2.no AND
+  s1.no=sc.stuNo AND
+  s1.batch=sc.batch
+GROUP BY sc.stuNo,sc.batch;
+
+SELECT s1.no, s1.name, s2.name school, s1.gender,
+  s1.nation, s1.birth, s1.type,  s1.grade,
+  s1.position, s1.applyDate, s1.beActivistDate,
+  s1.beDevelopDate, s1.power, p.identity, s1.batch ,
+  sum(sc.acquireTime) time
+FROM Student s1, Powers p, Schools s2, SelectCourse sc
+WHERE s1.name LIKE concat('%',#{name},'%') AND
+  s1.power=p.no AND
+  s1.schoolNo=s2.no AND
+  s1.no=sc.stuNo AND
+  s1.batch=sc.batch
+GROUP BY sc.stuNo,sc.batch;
+
+
+SELECT *
+FROM Feedback
+ORDER BY isDeal ASC, publicTime DESC ;
 
 
 SELECT DATE_FORMAT(now(), '%Y%m');
 
 
 DELETE FROM CoursePlus WHERE courseNo=#{courseNo} AND stage>#{maxStage};
+
+SELECT seatNo
+FROM SelectCourse
+WHERE courseNo=#{courseNo} AND
+      stage=#{stage} AND
+      batch=0;
+
+SELECT c2.batch,c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE s.no = #{stuNo} AND
+  c2.batch=0 AND
+  c2.stuNo=s.no AND
+  c2.batch=s.batch AND
+  s.schoolNo=ss.no AND
+  c2.courseNo=c1.no AND
+  c2.courseNo=c3.courseNo AND
+  c2.stage=c3.stage
+ORDER BY startDateTime DESC;
+
+SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE c2.courseNo = #{courseNo} AND
+      c2.stage = #{stage} AND
+      c2.batch=0 AND
+      c2.stuNo=s.no AND
+      c2.batch=s.batch AND
+      s.schoolNo=ss.no AND
+      c2.courseNo=c1.no AND
+      c2.courseNo=c3.courseNo AND
+      c2.stage=c3.stage
+ORDER BY startDateTime DESC;
+
+
+
+
+
 
 
 

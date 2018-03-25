@@ -13,6 +13,8 @@ public class LoginInfo {
     private int power;
     // 基层党组织编号
     private int schoolNo;
+    // 批次
+    private int batch;
 
     public LoginInfo() {
         this.power = -1;
@@ -50,6 +52,14 @@ public class LoginInfo {
         this.schoolNo = schoolNo;
     }
 
+    public int getBatch() {
+        return batch;
+    }
+
+    public void setBatch(int batch) {
+        this.batch = batch;
+    }
+
     @Override
     public String toString() {
         return "LoginInfo{" +
@@ -57,6 +67,7 @@ public class LoginInfo {
                 ", password='" + password + '\'' +
                 ", power=" + power +
                 ", schoolNo=" + schoolNo +
+                ", batch=" + batch +
                 '}';
     }
 }

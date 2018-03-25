@@ -38,4 +38,9 @@ public class ViewController implements ErrorController {
         return "/error";
     }
 
+
+    @GetMapping("/upload")
+    public String upload() {
+        return "/upload";
+    }
 }

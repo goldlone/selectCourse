@@ -32,7 +32,7 @@ public interface StudentMapper {
      */
     @Select("SELECT no, password, schoolNo, power " +
             "FROM Student " +
-            "WHERE no = #{no};")
+            "WHERE no = #{no} AND batch=0;")
     public LoginInfo getStuPassword(String no);
 
     /**
@@ -215,16 +215,18 @@ public interface StudentMapper {
      * @param schoolNo
      * @return
      */
-    @Select("SELECT s1.no, s1.name, s2.name school, " +
-            "   s1.gender, s1.nation, s1.birth, s1.type, " +
-            "   s1.grade, s1.position, s1.applyDate, " +
-            "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity, s1.batch " +
-            "FROM Student s1, Powers p, Schools s2 " +
+    @Select("SELECT s1.no, s1.name, s2.name school, s1.gender, " +
+            "  s1.nation, s1.birth, s1.type,  s1.grade, " +
+            "  s1.position, s1.applyDate, s1.beActivistDate, " +
+            "  s1.beDevelopDate, s1.power, p.identity, s1.batch, " +
+            "  sum(sc.acquireTime) time " +
+            "FROM Student s1, Powers p, Schools s2, SelectCourse sc " +
             "WHERE s2.no=#{schoolNo} AND " +
-            "   s1.power=p.no AND " +
-            "   s1.schoolNo=s2.no AND " +
-            "   s1.batch=#{batch};")
+            "  s1.power=p.no AND " +
+            "  s1.schoolNo=s2.no AND " +
+            "  s1.no=sc.stuNo AND " +
+            "  s1.batch=#{batch} " +
+            "GROUP BY sc.stuNo,sc.batch;")
     public List<Student> getStudentInfoBySchoolNo(@Param("schoolNo") int schoolNo,
                                                   @Param("batch") int batch);
 
@@ -234,31 +236,56 @@ public interface StudentMapper {
      * @param stuNo
      * @return
      */
-    @Select("SELECT s1.no, s1.name, s2.name school, " +
-            "   s1.gender, s1.nation, s1.birth, s1.type, " +
-            "   s1.grade, s1.position, s1.applyDate, " +
-            "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity, s1.batch  " +
-            "FROM Student s1, Powers p, Schools s2 " +
+    @Select("SELECT s1.no, s1.name, s2.name school, s1.gender, " +
+            "  s1.nation, s1.birth, s1.type,  s1.grade, " +
+            "  s1.position, s1.applyDate, s1.beActivistDate, " +
+            "  s1.beDevelopDate, s1.power, p.identity, s1.batch, " +
+            "  sum(sc.acquireTime) time " +
+            " FROM Student s1, Powers p, Schools s2, SelectCourse sc " +
+            " WHERE s1.no=#{stuNo} AND " +
+            "       s1.power=p.no AND " +
+            "       s1.schoolNo=s2.no AND " +
+            "       s1.no=sc.stuNo AND " +
+            "       s1.batch=#{batch};")
+    public Student getStuInfo(@Param("stuNo") String stuNo,
+                              @Param("batch") int batch);
+
+    /**
+     * 按照学号查学员信息
+     * @param stuNo
+     * @return
+     */
+    @Select("SELECT s1.no, s1.name, s2.name school, s1.gender, " +
+            "  s1.nation, s1.birth, s1.type,  s1.grade, " +
+            "  s1.position, s1.applyDate, s1.beActivistDate, " +
+            "  s1.beDevelopDate, s1.power, p.identity, s1.batch, " +
+            "  sum(sc.acquireTime) time " +
+            "FROM Student s1, Powers p, Schools s2, SelectCourse sc " +
             "WHERE s1.no=#{stuNo} AND " +
-            "   s1.power=p.no AND " +
-            "   s1.schoolNo=s2.no;")
-    public Student getStuInfo(String stuNo);
+            "  s1.power=p.no AND " +
+            "  s1.schoolNo=s2.no AND " +
+            "  s1.no=sc.stuNo AND " +
+            "  s1.batch=sc.batch " +
+            "GROUP BY sc.stuNo,sc.batch;")
+    public List<Student> getStuInfoByNo(String stuNo);
 
     /**
      * 根据部分姓名查询学员信息
      * @param name
      * @return
      */
-    @Select("SELECT s1.no, s1.name, s2.name school, " +
-            "   s1.gender, s1.nation, s1.birth, s1.type, " +
-            "   s1.grade, s1.position, s1.applyDate, " +
-            "   s1.beActivistDate, s1.beDevelopDate, " +
-            "   s1.power, p.identity, s1.batch  " +
-            "FROM Student s1, Powers p, Schools s2 " +
+    @Select("SELECT s1.no, s1.name, s2.name school, s1.gender, " +
+            "  s1.nation, s1.birth, s1.type,  s1.grade, " +
+            "  s1.position, s1.applyDate, s1.beActivistDate, " +
+            "  s1.beDevelopDate, s1.power, p.identity, s1.batch , " +
+            "  sum(sc.acquireTime) time " +
+            "FROM Student s1, Powers p, Schools s2, SelectCourse sc " +
             "WHERE s1.name LIKE concat('%',#{name},'%') AND " +
-            "   s1.power=p.no AND " +
-            "   s1.schoolNo=s2.no;")
+            "  s1.power=p.no AND " +
+            "  s1.schoolNo=s2.no AND " +
+            "  s1.no=sc.stuNo AND " +
+            "  s1.batch=sc.batch " +
+            "GROUP BY sc.stuNo,sc.batch;")
     public List<Student> getStuInfoByName(String name);
 
 
@@ -316,7 +343,8 @@ public interface StudentMapper {
     @Insert("INSERT " +
             "INTO Feedback(content, publicer, publicTime) " +
             "VALUES(#{content}, #{stuNo}, now());")
-    public Integer feedback(@Param("stuNo") String stuNo, @Param("content") String content);
+    public Integer feedback(@Param("stuNo") String stuNo,
+                            @Param("content") String content);
 
     /**
      * 获取反馈信息
@@ -324,7 +352,7 @@ public interface StudentMapper {
      */
     @Select("SELECT * " +
             "FROM Feedback " +
-            "WHERE isDeal=0;")
+            "ORDER BY isDeal ASC, publicTime DESC ;")
     public List<DBFeedback> getFeedback();
 
     /**
@@ -338,5 +366,6 @@ public interface StudentMapper {
             "  dealTime = now(), " +
             "  dealMan = #{no} " +
             "WHERE id=#{id};")
-    public Integer dealFeedback(@Param("id") long id, @Param("no") String no);
+    public Integer dealFeedback(@Param("id") long id,
+                                @Param("no") String no);
 }

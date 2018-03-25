@@ -231,9 +231,6 @@ public class StudentController extends BaseController {
         HttpSession session = request.getSession();
         Integer power = (Integer) session.getAttribute(Properties.LOGIN_POWER);
         String no = (String) session.getAttribute(Properties.LOGIN_NO);
-        System.out.println(no);
-        System.out.println(power);
-        System.out.println(session.getMaxInactiveInterval());
         if(power>1)
             return ss.getStuInfoByNo(no);
         else
@@ -297,8 +294,10 @@ public class StudentController extends BaseController {
      */
     @PostMapping("/stu/feedback")
     public Result feedback(HttpServletRequest request, String content) {
-//        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
-        String stuNo = "123";
+        if(content==null || "".equals(content))
+            return ResultUtil.error(ResultUtil.CODE_PARAMS_LOSE, "内容不能不能空");
+        String stuNo = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String stuNo = "123";
         return ss.feedback(stuNo, content);
     }
 
@@ -317,10 +316,10 @@ public class StudentController extends BaseController {
      * @param id
      * @return
      */
-    @PostMapping("/stu/dealFeedback")
+    @GetMapping("/stu/dealFeedback")
     public Result dealFeedback(HttpServletRequest request, long id) {
-//        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
-        String no = "123";
+        String no = (String) request.getSession().getAttribute(Properties.LOGIN_NO);
+//        String no = "123";
         return ss.dealFeedback(id, no);
     }
 
