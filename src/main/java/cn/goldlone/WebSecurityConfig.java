@@ -47,34 +47,22 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
                                  Object handler)
                 throws IOException {
             HttpSession session = request.getSession();
-//            System.out.println("拦截器："+session.getAttribute(Properties.LOGIN_POWER));
-//            System.out.println("拦截器："+request.getSession().getMaxInactiveInterval());
+            System.out.println("拦截器："+session.getAttribute(Properties.LOGIN_POWER));
+            System.out.println("拦截器："+request.getSession().getMaxInactiveInterval());
             // 判断是否已有该用户登录的session
-//            if(session.getAttribute(Properties.LOGIN_POWER) != null){
-//                return true;
-//            }
-
-//            response.setHeader("sessionTimeout", "1");
-//            response.setCharacterEncoding("utf-8");
-//            response.setContentType("application/json");
-//            PrintWriter out = response.getWriter();
-//            JSONObject json = new JSONObject();
-//            json.put("code", ResultUtil.CODE_OUT_LOGIN);
-//            json.put("msg", "登录失效，请重新登录");
-//            json.put("data", "");
-//            out.print(json.toString());
-//            out.flush();
-//            out.close();
+            if(session.getAttribute(Properties.LOGIN_POWER) != null){
+                return true;
+            }
 
             // 跳转到登录页
-//            response.sendRedirect("/sc/login");
-//            return false;
+            response.sendRedirect("/sc/login");
+            return false;
 
 
-            session.setAttribute(Properties.LOGIN_NO, "123");
-            session.setAttribute(Properties.LOGIN_POWER, 0);
-            session.setAttribute(Properties.LOGIN_SCHOOL_NO, 2);
-            return true;
+//            session.setAttribute(Properties.LOGIN_NO, "123");
+//            session.setAttribute(Properties.LOGIN_POWER, 0);
+//            session.setAttribute(Properties.LOGIN_SCHOOL_NO, 2);
+//            return true;
         }
     }
 }

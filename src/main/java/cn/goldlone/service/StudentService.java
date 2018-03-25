@@ -294,13 +294,23 @@ public class StudentService {
     }
 
     /**
-     * 获取学员信息
+     * 根据学号查询
      * @param stuNo
      * @return
      */
     public Result getStuInfoByNo(String stuNo) {
         List<Student> list = sm.getStuInfoByNo(stuNo);
         return ResultUtil.success("获取学员信息成功", list);
+    }
+
+    /**
+     * 获取学员信息
+     * @param stuNo
+     * @return
+     */
+    public Result getStuInfoSelf(String stuNo) {
+        Student stu = sm.getStuInfo(stuNo, 0);
+        return ResultUtil.success("获取学员信息成功", stu);
     }
 
     /**

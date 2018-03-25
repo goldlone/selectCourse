@@ -244,7 +244,7 @@ public interface StudentMapper {
             "  LEFT JOIN Powers p ON s1.power=p.no " +
             "  LEFT JOIN Schools s2 ON s1.schoolNo=s2.no " +
             "  LEFT JOIN SelectCourse sc ON s1.no = sc.stuNo AND s1.batch=sc.batch " +
-            "WHERE s1.no=#{no} AND s1.batch=#{batch} " +
+            "WHERE s1.no=#{stuNo} AND s1.batch=#{batch} " +
             "GROUP BY s1.no, s1.batch;")
     public Student getStuInfo(@Param("stuNo") String stuNo,
                               @Param("batch") int batch);

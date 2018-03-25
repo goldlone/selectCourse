@@ -164,22 +164,21 @@ public interface CourseMapper {
      * @param power
      * @return
      */
-    @Select("SELECT c1.no, c1.name, c2.classroom, c2.teacher, c1.time, " +
-            "   c2.stage, c2.startDateTime, c2.endDateTime, " +
+    @Select("SELECT c1.no, c1.name, c2.classroom, c2.teacher, " +
+            "   c1.time,c2.stage, c2.startDateTime, c2.endDateTime, " +
             "   c1.startSelectDateTime, c1.endSelectDateTime " +
             "FROM Course c1, CoursePlus c2, CoursePower c3 " +
             "WHERE c3.power=#{power} AND " +
-            "   c3.courseNo=c1.no AND " +
-            "   c3.courseNo=c2.courseNo AND " +
-            "   now()>c1.startSelectDateTime AND " +
-            "   now()<c1.endSelectDateTime AND " +
-            "   s.no=#{no} AND " +
-            "   s.batch == 0 AND " +
+            "      c3.courseNo=c1.no AND " +
+            "      c3.courseNo=c2.courseNo AND " +
+            "      now()>c1.startSelectDateTime AND " +
+            "      now()<c1.endSelectDateTime AND " +
             "      NOT exists( " +
             "          SELECT * " +
             "          FROM SelectCourse sc " +
             "          WHERE stuNo=#{no} AND " +
-            "                sc.courseNo=c1.no)")
+            "                sc.courseNo=c1.no AND  " +
+            "                sc.batch=0);")
     public List<Course> getCourseList(@Param("power") int power,
                                       @Param("no") String no);
 
@@ -208,8 +207,8 @@ public interface CourseMapper {
      * @return
      */
     @Insert("INSERT " +
-            "INTO SelectCourse(stuNo, courseNo, stage, seatNo) " +
-            "VALUES(#{stuNo}, #{courseNo}, #{stage}, #{seatNo});")
+            "INTO SelectCourse(batch, stuNo, courseNo, stage, seatNo) " +
+            "VALUES(0, #{stuNo}, #{courseNo}, #{stage}, #{seatNo});")
     public Integer selectCourse(@Param("stuNo") String stuNo,
                                 @Param("courseNo") int courseNo,
                                 @Param("stage") int stage,
@@ -252,7 +251,7 @@ public interface CourseMapper {
      * @param stage
      * @return
      */
-    @Select("SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,acquireTime " +
+    @Select("SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,c2.acquireTime " +
             "FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss " +
             "WHERE c2.courseNo = #{courseNo} AND " +
             "      c2.stage = #{stage} AND " +

@@ -334,7 +334,19 @@ WHERE c2.courseNo = #{courseNo} AND
 ORDER BY startDateTime DESC;
 
 
-
+SELECT c1.no, c1.name, c2.classroom, c2.teacher, c1.time,c2.stage, c2.startDateTime, c2.endDateTime, c1.startSelectDateTime, c1.endSelectDateTime
+FROM Course c1, CoursePlus c2, CoursePower c3
+WHERE c3.power=#{power} AND
+      c3.courseNo=c1.no AND
+      c3.courseNo=c2.courseNo AND
+      now()>c1.startSelectDateTime AND
+      now()<c1.endSelectDateTime AND
+      NOT exists(
+          SELECT *
+          FROM SelectCourse sc
+          WHERE stuNo=#{no} AND
+                sc.courseNo=c1.no AND
+                sc.batch=0);
 
 
 

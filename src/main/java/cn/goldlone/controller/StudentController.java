@@ -158,7 +158,7 @@ public class StudentController extends BaseController {
             List<Student> list = ExcelUtil.importStuInfo(file);
             List<String> errorList = new ArrayList<>();
             for(Student stu: list) {
-                if(ss.getStuInfoByNo(stu.getNo()).getData() != null) {
+                if(ss.getStuInfoSelf(stu.getNo()).getData() != null) {
                     errorList.add("【失败】："+stu.getNo()+"-"+stu.getName()+"-该学员已存在");
                     continue;
                 }
@@ -232,7 +232,7 @@ public class StudentController extends BaseController {
         Integer power = (Integer) session.getAttribute(Properties.LOGIN_POWER);
         String no = (String) session.getAttribute(Properties.LOGIN_NO);
         if(power>1)
-            return ss.getStuInfoByNo(no);
+            return ss.getStuInfoSelf(no);
         else
             return ss.getAdminInfoByNo(no);
     }
