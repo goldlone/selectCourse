@@ -234,54 +234,54 @@ public class StudentService {
      * @param no
      * @return
      */
-    public Result deleteStudent(String no) {
+    public Result deleteStudent(String no, int batch) {
         Result result = null;
-        if (sm.deleteStu(no)>0)
+        if (sm.deleteStu(no, batch)>0)
             result = ResultUtil.success("删除成功");
         else
             result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该学员不存在");
         return result;
     }
 
-    /**
-     * 获取用户权限
-     * @param stuNo
-     * @return
-     */
-    public Result getStuPower(String stuNo) {
-        Result result = null;
-        Integer power = sm.getStuPower(stuNo);
-        if(power != null)
-            result = ResultUtil.success("获取权限成功", power);
-        else
-            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该用户不存在");
-        return result;
-    }
+//    /**
+//     * 获取用户权限
+//     * @param stuNo
+//     * @return
+//     */
+//    public Result getStuPower(String stuNo) {
+//        Result result = null;
+//        Integer power = sm.getStuPower(stuNo);
+//        if(power != null)
+//            result = ResultUtil.success("获取权限成功", power);
+//        else
+//            result = ResultUtil.error(ResultUtil.CODE_RESULT_NOT_EXIST, "该用户不存在");
+//        return result;
+//    }
 
-    /**
-     * 查询学员权限
-     * @param request
-     * @return
-     */
-    public Result getStuPower(HttpServletRequest request) {
-        Result result = null;
-        String stuNo = (String) request.getSession().getAttribute("stuNo");
-        Integer power = sm.getStuPower(stuNo);
-        if(power != null)
-            result = ResultUtil.success("获取权限成功", power);
-        else
-            result = ResultUtil.error(1, "该用户不存在");
-        return result;
-    }
+//    /**
+//     * 查询学员权限
+//     * @param request
+//     * @return
+//     */
+//    public Result getStuPower(HttpServletRequest request) {
+//        Result result = null;
+//        String stuNo = (String) request.getSession().getAttribute("stuNo");
+//        Integer power = sm.getStuPower(stuNo);
+//        if(power != null)
+//            result = ResultUtil.success("获取权限成功", power);
+//        else
+//            result = ResultUtil.error(1, "该用户不存在");
+//        return result;
+//    }
 
-    /**
-     * 获取全部学生信息
-     * @return
-     */
-    public Result getAllStuInfo() {
-        List<Student> list = sm.getAllStuInfo();
-        return ResultUtil.success("获取全部学员信息成功", list);
-    }
+//    /**
+//     * 获取全部学生信息
+//     * @return
+//     */
+//    public Result getAllStuInfo() {
+//        List<Student> list = sm.getAllStuInfo();
+//        return ResultUtil.success("获取全部学员信息成功", list);
+//    }
 
     /**
      * 获取某基层组织的全部学员

@@ -183,28 +183,28 @@ public class StudentController extends BaseController {
      * @return
      */
     @PostMapping("/stu/delete")
-    public Result deleteStudent(String no) {
-        return ss.deleteStudent(no);
+    public Result deleteStudent(String no, int batch) {
+        return ss.deleteStudent(no, batch);
     }
 
-    /**
-     * 查询学员权限
-     * @param stuNo
-     * @return
-     */
-    @PostMapping("/stu/power")
-    public Result getStuPower(String stuNo) {
-        return ss.getStuPower(stuNo);
-    }
+//    /**
+//     * 查询学员权限
+//     * @param stuNo
+//     * @return
+//     */
+//    @PostMapping("/stu/power")
+//    public Result getStuPower(String stuNo) {
+//        return ss.getStuPower(stuNo);
+//    }
 
-    /**
-     * 获取全部学员信息
-     * @return
-     */
-    @PostMapping("/stu/allInfo")
-    public Result getAllStuInfo() {
-        return ss.getAllStuInfo();
-    }
+//    /**
+//     * 获取全部学员信息
+//     * @return
+//     */
+//    @PostMapping("/stu/allInfo")
+//    public Result getAllStuInfo() {
+//        return ss.getAllStuInfo();
+//    }
 
     /**
      *  获取某基层党组织的全部学员信息
