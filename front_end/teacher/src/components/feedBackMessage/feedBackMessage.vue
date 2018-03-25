@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>管理反馈信息</h2>
     <el-table
       :data="feedMsg"
       stripe
@@ -7,7 +8,8 @@
       <el-table-column
         prop="id"
         label="id"
-        width="200">
+        sortable
+        width="100">
       </el-table-column>
       <el-table-column
         prop="content"
@@ -17,6 +19,7 @@
       <el-table-column
         prop="publicTime"
         label="申请时间"
+        sortable
         width="200">
       </el-table-column>
       <el-table-column
@@ -27,6 +30,7 @@
       <el-table-column
         prop="isDeal"
         label="是否被解决"
+        sortable
         width="200">
       </el-table-column>
       <el-table-column
@@ -36,6 +40,7 @@
       </el-table-column>
       <el-table-column
         prop="dealTime"
+        sortable
         label="问题解决时间"
         width="200">
       </el-table-column>
@@ -69,7 +74,8 @@
         },
         methods:{
           dealFeedBack(row){
-            $.post(`http://${ip}/stu/dealFeedBack`,{
+            let self = this;
+            $.get(`http://${ip}/stu/dealFeedback`,{
               id:row.id
             },function (response) {
               if(response.code == 1001){
@@ -125,5 +131,10 @@
 </script>
 
 <style scoped>
-
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <h2>查看选座情况</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="s in stages" v-bind:label="s.label" v-bind:name="s.label">
         <el-row :gutter="5">
@@ -318,5 +318,11 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+  }
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
   }
 </style>

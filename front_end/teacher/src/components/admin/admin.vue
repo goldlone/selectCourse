@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>管理员信息</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane label="查看管理员" name="view">
         <el-table
@@ -9,27 +10,27 @@
           <el-table-column
             prop="no"
             label="工号"
-            width="350">
+            width="230">
           </el-table-column>
           <el-table-column
             prop="name"
             label="姓名"
-            width="350">
+            width="220">
           </el-table-column>
           <el-table-column
             prop="school"
             label="基层党组织"
-            width="350">
+            width="220">
           </el-table-column>
           <el-table-column
             prop="power"
             label="权限"
-            width="350">
+            width="220">
           </el-table-column>
           <el-table-column
             fixed="right"
             label="操作"
-            width="200">
+            width="320">
             <template slot-scope="scope">
               <el-row>
                 <el-col><el-button type="text" size="small" @click="deleteSpecialAdmin(scope.row)">删除</el-button></el-col>
@@ -40,28 +41,31 @@
       </el-tab-pane>
       <el-tab-pane label="添加管理员" name="add">
         <el-row>
-          <el-form ref="tempAdminInfo" :model="tempAdminInfo" label-width="140px">
-            <el-form-item label="工号">
-              <el-input v-model="tempAdminInfo.no"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名">
-              <el-input v-model="tempAdminInfo.name"></el-input>
-            </el-form-item>
-            <el-form-item label="基层党组织">
-              <el-select v-model="tempAdminInfo.schoolNo" placeholder="请选择基层党组织">
-                <el-option
-                  v-for="item in parties"
-                  :key="item.no"
-                  :label="item.name"
-                  :value="item.no">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-col :span="12" :offset="10">
-              <el-button @click="insertAdmin()">提交</el-button>
-            </el-col>
-          </el-form>
+          <el-col :span="10" :offset="4">
+            <el-form ref="tempAdminInfo" :model="tempAdminInfo" label-width="140px">
+              <el-form-item label="工号">
+                <el-input v-model="tempAdminInfo.no"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名">
+                <el-input v-model="tempAdminInfo.name"></el-input>
+              </el-form-item>
+              <el-form-item label="基层党组织">
+                <el-select v-model="tempAdminInfo.schoolNo" placeholder="请选择基层党组织">
+                  <el-option
+                    v-for="item in parties"
+                    :key="item.no"
+                    :label="item.name"
+                    :value="item.no">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-col :span="12" :offset="10">
+                <el-button @click="insertAdmin()">提交</el-button>
+              </el-col>
+            </el-form>
+          </el-col>
         </el-row>
+
       </el-tab-pane>
     </el-tabs>
 
@@ -95,6 +99,24 @@
           }
       },
       methods:{
+          update(){
+            let self = this;
+            $.post(`http://${ip}/admin/list`,function(response){
+              if(response.code == 1001){
+                console.log(response.data);
+                self.administrator = response.data;
+                for(let i = 0;i < response.data.length;i++){
+                  self.options.forEach(function (e) {
+                    if(e.value == response.data[i].power){
+                      self.administrator[i].power = e.key;
+                    }
+                  })
+                }
+              }else{
+                self.$message.error("请求管理员列表失败");
+              }
+            })
+          },
         deleteSpecialAdmin(row){
           let self = this;
           this.$confirm('此操作将永久删除该管理员, 是否继续?', '提示', {
@@ -138,6 +160,7 @@
           },function (response) {
             if(response.code == 1001){
               self.$message("添加管理员成功");
+              self.update();
             }else{
               self.$message.error(`添加管理员失败，原因：${response.msg}`);
             }
@@ -178,5 +201,10 @@
 </script>
 
 <style scoped>
-
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
 </style>

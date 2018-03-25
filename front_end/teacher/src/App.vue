@@ -5,6 +5,7 @@
         <el-menu class="el-menu-demo" mode="horizontal">
           <el-menu-item index="1">管理端</el-menu-item>
           <a href="/logout" class="signout">注销</a>
+          <span class="headName">尊敬的{{power}}</span>
         </el-menu>
       </el-header>
       <el-container>
@@ -31,7 +32,12 @@ export default {
   components:{
     leftNav
   },
-  beforeMount:function () {
+  data(){
+    return {
+      power:''
+    }
+  },
+  beforeCreate:function () {
     this.$http.post(`http://${ip}/power`)
       .then(response=>{
         if(response.data.code == 1001){
@@ -39,12 +45,23 @@ export default {
         }
         this.$store.power = response.data.data;
         console.log(this.$store.power);
+        if(this.$store.power == 0){
+          this.power = "超级管理员"
+        }else if(this.$store.power == 1){
+          this.power = "基层管理员"
+        }
       })
   }
 }
 </script>
 
 <style>
+  .headName{
+    float: right;
+    position:relative;
+    top:15px;
+    right: 10px;
+  }
   .signout{
     float: right;
     position:relative;

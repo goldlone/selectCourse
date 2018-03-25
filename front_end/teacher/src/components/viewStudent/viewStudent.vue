@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>管理学员</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane label="按基层党组织查看" name="school">
         <el-row>
@@ -52,62 +53,74 @@
               fixed
               prop="no"
               label="学号"
-              width="120">
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="name"
               label="姓名"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="gender"
               label="性别"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="nation"
               label="民族"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="birth"
               label="出生日期"
-              width="120">
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="type"
               label="学生类别"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="grade"
               label="年级"
-              width="120">
+              sortable
+              width="110">
+            </el-table-column>
+            <el-table-column
+              prop="time"
+              label="已获学时数"
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="position"
               label="职务"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="applyDate"
               label="申请入党时间"
-              width="120">
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="beActivistDate"
               label="定为积极分子时间"
-              width="120">
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="beDevelopDate"
               label="定位发展对象初步入选时间"
-              width="120">
+              sortable
+              width="110">
             </el-table-column>
             <el-table-column
               prop="powerLabel"
-              label="权限"
-              width="120">
+              label="身份"
+              width="110">
             </el-table-column>
             <!--<el-table-column-->
               <!--prop="power"-->
@@ -117,7 +130,7 @@
             <el-table-column
               fixed="right"
               label="操作"
-              width="200">
+              width="220">
               <template slot-scope="scope">
                 <el-row>
                   <el-col :span="4"><el-button @click="showUpdateInfo = true;selectStudentInfo = scope.row" type="text" size="small">修改</el-button></el-col>
@@ -168,62 +181,68 @@
               fixed
               prop="no"
               label="学号"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="name"
               label="姓名"
-              width="120">
+              width="110">
+            </el-table-column>
+            <el-table-column
+              prop="batch"
+              label="批次"
+              width="110">
+
             </el-table-column>
             <el-table-column
               prop="gender"
               label="性别"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="nation"
               label="民族"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="birth"
               label="出生日期"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="type"
               label="学生类别"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="grade"
               label="年级"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="position"
               label="职务"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="applyDate"
               label="申请入党时间"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="beActivistDate"
               label="定为积极分子时间"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="beDevelopDate"
               label="定位发展对象初步入选时间"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="powerLabel"
               label="身份"
-              width="120">
+              width="110">
             </el-table-column>
             <!--<el-table-column-->
               <!--prop="power"-->
@@ -233,7 +252,7 @@
             <el-table-column
               fixed="right"
               label="操作"
-              width="200">
+              width="220">
               <template slot-scope="scope">
                 <el-row>
                   <el-col :span="4"><el-button @click="showUpdateInfo = true;selectStudentInfo = scope.row" type="text" size="small">修改</el-button></el-col>
@@ -248,87 +267,90 @@
     </el-tabs>
 
     <el-dialog title="修改信息" :visible.sync="showUpdateInfo">
-        <el-form ref="tempStudentInfo" :model="tempStudentInfo" label-width="140px">
-          <el-form-item label="学号">
-            <el-input v-model="tempStudentInfo.no" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名">
-            <el-input v-model="tempStudentInfo.name"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-radio-group v-model="tempStudentInfo.gender" size="medium">
-              <el-radio-button label="男" ></el-radio-button>
-              <el-radio-button label="女"></el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="基层党组织">
-            <el-select v-model="tempStudentParty" placeholder="请选择基层党组织">
-              <el-option
-                v-for="item in parties"
-                :key="item.no"
-                :label="item.name"
-                :value="item.no">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="民族">
-            <el-input v-model="tempStudentInfo.nation"></el-input>
-          </el-form-item>
-          <el-form-item label="出生日期">
-            <el-date-picker
-              v-model="tempStudentInfo.birth"
-              align="right"
-              type="date"
-              placeholder="选择出生日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="学生类别">
-            <el-input v-model="tempStudentInfo.type"></el-input>
-          </el-form-item>
-          <el-form-item label="年级">
-            <el-input v-model="tempStudentInfo.grade"></el-input>
-          </el-form-item>
-          <el-form-item label="职务">
-            <el-input v-model="tempStudentInfo.position"></el-input>
-          </el-form-item>
-          <el-form-item label="申请入党时间">
-            <el-date-picker
-              v-model="tempStudentInfo.applyDate"
-              align="right"
-              type="date"
-              placeholder="选择申请入党日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="定为发展对象时间">
-            <el-date-picker
-              v-model="tempStudentInfo.beDevelopDate"
-              align="right"
-              type="date"
-              placeholder="选择定为发展对象日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="定为积极分子时间">
-            <el-date-picker
-              v-model="tempStudentInfo.beActivistDate"
-              align="right"
-              type="date"
-              placeholder="选择定为积极分子日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="身份">
-            <el-select v-model="tempStudentInfo.power">
-              <el-option v-for="item in powerOption" :key="item.value" :label="item.label" :value="item.value">
+      <el-row>
+        <el-col :span="18" :offset="2">
+          <el-form ref="tempStudentInfo" :model="tempStudentInfo" label-width="140px">
+            <el-form-item label="学号">
+              <el-input v-model="tempStudentInfo.no" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="tempStudentInfo.name"></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+              <el-radio-group v-model="tempStudentInfo.gender" size="medium">
+                <el-radio-button label="男" ></el-radio-button>
+                <el-radio-button label="女"></el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="基层党组织">
+              <el-select v-model="tempStudentParty" placeholder="请选择基层党组织">
+                <el-option
+                  v-for="item in parties"
+                  :key="item.no"
+                  :label="item.name"
+                  :value="item.no">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="民族">
+              <el-input v-model="tempStudentInfo.nation"></el-input>
+            </el-form-item>
+            <el-form-item label="出生日期">
+              <el-date-picker
+                v-model="tempStudentInfo.birth"
+                align="right"
+                type="date"
+                placeholder="选择出生日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="学生类别">
+              <el-input v-model="tempStudentInfo.type"></el-input>
+            </el-form-item>
+            <el-form-item label="年级">
+              <el-input v-model="tempStudentInfo.grade"></el-input>
+            </el-form-item>
+            <el-form-item label="职务">
+              <el-input v-model="tempStudentInfo.position"></el-input>
+            </el-form-item>
+            <el-form-item label="申请入党时间">
+              <el-date-picker
+                v-model="tempStudentInfo.applyDate"
+                align="right"
+                type="date"
+                placeholder="选择申请入党日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="定为发展对象时间">
+              <el-date-picker
+                v-model="tempStudentInfo.beDevelopDate"
+                align="right"
+                type="date"
+                placeholder="选择定为发展对象日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="定为积极分子时间">
+              <el-date-picker
+                v-model="tempStudentInfo.beActivistDate"
+                align="right"
+                type="date"
+                placeholder="选择定为积极分子日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="身份">
+              <el-select v-model="tempStudentInfo.power">
+                <el-option v-for="item in powerOption" :key="item.value" :label="item.label" :value="item.value">
 
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12" :offset="10">
-              <el-button @click="updateSpecialStudentInfo()">提交修改</el-button>
-            </el-col>
-          </el-row>
-          提示：权限编号 0-代表超级管理员、1-基层党组织管理员、2-党员、3-预备党员、4-入党积极分子、5-发展对象
-        </el-form>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12" :offset="10">
+                <el-button @click="updateSpecialStudentInfo()">提交修改</el-button>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-col>
+      </el-row>
     </el-dialog>
 
 
@@ -510,7 +532,8 @@
             type: 'warning'
           }).then(() => {
             $.post(`http://${ip}/stu/delete`,{
-              no:row.no
+              no:row.no,
+              batch:self.selectBatch
             },function (response) {
               if(response.code == 1001){
                 self.$message({
@@ -571,6 +594,7 @@
           /**
            *  更新显示页面
            * */
+          this.showStudents = [];
           if(this.showPage*20 > this.students.length){
             this.showStudents = this.students.slice((this.showPage-1)*20,this.students.length);
           }else
@@ -590,6 +614,7 @@
           this.tempStudentInfo.applyDate = moment(this.tempStudentInfo.applyDate).format("YYYY/MM/DD")
           this.tempStudentInfo.beDevelopDate = moment(this.tempStudentInfo.beDevelopDate).format("YYYY/MM/DD")
           this.tempStudentInfo.beActivistDate = moment(this.tempStudentInfo.beActivistDate).format("YYYY/MM/DD")
+          this.tempStudentInfo.batch = self.selectBatch;
           $.post(`http://${ip}/stu/updateInfoByAdmin`,self.tempStudentInfo,(response)=> {
             if(response.code == 1001){
               // self.selectStudentInfo = response.data;
@@ -662,7 +687,11 @@
                   if(response.data == null){
                     self.$message.error("不存在当前学生")
                   }else{
-                    self.searchSpecialStudent.push(response.data)
+                    if(response.data.length == 0){
+                      self.$message.error("没有搜索到相关的学生");
+                      return;
+                    }
+                    self.searchSpecialStudent = response.data
                     self.searchSpecialStudent.forEach((ele)=>{
                       /**
                        *  格式化日期
@@ -685,7 +714,7 @@
                     })
                   }
                 }else{
-                  self.$message.error("查询失败，请检查网络状况")
+                  self.$message.error(`查询错误，原因：${response.msg}`);
                 }
               })
             }else{
@@ -711,7 +740,6 @@
                         ele.beActivistDate = moment(ele.beActivistDate).format("YYYY/MM/D");
                         ele. applyDate = moment(ele. applyDate).format("YYYY/MM/D");
                         ele.beDevelopDate = moment(ele.beDevelopDate).format("YYYY/MM/D");
-
                         /**
                          *
                          *   将权限信息格式化
@@ -757,6 +785,11 @@
                   value:e
                 }
               )
+            })
+            self.batch.forEach(e=>{
+              if(e.value == 0){
+                e.label = "当前批次"
+              }
             })
           }
         })
@@ -817,7 +850,6 @@
         },
         selectStudentInfo:function(){
           this.tempStudentInfo = _.clone(this.selectStudentInfo);
-          // console.log(this.selectParty)
           let temp = this.selectParty;
           this.tempStudentParty= temp;
           delete this.tempStudentInfo.school;
@@ -827,6 +859,12 @@
 </script>
 
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
   .pagination{
     margin-top: 20px;
   }

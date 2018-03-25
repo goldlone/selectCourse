@@ -1,6 +1,6 @@
 <template>
   <div>
-      尊敬的{{power}}，欢迎您
+      尊敬的管理员，欢迎您
   </div>
 </template>
 
@@ -19,7 +19,14 @@ export default {
   beforeMount:function () {
     if(this.$store.power == 0){
       this.power = "超级管理员"
-    }else{
+    }else if(this.$store.power == 1){
+      this.power = "基层管理员"
+    }
+  },
+  mounted:function () {
+    if(this.$store.power == 0){
+      this.power = "超级管理员"
+    }else if(this.$store.power == 1){
       this.power = "基层管理员"
     }
   }

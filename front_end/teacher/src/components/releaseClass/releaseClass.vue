@@ -1,8 +1,8 @@
 <template>
   <div>
-    <span>发布课程</span>
+    <h2>发布课程</h2>
     <el-row>
-      <el-col :span="18">
+      <el-col :span="10" :offset="6">
         <el-form label-width="140px">
           <el-form-item label="课程名称">
             <el-input v-model="tempClass.name"></el-input>
@@ -181,6 +181,12 @@
 </script>
 
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
   .chooseTime:nth-child(n){
     padding-top:15px;
     margin-top:10px;

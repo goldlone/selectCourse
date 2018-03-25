@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <h2>反馈到课情况</h2>
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="s in stages" v-bind:label="s.label" v-bind:name="s.label">
         <el-row :gutter="5">
@@ -105,8 +105,9 @@
       methods:{
         sendFeedBack(){
           let self = this;
+          console.log(this.student);
           console.log(this.absentStudent);
-          console.log(this.selectNo)
+          // console.log(this.absentStudent);
           this.sureFlag = false;
           // $.post(`http://${ip}/course/feedback`,{
           //   stu:self.absentStudent,
@@ -118,7 +119,6 @@
           //     self.$message.error("反馈学生到课信息失败");
           //   }
           // })
-
           this.$http.post(`http://${ip}/course/feedback`,{
             stu:self.absentStudent,
             courseNo:self.selectNo
@@ -152,9 +152,12 @@
               console.log("1001");
               response.data.forEach(function (ele) {
                 self.student.push({
-                  value:ele.stuNo,
+                  key:parseInt(ele.stuNo),
                   label:ele.stuName
                 })
+                if(ele.time == 0){
+                  self.absentStudent.push(parseInt(ele.stuNo));
+                }
               })
               self.feedBackFlag = true;
             }else{
@@ -220,6 +223,12 @@
     }
 </script>
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
     .updateFeedBack{
       margin-top:30px;
     }

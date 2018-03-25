@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>修改课程信息</h2>
+
     <el-table
       :data="classes"
       style="width: 100%">
@@ -286,6 +288,12 @@
 </script>
 
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
   .stage{
     padding-top: 20px;
     border-bottom: 1px solid rgba(0,0,0,0.2);
