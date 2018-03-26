@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>修改课程信息</h2>
+
     <el-table
       :data="classes"
       style="width: 100%">
@@ -15,6 +17,12 @@
               </el-form-item>
               <el-form-item label="老师:">
                 <span>{{ i.teacher }}</span>
+              </el-form-item>
+              <el-form-item label="开课选课时间:">
+                <span>{{ i.startSelectDateTime }}</span>
+              </el-form-item>
+              <el-form-item label="结束选课时间:">
+                <span>{{ i.endSelectDateTime }}</span>
               </el-form-item>
               <el-form-item label="开课时间:">
                 <span>{{ i.startDateTime }}</span>
@@ -66,6 +74,17 @@
                 </el-option>
               </el-select>
             </el-form-item>
+
+            <el-form-item label="开始结束选课时间">
+              <el-date-picker
+                v-model="tempClass.selectTime"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+
             <div class="time">
               <div v-for="item in tempClass.plus" class="chooseTime">
                 <span>第{{item.stage}}期 </span>
@@ -249,7 +268,9 @@
                 for(let j = 0;j<self.classes.length;j++){
                   if(self.classes[j].no == response.data[i].no){
                     response.data[i].startDateTime = moment(response.data[i].startDateTime).format("YYYY/MM/DD");
-                    response.data[i].endDateTime = moment(response.data[i].endDateTime).format("YYYY/MM/DD")
+                    response.data[i].endDateTime = moment(response.data[i].endDateTime).format("YYYY/MM/DD");
+                    response.data[i].startSelectDateTime = moment(response.data[i].startSelectDateTime).format("YYYY/MM/DD");
+                    response.data[i].endSelectDateTime = moment(response.data[i].endSelectDateTime).format("YYYY/MM/DD");
                     self.classes[j].stages.push(response.data[i]);
                   }
                 }
@@ -267,6 +288,12 @@
 </script>
 
 <style scoped>
+  h2{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-size:26px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
   .stage{
     padding-top: 20px;
     border-bottom: 1px solid rgba(0,0,0,0.2);

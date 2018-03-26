@@ -9,7 +9,8 @@ export default new Vuex.Store({
       },
       classInfo:{
 
-      }
+      },
+      power:""
     },
     mutations:{
       setStudentState(studentState){

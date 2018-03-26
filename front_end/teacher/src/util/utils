@@ -1,0 +1,8 @@
+module.exports={
+  redict:function (response) {
+    if(response.code == 2004){
+      window.location.href == '/sc/login';
+      console.log("----------------------")
+    }
+  }
+}
