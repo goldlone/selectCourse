@@ -321,4 +321,18 @@ public interface CourseMapper {
             "WHERE stuNo = #{stuNo} and batch=0;")
     public Integer feedbackCome(@Param("stuNo") String stuNo,
                                 @Param("courseNo") int courseNo);
+
+    /**
+     * 在反馈之前把选该期该课的学生置0
+     * @param courseNo
+     * @param stage
+     * @return
+     */
+    @Update("UPDATE SelectCourse " +
+            "SET acquireTime=0 " +
+            "WHERE courseNo=#{courseNo} AND " +
+            "      stage=#{stage};")
+    public Integer feedbackComeBefore(@Param("courseNo") int courseNo,
+                                      @Param("stage") int stage);
+
 }

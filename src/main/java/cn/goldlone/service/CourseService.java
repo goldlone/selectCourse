@@ -294,11 +294,14 @@ public class CourseService {
      * @param courseNo
      * @return
      */
-    public Result updateSomeoneCome(List<String> list, int courseNo) {
+    public Result updateSomeoneCome(List list, int courseNo, int stage) {
         List<String> nos = new ArrayList<>();
-        for(Object stuNo: list)
-            if(cm.feedbackCome(stuNo.toString(), courseNo) < 1)
-                nos.add(stuNo.toString());
+        cm.feedbackComeBefore(courseNo, stage);
+        for(Object stuNo: list) {
+            System.out.println(stuNo+" : "+courseNo);
+            if (cm.feedbackCome((String) stuNo, courseNo) < 1)
+                nos.add((String) stuNo);
+        }
         return ResultUtil.success("反馈到课信息成功", nos);
     }
 

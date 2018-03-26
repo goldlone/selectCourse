@@ -349,7 +349,15 @@ WHERE c3.power=#{power} AND
                 sc.batch=0);
 
 
+SELECT c2.stuNo,s.name stuName,ss.name school,c1.no courseNo,c1.name courseName,c3.stage,startDateTime,endDateTime,classroom,teacher,time,seatNo,c2.acquireTime
+FROM Course c1,SelectCourse c2,CoursePlus c3,Student s,Schools ss
+WHERE c2.courseNo = 1 AND c2.stage = 1 AND c2.batch=0 AND c2.stuNo=s.no AND c2.batch=s.batch AND s.schoolNo=ss.no AND c2.courseNo=c1.no AND c2.courseNo=c3.courseNo AND c2.stage=c3.stage
+ORDER BY startDateTime DESC;
 
+UPDATE SelectCourse
+SET acquireTime=0
+WHERE courseNo=#{courseNo} AND
+      stage=#{stage};
 
 
 # 获取学员密码

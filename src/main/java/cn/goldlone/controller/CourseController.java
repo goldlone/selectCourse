@@ -318,7 +318,7 @@ public class CourseController extends BaseController {
         JSONObject recJSON = new JSONObject(IOUtil.streamToString(request.getInputStream()));
         System.out.println(recJSON);
         List list = recJSON.getJSONArray("stu").toList();
-        return cs.updateSomeoneCome(list, recJSON.getInt("courseNo"));
+        return cs.updateSomeoneCome(list, recJSON.getInt("courseNo"), recJSON.getInt("stage"));
     }
 
     /**
